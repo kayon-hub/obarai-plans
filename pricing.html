@@ -151,11 +151,23 @@
     .cart-bar { position: sticky; bottom: 0; z-index: 100; background: rgba(20,20,20,0.96); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); border-top: 1px solid var(--border); padding: 14px 0; }
     .cart-bar-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
     .cart-bar-items { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
-    .cart-bar-item { display: flex; flex-direction: column; }
+    .cart-bar-item { display: flex; flex-direction: column; position: relative; }
     .cart-bar-label { font-size: 10px; color: var(--w40); letter-spacing: 0.08em; text-transform: uppercase; }
     .cart-bar-val { font-family: var(--sans); font-size: 15px; font-weight: 700; color: var(--white); }
     .cart-bar-val.gold { color: var(--gold); }
     .cart-bar-sep { width: 1px; height: 32px; background: var(--border); }
+
+    /* Breakdown tooltip */
+    .first-pay-wrap { position: relative; cursor: pointer; }
+    .first-pay-wrap .cart-bar-label { display: flex; align-items: center; gap: 4px; }
+    .first-pay-wrap .info-icon { width: 13px; height: 13px; border-radius: 50%; border: 1px solid var(--w40); display: inline-flex; align-items: center; justify-content: center; font-size: 9px; color: var(--w40); flex-shrink: 0; }
+    .breakdown-popup { display: none; position: absolute; bottom: calc(100% + 10px); left: 0; background: var(--surface3); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; min-width: 240px; z-index: 999; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+    .first-pay-wrap:hover .breakdown-popup,
+    .first-pay-wrap.open .breakdown-popup { display: block; }
+    .breakdown-row { display: flex; justify-content: space-between; gap: 16px; font-size: 12px; color: var(--w70); margin-bottom: 7px; }
+    .breakdown-row:last-child { margin-bottom: 0; }
+    .breakdown-row.total { border-top: 1px solid var(--borderl); padding-top: 8px; margin-top: 4px; color: var(--white); font-weight: 600; }
+    .breakdown-row .note { font-size: 10px; color: var(--w40); font-weight: 400; }
     .cart-bar-right { display: flex; align-items: center; gap: 12px; }
     .cart-total-block { text-align: right; }
     .cart-total-block .label { font-size: 11px; color: var(--w40); }
@@ -415,9 +427,31 @@
           <span class="cart-bar-val" id="bar-plan">—</span>
         </div>
         <div class="cart-bar-sep"></div>
-        <div class="cart-bar-item">
-          <span class="cart-bar-label">今日付款</span>
+        <div class="cart-bar-item first-pay-wrap" id="first-pay-wrap" onclick="toggleBreakdown()">
+          <span class="cart-bar-label">今日付款 <span class="info-icon">?</span></span>
           <span class="cart-bar-val" id="bar-first">—</span>
+          <div class="breakdown-popup" id="breakdown-popup">
+            <div class="breakdown-row">
+              <span>系統開通費</span>
+              <span id="bd-setup">NT$888</span>
+            </div>
+            <div class="breakdown-row">
+              <span>首月月費</span>
+              <span id="bd-month1">—</span>
+            </div>
+            <div class="breakdown-row">
+              <span>末月押金 <span class="note">（合約結束退還）</span></span>
+              <span id="bd-deposit">—</span>
+            </div>
+            <div class="breakdown-row" id="bd-kb-row" style="display:none">
+              <span>AI 知識庫建置</span>
+              <span id="bd-kb">—</span>
+            </div>
+            <div class="breakdown-row total">
+              <span>今日合計</span>
+              <span id="bd-total">—</span>
+            </div>
+          </div>
         </div>
         <div class="cart-bar-sep"></div>
         <div class="cart-bar-item">
@@ -540,7 +574,29 @@
     document.getElementById('bar-plan').textContent    = plan ? plan.label : '—';
     document.getElementById('bar-first').textContent   = plan ? fmt(firstPay) : '—';
     document.getElementById('bar-monthly').textContent = plan ? fmt(monthly) + '/月' : '—';
+
+    // breakdown popup
+    document.getElementById('bd-month1').textContent   = plan ? fmt(planPrice + aiPrice) : '—';
+    document.getElementById('bd-deposit').textContent  = plan ? fmt(planPrice + aiPrice) : '—';
+    document.getElementById('bd-total').textContent    = plan ? fmt(firstPay) : '—';
+    const kbRow = document.getElementById('bd-kb-row');
+    if (kbPrice > 0) {
+      kbRow.style.display = 'flex';
+      document.getElementById('bd-kb').textContent = fmt(kbPrice) + '+';
+    } else {
+      kbRow.style.display = 'none';
+    }
   }
+
+  /* ── Breakdown toggle (mobile) ── */
+  function toggleBreakdown() {
+    document.getElementById('first-pay-wrap').classList.toggle('open');
+  }
+  // close when clicking outside
+  document.addEventListener('click', function(e) {
+    const wrap = document.getElementById('first-pay-wrap');
+    if (wrap && !wrap.contains(e.target)) wrap.classList.remove('open');
+  });
 
   /* ── Checkout ── */
   function goToCheckout() {
