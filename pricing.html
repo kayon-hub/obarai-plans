@@ -94,6 +94,8 @@
     /* Enterprise card */
     .plan-card.enterprise label { opacity: 0.5; cursor: default; }
     .plan-card.enterprise label:hover { border-color: var(--border); }
+    .plan-card--fixed label { border-color: rgba(200,169,110,0.2); background: rgba(200,169,110,0.04); cursor: default; }
+    .plan-card--fixed label:hover { border-color: rgba(200,169,110,0.2); }
     .enterprise-link { font-size: 12px; color: var(--gold); text-decoration: none; }
     .enterprise-link:hover { text-decoration: underline; }
 
@@ -258,45 +260,17 @@
 
         <!-- Section 2: Onboarding -->
         <div class="plan-section">
-          <h2>導入服務 <span>一次性費用</span></h2>
+          <h2>系統開通 <span>一次性費用（固定）</span></h2>
           <div class="plan-cards">
-
-            <div class="plan-card">
-              <input type="radio" name="onboarding" id="o-setup" value="setup" data-price="888" data-label="基礎設定">
-              <label for="o-setup">
-                <div class="radio-dot"></div>
+            <div class="plan-card plan-card--fixed">
+              <label>
                 <div class="label-left">
-                  <div class="plan-name">基礎設定</div>
-                  <div class="plan-features">系統開通・帳號建立・基本環境設定</div>
+                  <div class="plan-name">系統開通費</div>
+                  <div class="plan-features">帳號建立・環境設定・基礎操作說明</div>
                 </div>
                 <div class="plan-price">NT$888<small>一次性</small></div>
               </label>
             </div>
-
-            <div class="plan-card">
-              <input type="radio" name="onboarding" id="o-standard" value="standard" data-price="8000" data-label="標準導入" checked>
-              <label for="o-standard">
-                <div class="radio-dot"></div>
-                <div class="label-left">
-                  <div class="plan-name">標準導入</div>
-                  <div class="plan-features">系統設定・資料匯入・操作教育訓練・上線支援</div>
-                </div>
-                <div class="plan-price">NT$8,000<small>一次性</small></div>
-              </label>
-            </div>
-
-            <div class="plan-card">
-              <input type="radio" name="onboarding" id="o-ai" value="ai_kb" data-price="15000" data-label="ORBIT AI 知識庫導入">
-              <label for="o-ai">
-                <div class="radio-dot"></div>
-                <div class="label-left">
-                  <div class="plan-name">ORBIT AI 知識庫導入 <span class="badge-new">AI</span></div>
-                  <div class="plan-features">標準導入 + AI 模型訓練・知識庫建置・客製化 AI 助理</div>
-                </div>
-                <div class="plan-price">NT$15,000+<small>一次性</small></div>
-              </label>
-            </div>
-
           </div>
         </div>
 
@@ -362,6 +336,38 @@
                   <div class="plan-features">AI Max + 專屬 AI 模型・API 存取・優先 GPU 資源</div>
                 </div>
                 <div class="plan-price">NT$2,288<small>/月</small></div>
+              </label>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Section 4: AI 知識庫建置 -->
+        <div class="plan-section">
+          <h2>AI 知識庫建置 <span>選填・一次性</span></h2>
+          <div class="plan-cards">
+
+            <div class="plan-card">
+              <input type="radio" name="ai_kb" id="kb-none" value="none" data-price="0" data-label="" checked>
+              <label for="kb-none">
+                <div class="radio-dot"></div>
+                <div class="label-left">
+                  <div class="plan-name">不加購</div>
+                  <div class="plan-features">暫不建置 AI 知識庫</div>
+                </div>
+                <div class="plan-price" style="color:var(--w40)">—</div>
+              </label>
+            </div>
+
+            <div class="plan-card">
+              <input type="radio" name="ai_kb" id="kb-ai" value="ai_kb" data-price="15000" data-label="ORBIT AI 知識庫建置">
+              <label for="kb-ai">
+                <div class="radio-dot"></div>
+                <div class="label-left">
+                  <div class="plan-name">ORBIT AI 知識庫建置 <span class="badge-new">AI</span></div>
+                  <div class="plan-features">AI 模型訓練・品牌知識庫・客製化 AI 助理部署</div>
+                </div>
+                <div class="plan-price">NT$15,000+<small>一次性</small></div>
               </label>
             </div>
 
@@ -444,10 +450,12 @@
     return el ? { price: parseInt(el.dataset.price), label: el.dataset.label, value: el.value } : null;
   }
 
+  const ONBOARDING = { label: '系統開通費', price: 888, value: 'setup' };
+
   function updateCart() {
-    const monthly    = getSelected('monthly');
-    const onboarding = getSelected('onboarding');
-    const ai         = getSelected('ai');
+    const monthly = getSelected('monthly');
+    const ai      = getSelected('ai');
+    const aiKb    = getSelected('ai_kb');
 
     const cartEl = document.getElementById('cart-items');
     const firstEl = document.getElementById('first-payment');
@@ -463,13 +471,15 @@
       items.push({ name: monthly.label, sub: '月費方案', price: fmt(monthly.price) + '/月' });
       monthlyTotal += monthly.price;
     }
-    if (onboarding) {
-      items.push({ name: onboarding.label, sub: '導入服務（一次性）', price: fmt(onboarding.price) });
-      onetimeTotal += onboarding.price;
-    }
+    items.push({ name: ONBOARDING.label, sub: '系統開通（一次性）', price: fmt(ONBOARDING.price) });
+    onetimeTotal += ONBOARDING.price;
     if (ai && ai.price > 0) {
       items.push({ name: ai.label, sub: 'AI 加購', price: fmt(ai.price) + '/月' });
       monthlyTotal += ai.price;
+    }
+    if (aiKb && aiKb.price > 0) {
+      items.push({ name: aiKb.label, sub: 'AI 知識庫建置（一次性）', price: fmt(aiKb.price) + '+' });
+      onetimeTotal += aiKb.price;
     }
 
     if (items.length === 0) {
@@ -490,16 +500,17 @@
   }
 
   function goToCheckout() {
-    const monthly    = getSelected('monthly');
-    const onboarding = getSelected('onboarding');
-    const ai         = getSelected('ai');
+    const monthly = getSelected('monthly');
+    const ai      = getSelected('ai');
+    const aiKb    = getSelected('ai_kb');
 
     if (!monthly) { alert('請選擇月費方案'); return; }
 
     const data = {
-      monthly:    { label: monthly.label,    price: monthly.price,    value: monthly.value },
-      onboarding: { label: onboarding.label, price: onboarding.price, value: onboarding.value },
+      monthly:    { label: monthly.label, price: monthly.price, value: monthly.value },
+      onboarding: ONBOARDING,
       ai:         ai && ai.price > 0 ? { label: ai.label, price: ai.price, value: ai.value } : null,
+      ai_kb:      aiKb && aiKb.price > 0 ? { label: aiKb.label, price: aiKb.price, value: aiKb.value } : null,
     };
     sessionStorage.setItem('orbit_order', JSON.stringify(data));
     window.location.href = 'checkout.html';

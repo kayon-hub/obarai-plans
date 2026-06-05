@@ -214,7 +214,7 @@
           <div class="sub-notice-title">自動定期扣款說明</div>
           <p>本服務採 12 個月合約制，並於合約期滿後自動續約。訂閱成立後：</p>
           <ul>
-            <li>訂閱成立後，首次付款包含：標準導入費 NT$8,000＋首月月費＋末月月費（押金）</li>
+            <li>訂閱成立後，首次付款包含：系統開通費＋首月月費＋末月月費（押金）</li>
             <li>末月月費將於合約結束後無息退還</li>
             <li>此後每月相同日期，系統將自動從信用卡扣取月費</li>
             <li>如需取消訂閱，請於到期日前 14 天以書面通知 hello@obarai.com</li>
@@ -337,6 +337,18 @@
     if (order.ai) {
       items.push({ name: order.ai.label, sub: 'AI 加購', price: fmt(order.ai.price) + '/月' });
       monthly += order.ai.price;
+    }
+    if (order.ai_kb) {
+      const discounted = promoApplied;
+      const priceHtml  = discounted
+        ? `<span style="text-decoration:line-through;color:var(--w40);font-size:11px;">${fmt(order.ai_kb.price)}</span> <span style="color:var(--gold);font-weight:700;">NT$0</span>`
+        : fmt(order.ai_kb.price) + '+';
+      items.push({
+        name:  order.ai_kb.label,
+        sub:   discounted ? 'AI 知識庫建置（優惠碼折抵 ✓）' : 'AI 知識庫建置（一次性）',
+        price: priceHtml,
+      });
+      onetime += discounted ? 0 : order.ai_kb.price;
     }
 
     document.getElementById('summary-items').innerHTML = items.map(i => `
