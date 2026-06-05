@@ -249,11 +249,9 @@
             <li>若信用卡效期不足兩個月，請提前聯繫客服協助更換信用卡，以免扣款失敗</li>
             <li>付款資訊透過 256-bit SSL 加密傳輸，ORBIT 不儲存您的信用卡資料</li>
           </ul>
-          <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--borderl);">
-            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
-              <input type="checkbox" id="agree-contract" style="width:16px;height:16px;margin-top:3px;flex-shrink:0;accent-color:var(--gold);cursor:pointer;">
-              <span style="font-size:13px;color:var(--w70);line-height:1.6;">我已閱讀並確認了解上述合約條款，包含 <strong style="color:var(--white)">12 個月最低服務期</strong>、按月自動扣款，以及提前終止之違約金規定。</span>
-            </label>
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--borderl);display:flex;align-items:center;gap:8px;">
+            <span style="font-size:16px;">👇</span>
+            <span style="font-size:12.5px;color:var(--gold);">請閱讀下方完整條款並勾選確認後，方可繼續</span>
           </div>
         </div>
 
@@ -487,7 +485,6 @@
     const contactName  = document.getElementById('f-contact-name').value.trim();
     const contactPhone = document.getElementById('f-contact-phone').value.trim();
     const contactEmail = document.getElementById('f-contact-email').value.trim();
-    const agreeContract = document.getElementById('agree-contract').checked;
     const agreeTerms    = document.getElementById('agree-terms').checked;
     const errEl = document.getElementById('err-msg');
     errEl.style.display = 'none';
@@ -502,12 +499,10 @@
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail)) {
       errEl.textContent = '窗口 E-mail 格式不正確'; errEl.style.display = 'block'; return;
     }
-    if (!agreeContract) {
-      errEl.textContent = '請勾選確認已閱讀合約重要說明'; errEl.style.display = 'block';
-      document.getElementById('sub-notice-box').scrollIntoView({ behavior: 'smooth', block: 'center' }); return;
-    }
     if (!agreeTerms) {
-      errEl.textContent = '請勾選同意服務條款後繼續'; errEl.style.display = 'block'; return;
+      errEl.textContent = '請點擊連結閱讀完整條款並勾選同意後繼續';
+      errEl.style.display = 'block';
+      document.getElementById('open-legal-modal').scrollIntoView({ behavior: 'smooth', block: 'center' }); return;
     }
 
     const raw   = sessionStorage.getItem('orbit_order');
