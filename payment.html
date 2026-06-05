@@ -363,7 +363,7 @@
     const promo    = order.promoApplied;
     const setupAmt = promo ? 0 : setup;
     const kbAmt    = promo ? 0 : kbPrice;
-    const firstPay = setupAmt + kbAmt + monthly;  // 不再預收末月
+    const afterTrial = setupAmt + kbAmt + monthly;
 
     document.getElementById('s-setup').textContent   = promo ? 'NT$0（折抵）' : fmt(setup);
     document.getElementById('s-month1').textContent  = fmt(monthly);
@@ -371,8 +371,9 @@
       document.getElementById('s-kb-row').style.display = 'flex';
       document.getElementById('s-kb').textContent = promo ? 'NT$0（折抵）' : fmt(kbPrice) + '+';
     }
-    document.getElementById('s-total').textContent = fmt(firstPay);
-    document.getElementById('s-monthly-note').textContent = `第二個月起每月 ${fmt(monthly)}`;
+    document.getElementById('s-total').textContent = 'NT$0';
+    document.getElementById('s-total').style.color = '#4caf82';
+    document.getElementById('s-monthly-note').textContent = `🎉 14 天免費試用・試用後首筆 ${fmt(afterTrial)}`;
   }
 
   /* ── Card number formatting ── */

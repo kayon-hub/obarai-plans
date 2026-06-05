@@ -458,9 +458,17 @@
         </div>
         <div class="cart-bar-sep"></div>
         <div class="cart-bar-item first-pay-wrap" id="first-pay-wrap" onclick="toggleBreakdown()">
-          <span class="cart-bar-label">今日付款 <span class="info-icon">?</span></span>
+          <span class="cart-bar-label">試用後首筆 <span class="info-icon">?</span></span>
           <span class="cart-bar-val" id="bar-first">—</span>
           <div class="breakdown-popup" id="breakdown-popup">
+            <div class="breakdown-row" style="color:var(--green,#4caf82);font-weight:600;">
+              <span>🎉 14 天免費試用</span>
+              <span>NT$0</span>
+            </div>
+            <div class="breakdown-row" style="border-top:1px solid var(--borderl);padding-top:8px;margin-top:4px;color:var(--w40);font-size:11px;">
+              <span>試用結束後第一筆</span>
+              <span></span>
+            </div>
             <div class="breakdown-row">
               <span>系統開通費</span>
               <span id="bd-setup">NT$888</span>
@@ -474,7 +482,7 @@
               <span id="bd-kb">—</span>
             </div>
             <div class="breakdown-row total">
-              <span>今日合計</span>
+              <span>試用後合計</span>
               <span id="bd-total">—</span>
             </div>
           </div>
@@ -667,15 +675,15 @@
     const aiPrice    = ai.price;
     const kbPrice    = kb.price;
     const monthly    = planPrice + aiPrice;
-    const firstPay   = ONBOARDING.price + kbPrice + monthly;  // 不再預收末月
+    const afterTrial = ONBOARDING.price + kbPrice + monthly;  // 14 天後扣
 
     document.getElementById('bar-plan').textContent    = plan ? plan.label : '—';
-    document.getElementById('bar-first').textContent   = plan ? fmt(firstPay) : '—';
+    document.getElementById('bar-first').textContent   = plan ? 'NT$0（14 天免費試用）' : '—';
     document.getElementById('bar-monthly').textContent = plan ? fmt(monthly) + '/月' : '—';
 
     // breakdown popup
     document.getElementById('bd-month1').textContent   = plan ? fmt(monthly) : '—';
-    document.getElementById('bd-total').textContent    = plan ? fmt(firstPay) : '—';
+    document.getElementById('bd-total').textContent    = plan ? fmt(afterTrial) : '—';
     const kbRow = document.getElementById('bd-kb-row');
     if (kbPrice > 0) {
       kbRow.style.display = 'flex';

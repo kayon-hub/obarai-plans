@@ -313,12 +313,14 @@
 
     document.getElementById('c-setup').textContent   = order.promoApplied ? 'NT$0（折抵）' : fmt(order.onboarding ? order.onboarding.price : 888);
     document.getElementById('c-month1').textContent  = fmt(monthly);
-    document.getElementById('c-total').textContent   = fmt(firstPay);
-    document.getElementById('c-monthly-note').textContent = `第二個月起每月 ${fmt(monthly)}`;
+    document.getElementById('c-total').textContent   = 'NT$0';
+    document.getElementById('c-total').style.color   = '#4caf82';
+    document.getElementById('c-monthly-note').textContent = `🎉 14 天免費試用・試用後首筆 ${fmt(firstPay)}`;
     document.getElementById('s-setup').textContent   = order.promoApplied ? 'NT$0（折抵）' : fmt(order.onboarding ? order.onboarding.price : 888);
     document.getElementById('s-month1').textContent  = fmt(monthly);
-    document.getElementById('s-total').textContent   = fmt(firstPay);
-    document.getElementById('s-monthly-note').textContent = `第二個月起每月 ${fmt(monthly)}`;
+    document.getElementById('s-total').textContent   = 'NT$0';
+    document.getElementById('s-total').style.color   = '#4caf82';
+    document.getElementById('s-monthly-note').textContent = `試用後首筆 ${fmt(firstPay)}`;
     if (kbPrice > 0) {
       ['c-kb-row','s-kb-row'].forEach(id => document.getElementById(id).style.display = 'flex');
       document.getElementById('c-kb').textContent = order.promoApplied ? 'NT$0（折抵）' : fmt(order.ai_kb.price) + '+';
