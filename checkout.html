@@ -159,35 +159,22 @@
       <!-- Left: Form -->
       <div>
 
+        <!-- 公司資訊 -->
         <div class="form-section">
-          <h2>聯絡資訊</h2>
-          <div class="form-row">
+          <h2>公司 / 商家資訊</h2>
+          <div class="form-row full">
             <div class="field">
-              <label for="f-name">姓名 <span class="req">*</span></label>
-              <input type="text" id="f-name" placeholder="王小明" autocomplete="name">
-            </div>
-            <div class="field">
-              <label for="f-phone">聯絡電話 <span class="req">*</span></label>
-              <input type="tel" id="f-phone" placeholder="0912-345-678" autocomplete="tel">
+              <label for="f-company">公司名稱 / 店名 <span class="req">*</span></label>
+              <input type="text" id="f-company" placeholder="例：OO 有限公司 / OO 咖啡" autocomplete="organization">
             </div>
           </div>
           <div class="form-row full">
             <div class="field">
-              <label for="f-email">電子信箱 <span class="req">*</span></label>
-              <input type="email" id="f-email" placeholder="you@company.com" autocomplete="email">
+              <label for="f-address">公司 / 店面地址 <span class="req">*</span></label>
+              <input type="text" id="f-address" placeholder="例：台北市信義區OO路OO號" autocomplete="street-address">
             </div>
           </div>
-        </div>
-
-        <div class="form-section">
-          <h2>公司 / 機構資訊</h2>
           <div class="form-row full">
-            <div class="field">
-              <label for="f-company">公司或機構名稱 <span class="req">*</span></label>
-              <input type="text" id="f-company" placeholder="例：OO 有限公司" autocomplete="organization">
-            </div>
-          </div>
-          <div class="form-row">
             <div class="field">
               <label for="f-taxid">統一編號 <span class="field-opt">（選填）</span></label>
               <div style="display:flex;gap:8px;align-items:center;">
@@ -195,25 +182,61 @@
                 <button type="button" onclick="openNoTaxIdModal()" style="white-space:nowrap;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;font-size:12px;font-family:var(--tc);color:var(--gold);cursor:pointer;transition:border-color 0.2s;" onmouseover="this.style.borderColor='var(--gold60)'" onmouseout="this.style.borderColor='var(--border)'">無統編？洽詢業務</button>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- 負責人資訊 -->
+        <div class="form-section">
+          <h2>負責人資訊</h2>
+          <div class="form-row">
             <div class="field">
-              <label for="f-industry">行業類別 <span class="req">*</span></label>
-              <select id="f-industry">
-                <option value="" disabled selected>請選擇</option>
-                <option value="cafe">咖啡廳 / 輕食</option>
-                <option value="restaurant">餐廳 / 餐飲</option>
-                <option value="retail">零售 / 服飾</option>
-                <option value="salon">美髮 / 美容</option>
-                <option value="tutoring">補習班 / 教育</option>
-                <option value="medical">診所 / 醫療</option>
-                <option value="fitness">健身房 / 運動</option>
-                <option value="other">其他</option>
-              </select>
+              <label for="f-owner-name">負責人姓名 <span class="req">*</span></label>
+              <input type="text" id="f-owner-name" placeholder="王小明" autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="f-owner-phone">負責人聯絡電話 <span class="req">*</span></label>
+              <input type="tel" id="f-owner-phone" placeholder="0912-345-678" autocomplete="tel">
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="field">
+              <label for="f-owner-email">負責人 E-mail <span class="req">*</span></label>
+              <input type="email" id="f-owner-email" placeholder="owner@company.com" autocomplete="email">
+            </div>
+          </div>
+        </div>
+
+        <!-- 窗口聯絡人 -->
+        <div class="form-section">
+          <h2>窗口聯絡人 <span style="font-weight:400;font-size:11px;color:var(--w40);letter-spacing:0;text-transform:none;">（若與負責人不同，例如：店長、行政人員）</span></h2>
+          <div class="form-row">
+            <div class="field">
+              <label for="f-contact-name">窗口姓名 <span class="req">*</span></label>
+              <input type="text" id="f-contact-name" placeholder="李小花">
+            </div>
+            <div class="field">
+              <label for="f-contact-phone">窗口聯絡電話 <span class="req">*</span></label>
+              <input type="tel" id="f-contact-phone" placeholder="0923-456-789">
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="field">
+              <label for="f-contact-email">窗口 E-mail <span class="req">*</span></label>
+              <input type="email" id="f-contact-email" placeholder="contact@company.com">
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="field" style="padding:10px 14px;background:var(--surface2);border-radius:8px;border:1px solid var(--borderl);">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-bottom:0;">
+                <input type="checkbox" id="f-same-as-owner" style="accent-color:var(--gold);width:14px;height:14px;" onchange="fillSameAsOwner(this)">
+                <span style="font-size:12.5px;color:var(--w70);">窗口聯絡人與負責人相同</span>
+              </label>
             </div>
           </div>
         </div>
 
         <!-- Subscription notice -->
-        <div class="sub-notice">
+        <div class="sub-notice" id="sub-notice-box">
           <div class="sub-notice-title">📋 訂閱合約重要說明</div>
           <p>本服務採 <strong style="color:var(--white)">12 個月最低服務期合約</strong>，按月自動扣款。訂閱成立即視為您已閱讀並同意以下條款：</p>
           <ul>
@@ -221,8 +244,15 @@
             <li>此後每月相同日期，系統將自動從信用卡扣取月費</li>
             <li>最低服務期為 <strong style="color:var(--white)">12 個月</strong>，提前終止合約須支付剩餘月份月費 50% 作為違約金</li>
             <li>如需終止續約，請於到期日前 14 天書面通知 hello@obarai.com</li>
+            <li>若信用卡效期不足兩個月，請提前聯繫客服協助更換信用卡，以免扣款失敗</li>
             <li>付款資訊透過 256-bit SSL 加密傳輸，ORBIT 不儲存您的信用卡資料</li>
           </ul>
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--borderl);">
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
+              <input type="checkbox" id="agree-contract" style="width:16px;height:16px;margin-top:3px;flex-shrink:0;accent-color:var(--gold);cursor:pointer;">
+              <span style="font-size:13px;color:var(--w70);line-height:1.6;">我已閱讀並確認了解上述合約條款，包含 <strong style="color:var(--white)">12 個月最低服務期</strong>、按月自動扣款，以及提前終止之違約金規定。</span>
+            </label>
+          </div>
         </div>
 
         <!-- Promo code -->
@@ -431,34 +461,60 @@
     renderSummary();
   }
 
-  function goToConfirm() {
-    const name     = document.getElementById('f-name').value.trim();
-    const phone    = document.getElementById('f-phone').value.trim();
-    const email    = document.getElementById('f-email').value.trim();
-    const company  = document.getElementById('f-company').value.trim();
-    const industry = document.getElementById('f-industry').value;
-    const agreed   = document.getElementById('agree-terms').checked;
-    const errEl    = document.getElementById('err-msg');
+  function fillSameAsOwner(cb) {
+    const disabled = cb.checked;
+    document.getElementById('f-contact-name').value  = disabled ? document.getElementById('f-owner-name').value  : '';
+    document.getElementById('f-contact-phone').value = disabled ? document.getElementById('f-owner-phone').value : '';
+    document.getElementById('f-contact-email').value = disabled ? document.getElementById('f-owner-email').value : '';
+    ['f-contact-name','f-contact-phone','f-contact-email'].forEach(id => {
+      document.getElementById(id).disabled = disabled;
+      document.getElementById(id).style.opacity = disabled ? '0.5' : '1';
+    });
+  }
 
+  function goToConfirm() {
+    const company      = document.getElementById('f-company').value.trim();
+    const address      = document.getElementById('f-address').value.trim();
+    const ownerName    = document.getElementById('f-owner-name').value.trim();
+    const ownerPhone   = document.getElementById('f-owner-phone').value.trim();
+    const ownerEmail   = document.getElementById('f-owner-email').value.trim();
+    const contactName  = document.getElementById('f-contact-name').value.trim();
+    const contactPhone = document.getElementById('f-contact-phone').value.trim();
+    const contactEmail = document.getElementById('f-contact-email').value.trim();
+    const agreeContract = document.getElementById('agree-contract').checked;
+    const agreeTerms    = document.getElementById('agree-terms').checked;
+    const errEl = document.getElementById('err-msg');
     errEl.style.display = 'none';
 
-    if (!name || !phone || !email || !company || !industry) {
-      errEl.textContent = '請填寫所有必填欄位'; errEl.style.display = 'block'; return;
+    if (!company || !address || !ownerName || !ownerPhone || !ownerEmail || !contactName || !contactPhone || !contactEmail) {
+      errEl.textContent = '請填寫所有必填欄位'; errEl.style.display = 'block';
+      document.getElementById('f-company').scrollIntoView({ behavior: 'smooth', block: 'center' }); return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      errEl.textContent = '請輸入有效的電子信箱'; errEl.style.display = 'block'; return;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(ownerEmail)) {
+      errEl.textContent = '負責人 E-mail 格式不正確'; errEl.style.display = 'block'; return;
     }
-    if (!agreed) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail)) {
+      errEl.textContent = '窗口 E-mail 格式不正確'; errEl.style.display = 'block'; return;
+    }
+    if (!agreeContract) {
+      errEl.textContent = '請勾選確認已閱讀合約重要說明'; errEl.style.display = 'block';
+      document.getElementById('sub-notice-box').scrollIntoView({ behavior: 'smooth', block: 'center' }); return;
+    }
+    if (!agreeTerms) {
       errEl.textContent = '請勾選同意服務條款後繼續'; errEl.style.display = 'block'; return;
     }
 
     const raw   = sessionStorage.getItem('orbit_order');
     const order = raw ? JSON.parse(raw) : {};
-    order.customer     = { name, phone, email, company, industry, taxid: document.getElementById('f-taxid').value.trim() };
+    order.customer = {
+      company, address,
+      taxid: document.getElementById('f-taxid').value.trim(),
+      owner:   { name: ownerName,   phone: ownerPhone,   email: ownerEmail },
+      contact: { name: contactName, phone: contactPhone, email: contactEmail },
+    };
     order.promoApplied = promoApplied;
     order.promoCode    = promoApplied ? VALID_PROMO : null;
     sessionStorage.setItem('orbit_order', JSON.stringify(order));
-
     window.location.href = 'confirm.html';
   }
 
