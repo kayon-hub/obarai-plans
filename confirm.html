@@ -372,8 +372,12 @@
     order.submittedAt = new Date().toISOString();
     sessionStorage.setItem('orbit_order', JSON.stringify(order));
 
-    // TODO: 接後端 API / Google Sheets / ECPay
-    // fetch('/api/subscribe', { method:'POST', body: JSON.stringify(order) })
+    fetch('https://script.google.com/macros/s/AKfycbwywcQJrkfTUmkhxqc-9aLSVZMpd1K29snR712XcV4--_Z7YeUP58mp7l7aKOkwGvs/exec', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(order)
+    }).catch(function(err) { console.warn('Sheets write failed:', err); });
 
     setTimeout(() => {
       const email = order.customer?.ownerEmail || order.customer?.contactEmail || '您的信箱';
