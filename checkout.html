@@ -89,6 +89,7 @@
     .summary-total-label { font-size:14px; color:var(--w70); }
     .summary-total-val { font-family:var(--sans); font-size:20px; font-weight:700; color:var(--gold); }
     .summary-edit { display:block; text-align:center; font-size:12px; color:var(--w40); text-decoration:none; margin-top:12px; transition:color 0.2s; }
+    .summary-row-monthly { margin-top:8px; }
     .summary-edit:hover { color:var(--gold); }
 
     /* Buttons */
@@ -213,8 +214,8 @@
           <div class="sub-notice-title">自動定期扣款說明</div>
           <p>本服務採 12 個月合約制，並於合約期滿後自動續約。訂閱成立後：</p>
           <ul>
-            <li>14 天免費試用期間不收取任何費用</li>
-            <li>試用期結束後，首月費用（含一次性導入費）將從您的信用卡自動扣款</li>
+            <li>訂閱成立後，首次付款包含：標準導入費 NT$8,000＋首月月費＋末月月費（押金）</li>
+            <li>末月月費將於合約結束後無息退還</li>
             <li>此後每月相同日期，系統將自動從信用卡扣取月費</li>
             <li>如需取消訂閱，請於到期日前 14 天以書面通知 hello@obarai.com</li>
             <li>付款資訊透過 SSL 加密傳輸，ORBIT 不儲存您的信用卡資料</li>
@@ -259,17 +260,21 @@
           </div>
           <hr class="summary-divider">
           <div class="summary-row">
-            <span class="summary-row-label">首月費用（試用後）</span>
-            <span class="summary-row-val" id="s-first">—</span>
+            <span class="summary-row-label">標準導入費（一次性）</span>
+            <span class="summary-row-val" id="s-onetime">—</span>
           </div>
           <div class="summary-row">
-            <span class="summary-row-label">每月（第二個月起）</span>
-            <span class="summary-row-val" id="s-monthly">—</span>
+            <span class="summary-row-label">首月 + 末月月費</span>
+            <span class="summary-row-val" id="s-deposit">—</span>
           </div>
           <hr class="summary-divider">
           <div class="summary-total">
-            <span class="summary-total-label">每月訂閱</span>
+            <span class="summary-total-label">今日付款</span>
             <span class="summary-total-val" id="s-total">NT$0</span>
+          </div>
+          <div class="summary-row summary-row-monthly">
+            <span class="summary-row-label">第二個月起每月</span>
+            <span class="summary-row-val" id="s-monthly">—</span>
           </div>
           <a href="pricing.html" class="summary-edit">修改方案</a>
         </div>
@@ -341,9 +346,10 @@
       </div>
     `).join('');
 
-    document.getElementById('s-first').textContent   = fmt(onetime + monthly);
-    document.getElementById('s-monthly').textContent = fmt(monthly) + '/月';
-    document.getElementById('s-total').textContent   = fmt(monthly) + '/月';
+    document.getElementById('s-onetime').textContent  = promoApplied ? 'NT$0（折抵）' : fmt(onetime);
+    document.getElementById('s-deposit').textContent  = fmt(monthly * 2);
+    document.getElementById('s-total').textContent    = fmt(onetime + monthly * 2);
+    document.getElementById('s-monthly').textContent  = fmt(monthly) + '/月';
   }
 
   function applyPromo() {

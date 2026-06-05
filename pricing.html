@@ -391,7 +391,7 @@
           </div>
 
           <div class="cart-row">
-            <span class="cart-row-label">首月費用（試用後）</span>
+            <span class="cart-row-label">今日付款（導入費＋首末兩個月）</span>
             <span class="cart-row-val" id="first-payment">—</span>
           </div>
           <div class="cart-row">
@@ -483,7 +483,7 @@
       `).join('');
     }
 
-    const firstPayment = onetimeTotal + monthlyTotal;
+    const firstPayment = onetimeTotal + monthlyTotal * 2;
     firstEl.textContent  = firstPayment > 0 ? fmt(firstPayment) : '—';
     mFeeEl.textContent   = monthlyTotal > 0 ? fmt(monthlyTotal) + '/月' : '—';
     totalEl.textContent  = monthlyTotal > 0 ? fmt(monthlyTotal) + '/月' : 'NT$0';
