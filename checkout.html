@@ -242,9 +242,9 @@
           <div class="sub-notice-title">📋 訂閱合約重要說明</div>
           <p>本服務採 <strong style="color:var(--white)">12 個月最低服務期合約</strong>，按月自動扣款。訂閱成立即視為您已閱讀並同意以下條款：</p>
           <ul>
-            <li>首次付款包含：系統開通費 ＋ 首月月費 ＋ 末月月費</li>
+            <li>首次付款包含：系統開通費 ＋ 首月月費</li>
             <li>此後每月相同日期，系統將自動從信用卡扣取月費</li>
-            <li>最低服務期為 <strong style="color:var(--white)">12 個月</strong>，提前終止合約須支付剩餘月份月費 50% 作為違約金</li>
+            <li>最低服務期為 <strong style="color:var(--white)">12 個月</strong>，提前終止合約須支付<strong style="color:var(--white)">剩餘月份月費全額</strong>作為違約金</li>
             <li>如需終止續約，請於到期日前 14 天書面通知 hello@obarai.com</li>
             <li>若信用卡效期不足兩個月，請提前聯繫客服協助更換信用卡，以免扣款失敗</li>
             <li>付款資訊透過 256-bit SSL 加密傳輸，ORBIT 不儲存您的信用卡資料</li>
@@ -299,7 +299,7 @@
             <span class="summary-row-val" id="s-onetime">—</span>
           </div>
           <div class="summary-row">
-            <span class="summary-row-label">首月 + 末月月費</span>
+            <span class="summary-row-label">首月月費</span>
             <span class="summary-row-val" id="s-deposit">—</span>
           </div>
           <hr class="summary-divider">
@@ -434,8 +434,8 @@
     `).join('');
 
     document.getElementById('s-onetime').textContent  = promoApplied ? 'NT$0（折抵）' : fmt(onetime);
-    document.getElementById('s-deposit').textContent  = fmt(monthly * 2);
-    document.getElementById('s-total').textContent    = fmt(onetime + monthly * 2);
+    document.getElementById('s-deposit').textContent  = fmt(monthly);
+    document.getElementById('s-total').textContent    = fmt(onetime + monthly);
     document.getElementById('s-monthly').textContent  = fmt(monthly) + '/月';
   }
 

@@ -469,10 +469,6 @@
               <span>首月月費</span>
               <span id="bd-month1">—</span>
             </div>
-            <div class="breakdown-row">
-              <span>末月月費</span>
-              <span id="bd-deposit">—</span>
-            </div>
             <div class="breakdown-row" id="bd-kb-row" style="display:none">
               <span>AI 知識庫建置</span>
               <span id="bd-kb">—</span>
@@ -671,15 +667,14 @@
     const aiPrice    = ai.price;
     const kbPrice    = kb.price;
     const monthly    = planPrice + aiPrice;
-    const firstPay   = ONBOARDING.price + kbPrice + monthly * 2;
+    const firstPay   = ONBOARDING.price + kbPrice + monthly;  // 不再預收末月
 
     document.getElementById('bar-plan').textContent    = plan ? plan.label : '—';
     document.getElementById('bar-first').textContent   = plan ? fmt(firstPay) : '—';
     document.getElementById('bar-monthly').textContent = plan ? fmt(monthly) + '/月' : '—';
 
     // breakdown popup
-    document.getElementById('bd-month1').textContent   = plan ? fmt(planPrice + aiPrice) : '—';
-    document.getElementById('bd-deposit').textContent  = plan ? fmt(planPrice + aiPrice) : '—';
+    document.getElementById('bd-month1').textContent   = plan ? fmt(monthly) : '—';
     document.getElementById('bd-total').textContent    = plan ? fmt(firstPay) : '—';
     const kbRow = document.getElementById('bd-kb-row');
     if (kbPrice > 0) {

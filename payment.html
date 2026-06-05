@@ -280,10 +280,6 @@
             <span class="summary-row-label">首月月費</span>
             <span class="summary-row-val" id="s-month1">—</span>
           </div>
-          <div class="summary-row">
-            <span class="summary-row-label">末月月費</span>
-            <span class="summary-row-val" id="s-deposit">—</span>
-          </div>
           <div class="summary-row" id="s-kb-row" style="display:none">
             <span class="summary-row-label">AI 知識庫建置</span>
             <span class="summary-row-val" id="s-kb">—</span>
@@ -365,11 +361,10 @@
     const promo    = order.promoApplied;
     const setupAmt = promo ? 0 : setup;
     const kbAmt    = promo ? 0 : kbPrice;
-    const firstPay = setupAmt + kbAmt + monthly * 2;
+    const firstPay = setupAmt + kbAmt + monthly;  // 不再預收末月
 
     document.getElementById('s-setup').textContent   = promo ? 'NT$0（折抵）' : fmt(setup);
     document.getElementById('s-month1').textContent  = fmt(monthly);
-    document.getElementById('s-deposit').textContent = fmt(monthly);
     if (kbPrice > 0) {
       document.getElementById('s-kb-row').style.display = 'flex';
       document.getElementById('s-kb').textContent = promo ? 'NT$0（折抵）' : fmt(kbPrice) + '+';
