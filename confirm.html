@@ -327,6 +327,8 @@
 
     /* ── 公司資訊 ── */
     const c = order.customer || {};
+    const owner   = c.owner   || {};
+    const contact = c.contact || {};
     document.getElementById('company-box').innerHTML =
       dataRow('公司名稱', c.company) +
       dataRow('地址', c.address) +
@@ -334,15 +336,15 @@
 
     /* ── 負責人 ── */
     document.getElementById('owner-box').innerHTML =
-      dataRow('姓名', c.ownerName) +
-      dataRow('電話', c.ownerPhone) +
-      dataRow('Email', c.ownerEmail);
+      dataRow('姓名', owner.name) +
+      dataRow('電話', owner.phone) +
+      dataRow('Email', owner.email);
 
     /* ── 窗口聯絡人 ── */
     document.getElementById('contact-box').innerHTML =
-      dataRow('姓名', c.contactName) +
-      dataRow('電話', c.contactPhone) +
-      dataRow('Email', c.contactEmail);
+      dataRow('姓名', contact.name) +
+      dataRow('電話', contact.phone) +
+      dataRow('Email', contact.email);
 
     /* ── 付款資訊 ── */
     const p = order.payment || {};

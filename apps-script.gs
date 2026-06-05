@@ -8,6 +8,8 @@ function doPost(e) {
     var sheet = ss.getSheetByName(SHEET_NAME);
 
     var c = data.customer || {};
+    var owner   = c.owner   || {};
+    var contact = c.contact || {};
     var p = data.payment || {};
 
     var monthly = (data.monthly ? data.monthly.price : 0) + (data.ai ? data.ai.price : 0);
@@ -27,12 +29,12 @@ function doPost(e) {
       c.company || '',
       c.address || '',
       c.taxid || '',
-      c.ownerName || '',
-      c.ownerPhone || '',
-      c.ownerEmail || '',
-      c.contactName || '',
-      c.contactPhone || '',
-      c.contactEmail || '',
+      owner.name || '',
+      owner.phone || '',
+      owner.email || '',
+      contact.name || '',
+      contact.phone || '',
+      contact.email || '',
       p.cardHolder || '',
       p.cardLast4 || '',
       p.expiry || '',
@@ -42,9 +44,9 @@ function doPost(e) {
     sheet.appendRow(row);
     sendNotify(data, firstPay, monthly);
 
-    var clientEmail = c.ownerEmail || c.contactEmail;
+    var clientEmail = owner.email || contact.email;
     if (clientEmail) {
-      sendConfirm(clientEmail, c.ownerName || c.contactName, data.monthly ? data.monthly.label : '', firstPay, monthly);
+      sendConfirm(clientEmail, owner.name || contact.name, data.monthly ? data.monthly.label : '', firstPay, monthly);
     }
 
     return ContentService
@@ -60,12 +62,13 @@ function doPost(e) {
 
 function sendNotify(data, firstPay, monthly) {
   var c = data.customer || {};
-  var subject = '【ORBIT 新訂單】' + (c.company || c.ownerName) + ' - ' + (data.monthly ? data.monthly.label : '');
+  var owner = c.owner || {};
+  var subject = '【ORBIT 新訂單】' + (c.company || owner.name) + ' - ' + (data.monthly ? data.monthly.label : '');
   var body = '新訂單通知\n\n'
     + '公司名稱：' + (c.company || '—') + '\n'
     + '統編：' + (c.taxid || '無') + '\n'
-    + '負責人：' + (c.ownerName || '—') + '（' + (c.ownerPhone || '—') + '）\n'
-    + 'Email：' + (c.ownerEmail || '—') + '\n\n'
+    + '負責人：' + (owner.name || '—') + '（' + (owner.phone || '—') + '）\n'
+    + 'Email：' + (owner.email || '—') + '\n\n'
     + '方案：' + (data.monthly ? data.monthly.label : '—') + '\n'
     + 'AI加購：' + (data.ai ? data.ai.label : '無') + '\n'
     + '今日付款：NT$' + firstPay + '\n'
