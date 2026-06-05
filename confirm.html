@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORBIT — 確認訂閱</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    :root {
+      --black:#0c0c0c; --surface:#141414; --surface2:#1c1c1c;
+      --border:rgba(255,255,255,0.07); --borderl:rgba(255,255,255,0.04);
+      --white:#ece9e0; --w70:rgba(236,233,224,0.70); --w40:rgba(236,233,224,0.40); --w20:rgba(236,233,224,0.20);
+      --gold:#c8a96e; --gold60:rgba(200,169,110,0.60); --gold20:rgba(200,169,110,0.20); --gold08:rgba(200,169,110,0.08);
+      --sans:'Inter',-apple-system,sans-serif; --tc:'Noto Sans TC','PingFang TC',sans-serif;
+    }
+    body { background:var(--black); color:var(--white); font-family:var(--tc); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+    nav { position:fixed; top:0; left:0; right:0; z-index:200; height:68px; padding:0 48px; display:flex; align-items:center; justify-content:space-between; background:rgba(12,12,12,0.88); backdrop-filter:blur(24px); border-bottom:1px solid var(--borderl); }
+    .nav-logo { font-family:var(--sans); font-size:17px; font-weight:600; letter-spacing:0.14em; color:var(--white); text-decoration:none; }
+    .nav-logo-dot { color:var(--gold); }
+    .wrap { max-width:960px; margin:0 auto; padding:0 48px; }
+    .page { padding-top:68px; min-height:100vh; }
+
+    .hero { padding:56px 0 40px; border-bottom:1px solid var(--borderl); }
+    .eyebrow { font-family:var(--sans); font-size:11px; font-weight:500; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+    .hero h1 { font-size:clamp(24px,3vw,36px); font-weight:300; color:var(--white); margin-bottom:8px; }
+    .stepper { display:flex; gap:0; margin-top:24px; }
+    .step-tab { display:flex; align-items:center; gap:10px; padding:8px 20px 8px 0; font-size:12.5px; color:var(--w40); }
+    .step-tab .num { width:22px; height:22px; border-radius:50%; background:var(--surface2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:var(--sans); font-size:11px; font-weight:600; color:var(--w40); flex-shrink:0; }
+    .step-tab.done .num { background:var(--gold); border-color:var(--gold); color:#0c0c0c; }
+    .step-tab.done .step-label { color:var(--w70); }
+    .step-tab.active .num { border-color:var(--gold60); color:var(--gold); }
+    .step-tab.active .step-label { color:var(--white); }
+    .step-arrow { color:var(--border); font-size:12px; padding:0 4px 0 0; align-self:center; }
+
+    .content { padding:40px 0 80px; display:grid; grid-template-columns:1fr 320px; gap:40px; align-items:start; }
+    @media(max-width:820px) { .content { grid-template-columns:1fr; } }
+
+    /* Confirm boxes */
+    .confirm-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:20px; }
+    .confirm-box-header { padding:16px 20px; border-bottom:1px solid var(--borderl); }
+    .confirm-box-header h3 { font-size:12px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:var(--w40); }
+    .confirm-box-body { padding:20px; }
+
+    .order-line { display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:14px; }
+    .order-line:last-child { margin-bottom:0; }
+    .order-line-info { }
+    .order-line-name { font-size:14px; color:var(--white); }
+    .order-line-sub { font-size:12px; color:var(--w40); margin-top:2px; }
+    .order-line-price { font-family:var(--sans); font-size:14px; font-weight:600; color:var(--gold); white-space:nowrap; }
+
+    .divider { border:none; border-top:1px solid var(--borderl); margin:16px 0; }
+
+    .total-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+    .total-row-label { font-size:13px; color:var(--w70); }
+    .total-row-val { font-family:var(--sans); font-size:14px; font-weight:600; color:var(--white); }
+    .total-main { display:flex; justify-content:space-between; align-items:baseline; margin-top:8px; }
+    .total-main-label { font-size:15px; color:var(--white); font-weight:500; }
+    .total-main-val { font-family:var(--sans); font-size:24px; font-weight:700; color:var(--gold); }
+    .total-note { font-size:11px; color:var(--w40); margin-top:4px; text-align:right; }
+
+    .customer-row { display:flex; justify-content:space-between; gap:12px; margin-bottom:8px; padding-bottom:8px; border-bottom:1px solid var(--borderl); }
+    .customer-row:last-child { margin-bottom:0; padding-bottom:0; border:none; }
+    .customer-label { font-size:12px; color:var(--w40); flex-shrink:0; }
+    .customer-val { font-size:13px; color:var(--w70); text-align:right; }
+
+    /* Subscription agreement */
+    .agreement-box { background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:24px; }
+    .agreement-title { font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+    .agreement-title::before { content:'⚡'; font-size:11px; }
+    .agreement-item { display:flex; gap:10px; align-items:flex-start; margin-bottom:10px; }
+    .agreement-item:last-child { margin-bottom:0; }
+    .agreement-icon { color:var(--gold); font-size:12px; margin-top:3px; flex-shrink:0; }
+    .agreement-text { font-size:12.5px; color:var(--w70); line-height:1.6; }
+    .agreement-text strong { color:var(--white); }
+
+    /* ECPay badge */
+    .ecpay-badge { display:flex; align-items:center; justify-content:center; gap:10px; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:14px 20px; margin-bottom:20px; }
+    .ecpay-badge-text { font-size:12px; color:var(--w40); }
+    .ecpay-badge-brand { font-family:var(--sans); font-size:13px; font-weight:700; color:var(--w70); letter-spacing:0.06em; }
+    .ecpay-lock { font-size:14px; }
+
+    /* Buttons */
+    .btn-pay { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; font-family:var(--tc); font-size:15px; font-weight:600; color:#0c0c0c; background:var(--gold); padding:16px 24px; border-radius:8px; border:none; cursor:pointer; transition:opacity 0.2s, transform 0.15s; }
+    .btn-pay:hover { opacity:0.88; transform:translateY(-1px); }
+    .btn-pay svg { width:16px; height:16px; }
+    .btn-back { display:flex; align-items:center; justify-content:center; width:100%; font-family:var(--tc); font-size:13px; color:var(--w70); background:transparent; padding:12px 24px; border-radius:8px; border:1px solid var(--border); cursor:pointer; transition:border-color 0.2s; text-decoration:none; margin-top:8px; }
+    .btn-back:hover { border-color:rgba(255,255,255,0.15); }
+    .secure-note { text-align:center; margin-top:12px; font-size:11px; color:var(--w40); }
+
+    /* Processing overlay */
+    .overlay { position:fixed; inset:0; z-index:500; background:rgba(12,12,12,0.95); display:none; flex-direction:column; align-items:center; justify-content:center; gap:20px; }
+    .overlay.show { display:flex; }
+    .spinner { width:40px; height:40px; border:2px solid var(--gold20); border-top-color:var(--gold); border-radius:50%; animation:spin 0.8s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .overlay-text { font-size:14px; color:var(--w70); }
+    .overlay-sub { font-size:12px; color:var(--w40); }
+
+    footer { border-top:1px solid var(--borderl); padding:28px 0; }
+    .footer-row { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+    .footer-brand { font-family:var(--sans); font-size:14px; font-weight:600; letter-spacing:0.14em; color:var(--w40); }
+    .footer-nav { display:flex; gap:24px; list-style:none; }
+    .footer-nav a { font-size:12px; color:var(--w40); text-decoration:none; }
+    .footer-nav a:hover { color:var(--w70); }
+    .footer-copy { font-size:11px; color:rgba(236,233,224,0.2); }
+
+    @media(max-width:640px) { nav { padding:0 20px; } .wrap { padding:0 20px; } }
+  </style>
+</head>
+<body>
+
+<!-- Processing overlay -->
+<div class="overlay" id="overlay">
+  <div class="spinner"></div>
+  <div class="overlay-text">正在建立訂閱訂單</div>
+  <div class="overlay-sub">即將跳轉至綠界科技付款頁面</div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">ORBIT<span class="nav-logo-dot">.</span></a>
+</nav>
+
+<div class="page">
+  <div class="wrap">
+
+    <div class="hero">
+      <p class="eyebrow">Confirm</p>
+      <h1>確認訂閱</h1>
+      <div class="stepper">
+        <div class="step-tab done"><div class="num">✓</div><span class="step-label">選擇方案</span></div>
+        <div class="step-arrow">›</div>
+        <div class="step-tab done"><div class="num">✓</div><span class="step-label">填寫資料</span></div>
+        <div class="step-arrow">›</div>
+        <div class="step-tab active"><div class="num">3</div><span class="step-label">確認訂閱</span></div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- Left -->
+      <div>
+
+        <!-- Order details -->
+        <div class="confirm-box">
+          <div class="confirm-box-header"><h3>訂閱內容</h3></div>
+          <div class="confirm-box-body">
+            <div id="order-lines"><!-- JS --></div>
+            <hr class="divider">
+            <div class="total-row">
+              <span class="total-row-label">首月費用（14 天試用後）</span>
+              <span class="total-row-val" id="c-first">—</span>
+            </div>
+            <div class="total-row">
+              <span class="total-row-label">每月費用（自第二個月起）</span>
+              <span class="total-row-val" id="c-monthly">—</span>
+            </div>
+            <hr class="divider">
+            <div class="total-main">
+              <span class="total-main-label">每月訂閱金額</span>
+              <span class="total-main-val" id="c-total">NT$0</span>
+            </div>
+            <div class="total-note">12 個月合約 · 到期自動續約</div>
+          </div>
+        </div>
+
+        <!-- Customer info -->
+        <div class="confirm-box">
+          <div class="confirm-box-header"><h3>訂閱人資訊</h3></div>
+          <div class="confirm-box-body" id="customer-box"><!-- JS --></div>
+        </div>
+
+        <!-- Subscription agreement -->
+        <div class="agreement-box">
+          <div class="agreement-title">定期自動扣款授權聲明</div>
+          <div class="agreement-item">
+            <span class="agreement-icon">◆</span>
+            <span class="agreement-text"><strong>14 天免費試用</strong>：訂閱成立後立即開始 14 天免費試用期，期間不扣款。</span>
+          </div>
+          <div class="agreement-item">
+            <span class="agreement-icon">◆</span>
+            <span class="agreement-text"><strong>首次扣款</strong>：試用期結束後，系統將對您授權的信用卡進行首次扣款，金額包含一次性導入費及第一個月訂閱費。</span>
+          </div>
+          <div class="agreement-item">
+            <span class="agreement-icon">◆</span>
+            <span class="agreement-text"><strong>每月自動扣款</strong>：此後每月相同日期，將自動扣取月費。您可隨時在會員後台查看扣款紀錄。</span>
+          </div>
+          <div class="agreement-item">
+            <span class="agreement-icon">◆</span>
+            <span class="agreement-text"><strong>取消政策</strong>：合約期內如需取消，請於到期日 <strong>14 天前</strong>以書面通知 hello@obarai.com。合約期內不接受無故退訂。詳見 <a href="refund.html" target="_blank" style="color:var(--gold)">退款政策</a>。</span>
+          </div>
+          <div class="agreement-item">
+            <span class="agreement-icon">◆</span>
+            <span class="agreement-text"><strong>付款安全</strong>：信用卡資料由綠界科技 ECPay 加密處理，ORBIT 不儲存任何信用卡資訊。</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: Payment action -->
+      <div style="position:sticky;top:88px">
+
+        <div class="ecpay-badge">
+          <span class="ecpay-lock">🔒</span>
+          <div>
+            <div class="ecpay-badge-brand">綠界科技 ECPay</div>
+            <div class="ecpay-badge-text">信用卡安全加密付款</div>
+          </div>
+        </div>
+
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;">
+          <div style="font-size:12px;color:var(--w40);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.12em;font-weight:500;">今日應付</div>
+          <div style="font-family:var(--sans);font-size:11px;color:var(--w40);margin-bottom:4px;">14 天試用期，到期後扣款</div>
+          <div style="font-family:var(--sans);font-size:32px;font-weight:700;color:var(--gold);margin-bottom:4px;">NT$0</div>
+          <div style="font-size:12px;color:var(--w40);margin-bottom:20px;">首月費用：<span id="r-first" style="color:var(--w70)">—</span>（試用後扣）</div>
+
+          <button class="btn-pay" id="pay-btn" onclick="handlePayment()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+            前往信用卡付款
+          </button>
+          <a href="checkout.html" class="btn-back">← 返回修改資料</a>
+          <div class="secure-note">點擊後將跳轉至綠界科技安全付款頁面</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <span class="footer-brand">ORBIT</span>
+      <ul class="footer-nav">
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="pricing.html">方案定價</a></li>
+        <li><a href="terms.html">服務條款</a></li>
+        <li><a href="privacy.html">隱私權政策</a></li>
+        <li><a href="refund.html">退款政策</a></li>
+      </ul>
+      <span class="footer-copy">© 2026 OBARAI｜鎧洋聲影科技</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const fmt = n => 'NT$' + n.toLocaleString('zh-TW');
+
+  function loadOrder() {
+    const raw = sessionStorage.getItem('orbit_order');
+    if (!raw) { window.location.href = 'pricing.html'; return null; }
+    return JSON.parse(raw);
+  }
+
+  const INDUSTRY_NAMES = {
+    cafe:'咖啡廳 / 輕食', restaurant:'餐廳 / 餐飲', retail:'零售 / 服飾',
+    salon:'美髮 / 美容', tutoring:'補習班 / 教育', medical:'診所 / 醫療',
+    fitness:'健身房 / 運動', other:'其他'
+  };
+
+  function render() {
+    const order = loadOrder();
+    if (!order) return;
+
+    const lines = [];
+    let monthly = 0, onetime = 0;
+
+    if (order.monthly) {
+      lines.push({ name: order.monthly.label, sub: '月費方案', price: fmt(order.monthly.price) + '/月' });
+      monthly += order.monthly.price;
+    }
+    if (order.onboarding) {
+      lines.push({ name: order.onboarding.label, sub: '導入服務（一次性）', price: fmt(order.onboarding.price) });
+      onetime += order.onboarding.price;
+    }
+    if (order.ai) {
+      lines.push({ name: order.ai.label, sub: 'AI 加購', price: fmt(order.ai.price) + '/月' });
+      monthly += order.ai.price;
+    }
+
+    document.getElementById('order-lines').innerHTML = lines.map(l => `
+      <div class="order-line">
+        <div class="order-line-info">
+          <div class="order-line-name">${l.name}</div>
+          <div class="order-line-sub">${l.sub}</div>
+        </div>
+        <div class="order-line-price">${l.price}</div>
+      </div>
+    `).join('');
+
+    const first = onetime + monthly;
+    document.getElementById('c-first').textContent   = fmt(first);
+    document.getElementById('c-monthly').textContent = fmt(monthly) + '/月';
+    document.getElementById('c-total').textContent   = fmt(monthly) + '/月';
+    document.getElementById('r-first').textContent   = fmt(first);
+
+    if (order.customer) {
+      const c = order.customer;
+      const rows = [
+        ['姓名', c.name],
+        ['電子信箱', c.email],
+        ['聯絡電話', c.phone],
+        ['公司名稱', c.company],
+        ['行業類別', INDUSTRY_NAMES[c.industry] || c.industry],
+        ...(c.taxid ? [['統一編號', c.taxid]] : []),
+      ];
+      document.getElementById('customer-box').innerHTML = rows.map(([l, v]) => `
+        <div class="customer-row">
+          <span class="customer-label">${l}</span>
+          <span class="customer-val">${v}</span>
+        </div>
+      `).join('');
+    }
+  }
+
+  function handlePayment() {
+    const overlay = document.getElementById('overlay');
+    overlay.classList.add('show');
+
+    // ECPay 定期定額入口（需後端產生 CheckMacValue 後才能實際送出）
+    // 目前顯示處理中畫面，待商戶帳號審核通過後接入真實 API
+    setTimeout(() => {
+      overlay.innerHTML = `
+        <div style="text-align:center;max-width:360px;padding:40px">
+          <div style="font-size:40px;margin-bottom:20px">✓</div>
+          <div style="font-family:var(--sans);font-size:20px;font-weight:600;color:var(--gold);margin-bottom:12px">訂閱申請已收到</div>
+          <div style="font-size:14px;color:var(--w70);line-height:1.8;margin-bottom:24px">
+            感謝您選擇 ORBIT。<br>
+            我們的團隊將在 24 小時內與您聯繫，<br>
+            完成帳號建立及 14 天試用啟動。
+          </div>
+          <div style="font-size:12px;color:var(--w40);margin-bottom:24px">確認信將寄送至 ${loadOrder()?.customer?.email || '您的信箱'}</div>
+          <a href="index.html" style="display:inline-flex;align-items:center;font-family:var(--tc);font-size:13px;font-weight:500;color:#0c0c0c;background:var(--gold);padding:12px 28px;border-radius:8px;text-decoration:none">返回首頁</a>
+        </div>
+      `;
+    }, 2800);
+  }
+
+  render();
+</script>
+
+</body>
+</html>

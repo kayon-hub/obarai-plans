@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORBIT — 填寫訂閱資料</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black:#0c0c0c; --surface:#141414; --surface2:#1c1c1c;
+      --border:rgba(255,255,255,0.07); --borderl:rgba(255,255,255,0.04);
+      --white:#ece9e0; --w70:rgba(236,233,224,0.70); --w40:rgba(236,233,224,0.40); --w20:rgba(236,233,224,0.20);
+      --gold:#c8a96e; --gold60:rgba(200,169,110,0.60); --gold20:rgba(200,169,110,0.20); --gold08:rgba(200,169,110,0.08);
+      --sans:'Inter',-apple-system,sans-serif; --tc:'Noto Sans TC','PingFang TC',sans-serif;
+    }
+    body { background:var(--black); color:var(--white); font-family:var(--tc); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
+    nav { position:fixed; top:0; left:0; right:0; z-index:200; height:68px; padding:0 48px; display:flex; align-items:center; justify-content:space-between; background:rgba(12,12,12,0.88); backdrop-filter:blur(24px); border-bottom:1px solid var(--borderl); }
+    .nav-logo { font-family:var(--sans); font-size:17px; font-weight:600; letter-spacing:0.14em; color:var(--white); text-decoration:none; }
+    .nav-logo-dot { color:var(--gold); }
+    .nav-links { display:flex; align-items:center; gap:36px; list-style:none; }
+    .nav-links a { font-size:13px; color:var(--w40); text-decoration:none; transition:color 0.2s; }
+    .nav-links a:hover { color:var(--w70); }
+    .nav-cta { font-size:12.5px !important; font-weight:500 !important; color:var(--gold) !important; border:1px solid var(--gold60); padding:9px 22px; border-radius:6px; }
+    .wrap { max-width:1200px; margin:0 auto; padding:0 48px; }
+    .page { padding-top:68px; min-height:100vh; }
+
+    /* Hero */
+    .hero { padding:56px 0 40px; border-bottom:1px solid var(--borderl); }
+    .eyebrow { font-family:var(--sans); font-size:11px; font-weight:500; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; }
+    .hero h1 { font-size:clamp(24px,3vw,36px); font-weight:300; color:var(--white); margin-bottom:8px; }
+    .stepper { display:flex; gap:0; margin-top:24px; }
+    .step-tab { display:flex; align-items:center; gap:10px; padding:8px 20px 8px 0; font-size:12.5px; color:var(--w40); }
+    .step-tab .num { width:22px; height:22px; border-radius:50%; background:var(--surface2); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:var(--sans); font-size:11px; font-weight:600; color:var(--w40); flex-shrink:0; }
+    .step-tab.done .num { background:var(--gold); border-color:var(--gold); color:#0c0c0c; }
+    .step-tab.done .step-label { color:var(--w70); }
+    .step-tab.active .num { border-color:var(--gold60); color:var(--gold); }
+    .step-tab.active .step-label { color:var(--white); }
+    .step-arrow { color:var(--border); font-size:12px; padding:0 4px 0 0; align-self:center; }
+
+    /* Layout */
+    .checkout-grid { display:grid; grid-template-columns:1fr 340px; gap:40px; padding:40px 0 80px; align-items:start; }
+    @media(max-width:860px) { .checkout-grid { grid-template-columns:1fr; } .order-summary { position:static !important; order:-1; } }
+
+    /* Form */
+    .form-section { margin-bottom:32px; }
+    .form-section h2 { font-size:12px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:var(--w40); margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid var(--borderl); }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+    .form-row.full { grid-template-columns:1fr; }
+    @media(max-width:600px) { .form-row { grid-template-columns:1fr; } }
+    .field label { display:block; font-size:12px; color:var(--w40); margin-bottom:6px; }
+    .field label .req { color:var(--gold); margin-left:3px; }
+    .field input, .field select { width:100%; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:11px 14px; font-size:14px; font-family:var(--tc); color:var(--white); outline:none; transition:border-color 0.2s; }
+    .field input::placeholder { color:var(--w40); }
+    .field input:focus, .field select:focus { border-color:var(--gold60); }
+    .field input.err { border-color:rgba(255,100,100,0.5); }
+    .field select { appearance:none; -webkit-appearance:none; cursor:pointer; }
+    .field-opt { font-size:11px; color:var(--w40); margin-left:4px; }
+
+    /* Subscription notice */
+    .sub-notice { background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:20px; margin-bottom:28px; }
+    .sub-notice-title { font-size:12px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+    .sub-notice p { font-size:12.5px; color:var(--w70); line-height:1.7; }
+    .sub-notice ul { margin:8px 0 0 16px; }
+    .sub-notice ul li { font-size:12px; color:var(--w40); line-height:1.8; }
+
+    /* Checkbox */
+    .checkbox-row { display:flex; gap:12px; align-items:flex-start; margin-bottom:24px; }
+    .checkbox-row input[type="checkbox"] { width:16px; height:16px; margin-top:3px; flex-shrink:0; accent-color:var(--gold); cursor:pointer; }
+    .checkbox-row label { font-size:13px; color:var(--w70); cursor:pointer; line-height:1.6; }
+    .checkbox-row label a { color:var(--gold); }
+
+    /* Order summary */
+    .order-summary { position:sticky; top:88px; }
+    .summary-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:24px; }
+    .summary-title { font-size:12px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:var(--w40); margin-bottom:20px; }
+    .summary-items { display:flex; flex-direction:column; gap:12px; }
+    .summary-item { display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+    .summary-item-name { font-size:13px; color:var(--w70); }
+    .summary-item-sub { font-size:11px; color:var(--w40); margin-top:2px; }
+    .summary-item-price { font-family:var(--sans); font-size:13px; font-weight:600; color:var(--white); white-space:nowrap; }
+    .summary-divider { border:none; border-top:1px solid var(--borderl); margin:16px 0; }
+    .summary-row { display:flex; justify-content:space-between; margin-bottom:6px; }
+    .summary-row-label { font-size:12px; color:var(--w40); }
+    .summary-row-val { font-family:var(--sans); font-size:13px; font-weight:600; color:var(--white); }
+    .summary-total { display:flex; justify-content:space-between; align-items:baseline; margin-top:4px; }
+    .summary-total-label { font-size:14px; color:var(--w70); }
+    .summary-total-val { font-family:var(--sans); font-size:20px; font-weight:700; color:var(--gold); }
+    .summary-edit { display:block; text-align:center; font-size:12px; color:var(--w40); text-decoration:none; margin-top:12px; transition:color 0.2s; }
+    .summary-edit:hover { color:var(--gold); }
+
+    /* Buttons */
+    .btn-gold { display:flex; align-items:center; justify-content:center; width:100%; font-family:var(--tc); font-size:14px; font-weight:500; color:#0c0c0c; background:var(--gold); padding:14px 24px; border-radius:8px; border:none; cursor:pointer; transition:opacity 0.2s, transform 0.2s; }
+    .btn-gold:hover { opacity:0.88; transform:translateY(-1px); }
+    .btn-outline { display:flex; align-items:center; justify-content:center; width:100%; font-family:var(--tc); font-size:13px; color:var(--w70); background:transparent; padding:12px 24px; border-radius:8px; border:1px solid var(--border); cursor:pointer; transition:border-color 0.2s, color 0.2s; text-decoration:none; margin-top:8px; }
+    .btn-outline:hover { border-color:rgba(255,255,255,0.15); color:var(--white); }
+    .secure-note { display:flex; align-items:center; justify-content:center; gap:6px; margin-top:14px; font-size:11px; color:var(--w40); }
+    .secure-note::before { content:'🔒'; font-size:10px; }
+
+    /* Promo code */
+    .promo-row { display:flex; gap:8px; }
+    .promo-row input { flex:1; background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:11px 14px; font-size:14px; font-family:var(--sans); color:var(--white); outline:none; text-transform:uppercase; letter-spacing:0.08em; transition:border-color 0.2s; }
+    .promo-row input:focus { border-color:var(--gold60); }
+    .promo-row input::placeholder { text-transform:none; letter-spacing:normal; color:var(--w40); }
+    .promo-apply { background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:11px 18px; font-size:13px; font-family:var(--tc); color:var(--w70); cursor:pointer; white-space:nowrap; transition:border-color 0.2s,color 0.2s; }
+    .promo-apply:hover { border-color:var(--gold60); color:var(--gold); }
+    .promo-applied { display:flex; align-items:center; justify-content:space-between; background:rgba(200,169,110,0.06); border:1px solid var(--gold20); border-radius:8px; padding:11px 14px; }
+    .promo-applied-info { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--gold); }
+    .promo-clear { background:none; border:none; cursor:pointer; color:var(--w40); font-size:15px; line-height:1; padding:2px 4px; transition:color 0.2s; }
+    .promo-clear:hover { color:var(--w70); }
+    .promo-msg-ok  { font-size:12px; color:var(--gold); margin-top:6px; }
+    .promo-msg-err { font-size:12px; color:rgba(255,120,120,0.9); margin-top:6px; }
+
+    /* Error msg */
+    .error-msg { color:rgba(255,120,120,0.9); font-size:12px; margin-top:6px; }
+
+    footer { border-top:1px solid var(--borderl); padding:28px 0; }
+    .footer-row { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+    .footer-brand { font-family:var(--sans); font-size:14px; font-weight:600; letter-spacing:0.14em; color:var(--w40); }
+    .footer-nav { display:flex; gap:24px; list-style:none; }
+    .footer-nav a { font-size:12px; color:var(--w40); text-decoration:none; transition:color 0.2s; }
+    .footer-nav a:hover { color:var(--w70); }
+    .footer-copy { font-size:11px; color:rgba(236,233,224,0.2); }
+
+    @media(max-width:640px) { nav { padding:0 20px; } .nav-links { display:none; } .wrap { padding:0 20px; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">ORBIT<span class="nav-logo-dot">.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#modules">產品模組</a></li>
+    <li><a href="pricing.html" style="color:var(--gold)">方案定價</a></li>
+    <li><a href="index.html#contact" class="nav-cta">預約展示</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+  <div class="wrap">
+
+    <div class="hero">
+      <p class="eyebrow">Checkout</p>
+      <h1>填寫訂閱資料</h1>
+      <div class="stepper">
+        <div class="step-tab done"><div class="num">✓</div><span class="step-label">選擇方案</span></div>
+        <div class="step-arrow">›</div>
+        <div class="step-tab active"><div class="num">2</div><span class="step-label">填寫資料</span></div>
+        <div class="step-arrow">›</div>
+        <div class="step-tab"><div class="num">3</div><span class="step-label">確認訂閱</span></div>
+      </div>
+    </div>
+
+    <div class="checkout-grid">
+
+      <!-- Left: Form -->
+      <div>
+
+        <div class="form-section">
+          <h2>聯絡資訊</h2>
+          <div class="form-row">
+            <div class="field">
+              <label for="f-name">姓名 <span class="req">*</span></label>
+              <input type="text" id="f-name" placeholder="王小明" autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="f-phone">聯絡電話 <span class="req">*</span></label>
+              <input type="tel" id="f-phone" placeholder="0912-345-678" autocomplete="tel">
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="field">
+              <label for="f-email">電子信箱 <span class="req">*</span></label>
+              <input type="email" id="f-email" placeholder="you@company.com" autocomplete="email">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2>公司 / 機構資訊</h2>
+          <div class="form-row full">
+            <div class="field">
+              <label for="f-company">公司或機構名稱 <span class="req">*</span></label>
+              <input type="text" id="f-company" placeholder="例：OO 有限公司" autocomplete="organization">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="f-taxid">統一編號 <span class="field-opt">（選填）</span></label>
+              <input type="text" id="f-taxid" placeholder="12345678" maxlength="8">
+            </div>
+            <div class="field">
+              <label for="f-industry">行業類別 <span class="req">*</span></label>
+              <select id="f-industry">
+                <option value="" disabled selected>請選擇</option>
+                <option value="cafe">咖啡廳 / 輕食</option>
+                <option value="restaurant">餐廳 / 餐飲</option>
+                <option value="retail">零售 / 服飾</option>
+                <option value="salon">美髮 / 美容</option>
+                <option value="tutoring">補習班 / 教育</option>
+                <option value="medical">診所 / 醫療</option>
+                <option value="fitness">健身房 / 運動</option>
+                <option value="other">其他</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subscription notice -->
+        <div class="sub-notice">
+          <div class="sub-notice-title">自動定期扣款說明</div>
+          <p>本服務採 12 個月合約制，並於合約期滿後自動續約。訂閱成立後：</p>
+          <ul>
+            <li>14 天免費試用期間不收取任何費用</li>
+            <li>試用期結束後，首月費用（含一次性導入費）將從您的信用卡自動扣款</li>
+            <li>此後每月相同日期，系統將自動從信用卡扣取月費</li>
+            <li>如需取消訂閱，請於到期日前 14 天以書面通知 hello@obarai.com</li>
+            <li>付款由綠界科技 ECPay 安全處理，ORBIT 不儲存您的信用卡資料</li>
+          </ul>
+        </div>
+
+        <!-- Promo code -->
+        <div class="form-section">
+          <h2>優惠碼</h2>
+          <div id="promo-input-row" class="promo-row">
+            <input type="text" id="promo-code" placeholder="輸入優惠碼" autocomplete="off"
+              onkeydown="if(event.key==='Enter'){event.preventDefault();applyPromo();}">
+            <button type="button" class="promo-apply" onclick="applyPromo()">套用</button>
+          </div>
+          <div id="promo-applied-row" class="promo-applied" style="display:none;">
+            <div class="promo-applied-info">✓ <span id="promo-code-display"></span> — 一次性費用全免</div>
+            <button type="button" class="promo-clear" onclick="clearPromo()" title="移除優惠碼">✕</button>
+          </div>
+          <div id="promo-msg"></div>
+        </div>
+
+        <div class="checkbox-row">
+          <input type="checkbox" id="agree-terms">
+          <label for="agree-terms">
+            我已閱讀並同意 <a href="terms.html" target="_blank">服務條款</a>、<a href="privacy.html" target="_blank">隱私權政策</a> 及 <a href="refund.html" target="_blank">退款政策</a>，並了解本訂閱將每月自動從信用卡扣款。
+          </label>
+        </div>
+
+        <div id="err-msg" class="error-msg" style="display:none;margin-bottom:12px;"></div>
+
+        <button class="btn-gold" onclick="goToConfirm()">下一步：確認訂閱</button>
+        <a href="pricing.html" class="btn-outline">← 返回修改方案</a>
+
+      </div>
+
+      <!-- Right: Order summary -->
+      <div class="order-summary">
+        <div class="summary-box">
+          <div class="summary-title">訂單摘要</div>
+          <div class="summary-items" id="summary-items">
+            <div style="font-size:13px;color:var(--w40);">載入中…</div>
+          </div>
+          <hr class="summary-divider">
+          <div class="summary-row">
+            <span class="summary-row-label">首月費用（試用後）</span>
+            <span class="summary-row-val" id="s-first">—</span>
+          </div>
+          <div class="summary-row">
+            <span class="summary-row-label">每月（第二個月起）</span>
+            <span class="summary-row-val" id="s-monthly">—</span>
+          </div>
+          <hr class="summary-divider">
+          <div class="summary-total">
+            <span class="summary-total-label">每月訂閱</span>
+            <span class="summary-total-val" id="s-total">NT$0</span>
+          </div>
+          <a href="pricing.html" class="summary-edit">修改方案</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <span class="footer-brand">ORBIT</span>
+      <ul class="footer-nav">
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="pricing.html">方案定價</a></li>
+        <li><a href="terms.html">服務條款</a></li>
+        <li><a href="privacy.html">隱私權政策</a></li>
+        <li><a href="refund.html">退款政策</a></li>
+      </ul>
+      <span class="footer-copy">© 2026 OBARAI｜鎧洋聲影科技</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const fmt = n => 'NT$' + n.toLocaleString('zh-TW');
+  const VALID_PROMO = 'ORBIT888';
+  let promoApplied = false;
+
+  function loadOrder() {
+    const raw = sessionStorage.getItem('orbit_order');
+    if (!raw) { window.location.href = 'pricing.html'; return null; }
+    return JSON.parse(raw);
+  }
+
+  function renderSummary() {
+    const order = loadOrder();
+    if (!order) return;
+
+    const items = [];
+    let monthly = 0, onetime = 0;
+
+    if (order.monthly) {
+      items.push({ name: order.monthly.label, sub: '月費方案', price: fmt(order.monthly.price) + '/月' });
+      monthly += order.monthly.price;
+    }
+    if (order.onboarding) {
+      const discounted = promoApplied;
+      const priceHtml  = discounted
+        ? `<span style="text-decoration:line-through;color:var(--w40);font-size:11px;">${fmt(order.onboarding.price)}</span> <span style="color:var(--gold);font-weight:700;">NT$0</span>`
+        : fmt(order.onboarding.price);
+      items.push({
+        name:  order.onboarding.label,
+        sub:   discounted ? '導入服務（優惠碼折抵 ✓）' : '導入服務（一次性）',
+        price: priceHtml,
+      });
+      onetime += discounted ? 0 : order.onboarding.price;
+    }
+    if (order.ai) {
+      items.push({ name: order.ai.label, sub: 'AI 加購', price: fmt(order.ai.price) + '/月' });
+      monthly += order.ai.price;
+    }
+
+    document.getElementById('summary-items').innerHTML = items.map(i => `
+      <div class="summary-item">
+        <div><div class="summary-item-name">${i.name}</div><div class="summary-item-sub">${i.sub}</div></div>
+        <div class="summary-item-price">${i.price}</div>
+      </div>
+    `).join('');
+
+    document.getElementById('s-first').textContent   = fmt(onetime + monthly);
+    document.getElementById('s-monthly').textContent = fmt(monthly) + '/月';
+    document.getElementById('s-total').textContent   = fmt(monthly) + '/月';
+  }
+
+  function applyPromo() {
+    const code  = document.getElementById('promo-code').value.trim().toUpperCase();
+    const msgEl = document.getElementById('promo-msg');
+    if (code === VALID_PROMO) {
+      promoApplied = true;
+      document.getElementById('promo-input-row').style.display   = 'none';
+      document.getElementById('promo-applied-row').style.display = 'flex';
+      document.getElementById('promo-code-display').textContent  = code;
+      msgEl.innerHTML = '';
+      renderSummary();
+    } else {
+      msgEl.innerHTML = '<span class="promo-msg-err">優惠碼無效，請確認後重試</span>';
+    }
+  }
+
+  function clearPromo() {
+    promoApplied = false;
+    document.getElementById('promo-input-row').style.display   = 'flex';
+    document.getElementById('promo-applied-row').style.display = 'none';
+    document.getElementById('promo-code').value = '';
+    document.getElementById('promo-msg').innerHTML = '';
+    renderSummary();
+  }
+
+  function goToConfirm() {
+    const name     = document.getElementById('f-name').value.trim();
+    const phone    = document.getElementById('f-phone').value.trim();
+    const email    = document.getElementById('f-email').value.trim();
+    const company  = document.getElementById('f-company').value.trim();
+    const industry = document.getElementById('f-industry').value;
+    const agreed   = document.getElementById('agree-terms').checked;
+    const errEl    = document.getElementById('err-msg');
+
+    errEl.style.display = 'none';
+
+    if (!name || !phone || !email || !company || !industry) {
+      errEl.textContent = '請填寫所有必填欄位'; errEl.style.display = 'block'; return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errEl.textContent = '請輸入有效的電子信箱'; errEl.style.display = 'block'; return;
+    }
+    if (!agreed) {
+      errEl.textContent = '請勾選同意服務條款後繼續'; errEl.style.display = 'block'; return;
+    }
+
+    const raw   = sessionStorage.getItem('orbit_order');
+    const order = raw ? JSON.parse(raw) : {};
+    order.customer     = { name, phone, email, company, industry, taxid: document.getElementById('f-taxid').value.trim() };
+    order.promoApplied = promoApplied;
+    order.promoCode    = promoApplied ? VALID_PROMO : null;
+    sessionStorage.setItem('orbit_order', JSON.stringify(order));
+
+    window.location.href = 'confirm.html';
+  }
+
+  renderSummary();
+</script>
+
+</body>
+</html>

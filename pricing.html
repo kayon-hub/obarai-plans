@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORBIT 方案定價 — 選擇最適合的方案</title>
+  <meta name="description" content="ORBIT 訂閱方案定價。Start NT$888起，14天免費試用，支援 CRM、ERP、POS、AI 等全模組。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black:   #0c0c0c;
+      --surface: #141414;
+      --surface2:#1c1c1c;
+      --border:  rgba(255,255,255,0.07);
+      --borderl: rgba(255,255,255,0.04);
+      --white:   #ece9e0;
+      --w70:     rgba(236,233,224,0.70);
+      --w40:     rgba(236,233,224,0.40);
+      --w20:     rgba(236,233,224,0.20);
+      --gold:    #c8a96e;
+      --gold60:  rgba(200,169,110,0.60);
+      --gold20:  rgba(200,169,110,0.20);
+      --gold08:  rgba(200,169,110,0.08);
+      --sans:    'Inter', -apple-system, sans-serif;
+      --tc:      'Noto Sans TC', 'PingFang TC', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: var(--tc); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+
+    /* ── Nav ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 68px; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; background: rgba(12,12,12,0.88); -webkit-backdrop-filter: blur(24px); backdrop-filter: blur(24px); border-bottom: 1px solid var(--borderl); }
+    .nav-logo { font-family: var(--sans); font-size: 17px; font-weight: 600; letter-spacing: 0.14em; color: var(--white); text-decoration: none; }
+    .nav-logo-dot { color: var(--gold); }
+    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 13px; color: var(--w40); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--w70); }
+    .nav-cta { font-size: 12.5px !important; font-weight: 500 !important; color: var(--gold) !important; border: 1px solid var(--gold60); padding: 9px 22px; border-radius: 6px; transition: background 0.2s !important; }
+    .nav-cta:hover { background: var(--gold08) !important; }
+
+    /* ── Layout ── */
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+    .page { padding-top: 68px; min-height: 100vh; }
+
+    /* ── Hero ── */
+    .hero { padding: 64px 0 48px; border-bottom: 1px solid var(--borderl); }
+    .eyebrow { font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+    .hero h1 { font-size: clamp(28px, 3.5vw, 42px); font-weight: 300; letter-spacing: -0.01em; line-height: 1.15; color: var(--white); margin-bottom: 12px; }
+    .hero p { font-size: 15px; color: var(--w40); }
+    .trial-badge { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; background: var(--gold08); border: 1px solid var(--gold20); border-radius: 20px; padding: 6px 14px; font-size: 12px; color: var(--gold); }
+    .trial-badge::before { content: '◆'; font-size: 7px; }
+
+    /* ── Steps ── */
+    .stepper { display: flex; gap: 0; margin: 32px 0 0; }
+    .step-tab { display: flex; align-items: center; gap: 10px; padding: 10px 20px 10px 0; font-size: 12.5px; color: var(--w40); cursor: default; }
+    .step-tab .num { width: 22px; height: 22px; border-radius: 50%; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--sans); font-size: 11px; font-weight: 600; color: var(--w40); flex-shrink: 0; }
+    .step-tab.done .num { background: var(--gold); border-color: var(--gold); color: #0c0c0c; }
+    .step-tab.done .step-label { color: var(--w70); }
+    .step-tab.active .num { background: var(--surface2); border-color: var(--gold60); color: var(--gold); }
+    .step-tab.active .step-label { color: var(--white); }
+    .step-arrow { color: var(--border); font-size: 12px; padding: 0 4px 0 0; line-height: 22px; align-self: center; }
+
+    /* ── Main grid ── */
+    .pricing-grid { display: grid; grid-template-columns: 1fr 340px; gap: 40px; padding: 40px 0 80px; align-items: start; }
+    @media (max-width: 900px) { .pricing-grid { grid-template-columns: 1fr; } .cart-sidebar { position: static !important; } }
+
+    /* ── Section ── */
+    .plan-section { margin-bottom: 40px; }
+    .plan-section h2 { font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--w40); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--borderl); }
+    .plan-section h2 span { color: var(--gold); margin-left: 8px; font-size: 11px; }
+
+    /* ── Plan cards ── */
+    .plan-cards { display: flex; flex-direction: column; gap: 8px; }
+    .plan-card { position: relative; }
+    .plan-card input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+    .plan-card label { display: flex; align-items: flex-start; justify-content: space-between; padding: 16px 20px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface); cursor: pointer; transition: border-color 0.2s, background 0.2s; gap: 12px; }
+    .plan-card label:hover { border-color: rgba(200,169,110,0.25); }
+    .plan-card input:checked + label { border-color: var(--gold60); background: var(--gold08); }
+    .plan-card .label-left { flex: 1; min-width: 0; }
+    .plan-card .plan-name { font-size: 14px; font-weight: 500; color: var(--white); display: flex; align-items: center; gap: 8px; }
+    .plan-card .plan-features { font-size: 12px; color: var(--w40); margin-top: 4px; line-height: 1.5; }
+    .plan-card .plan-price { font-family: var(--sans); font-size: 15px; font-weight: 600; color: var(--gold); white-space: nowrap; text-align: right; padding-top: 2px; }
+    .plan-card .plan-price small { display: block; font-size: 11px; font-weight: 400; color: var(--w40); }
+    .badge-rec { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; background: var(--gold); color: #0c0c0c; padding: 2px 8px; border-radius: 4px; }
+    .badge-new { font-size: 10px; font-weight: 600; letter-spacing: 0.06em; background: rgba(100,180,255,0.15); color: rgba(100,200,255,0.9); border: 1px solid rgba(100,200,255,0.2); padding: 2px 8px; border-radius: 4px; }
+
+    /* Radio indicator */
+    .radio-dot { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; transition: border-color 0.2s; }
+    .plan-card input:checked + label .radio-dot { border-color: var(--gold); }
+    .plan-card input:checked + label .radio-dot::after { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); display: block; }
+
+    /* Enterprise card */
+    .plan-card.enterprise label { opacity: 0.5; cursor: default; }
+    .plan-card.enterprise label:hover { border-color: var(--border); }
+    .enterprise-link { font-size: 12px; color: var(--gold); text-decoration: none; }
+    .enterprise-link:hover { text-decoration: underline; }
+
+    /* ── Cart sidebar ── */
+    .cart-sidebar { position: sticky; top: 88px; }
+    .cart-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+    .cart-title { font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--w40); margin-bottom: 20px; }
+    .cart-items { display: flex; flex-direction: column; gap: 14px; min-height: 60px; }
+    .cart-item { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+    .cart-item-name { font-size: 13px; color: var(--w70); line-height: 1.4; }
+    .cart-item-sub { font-size: 11px; color: var(--w40); margin-top: 2px; }
+    .cart-item-price { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--white); white-space: nowrap; }
+    .cart-empty { font-size: 13px; color: var(--w40); font-style: italic; }
+    .cart-divider { border: none; border-top: 1px solid var(--borderl); margin: 16px 0; }
+    .cart-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+    .cart-row-label { font-size: 12px; color: var(--w40); }
+    .cart-row-val { font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--white); }
+    .cart-total-label { font-size: 13px; color: var(--w70); font-weight: 500; }
+    .cart-total-val { font-family: var(--sans); font-size: 18px; font-weight: 700; color: var(--gold); }
+    .cart-note { font-size: 11px; color: var(--w40); margin-top: 4px; text-align: right; }
+    .cart-trial { display: flex; align-items: center; gap: 6px; background: var(--gold08); border: 1px solid var(--gold20); border-radius: 8px; padding: 10px 14px; margin-top: 16px; margin-bottom: 20px; }
+    .cart-trial-text { font-size: 12px; color: var(--gold); line-height: 1.4; }
+    .cart-trial-text strong { display: block; font-weight: 600; }
+    .btn-gold { display: flex; align-items: center; justify-content: center; width: 100%; font-family: var(--tc); font-size: 14px; font-weight: 500; color: #0c0c0c; background: var(--gold); padding: 14px 24px; border-radius: 8px; text-decoration: none; border: none; cursor: pointer; transition: opacity 0.2s, transform 0.2s; }
+    .btn-gold:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-gold:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+    .btn-outline { display: flex; align-items: center; justify-content: center; width: 100%; font-family: var(--tc); font-size: 13px; color: var(--w70); background: transparent; padding: 12px 24px; border-radius: 8px; border: 1px solid var(--border); cursor: pointer; transition: border-color 0.2s, color 0.2s; text-decoration: none; margin-top: 8px; }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.15); color: var(--white); }
+    .secure-note { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 14px; font-size: 11px; color: var(--w40); }
+    .secure-note::before { content: '🔒'; font-size: 10px; }
+
+    /* ── Footer ── */
+    footer { border-top: 1px solid var(--borderl); padding: 28px 0; }
+    .footer-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-brand { font-family: var(--sans); font-size: 14px; font-weight: 600; letter-spacing: 0.14em; color: var(--w40); }
+    .footer-nav { display: flex; gap: 24px; list-style: none; }
+    .footer-nav a { font-size: 12px; color: var(--w40); text-decoration: none; transition: color 0.2s; }
+    .footer-nav a:hover { color: var(--w70); }
+    .footer-copy { font-size: 11px; color: rgba(236,233,224,0.2); }
+
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .wrap { padding: 0 20px; }
+      .hero { padding: 48px 0 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">ORBIT<span class="nav-logo-dot">.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#modules">產品模組</a></li>
+    <li><a href="index.html#scenarios">適用場景</a></li>
+    <li><a href="pricing.html" style="color:var(--gold)">方案定價</a></li>
+    <li><a href="index.html#contact" class="nav-cta">預約展示</a></li>
+  </ul>
+</nav>
+
+<div class="page">
+  <div class="wrap">
+
+    <!-- Hero -->
+    <div class="hero">
+      <p class="eyebrow">Pricing</p>
+      <h1>選擇方案</h1>
+      <p>模組化設計，依業務規模彈性升級</p>
+      <div class="trial-badge">14 天免費試用，到期後才開始計費</div>
+
+      <!-- Stepper -->
+      <div class="stepper">
+        <div class="step-tab active" id="tab1">
+          <div class="num">1</div>
+          <span class="step-label">選擇方案</span>
+        </div>
+        <div class="step-arrow">›</div>
+        <div class="step-tab" id="tab2">
+          <div class="num">2</div>
+          <span class="step-label">填寫資料</span>
+        </div>
+        <div class="step-arrow">›</div>
+        <div class="step-tab" id="tab3">
+          <div class="num">3</div>
+          <span class="step-label">確認訂閱</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pricing grid -->
+    <div class="pricing-grid">
+
+      <!-- Left: selections -->
+      <div>
+
+        <!-- Section 1: Monthly plan -->
+        <div class="plan-section">
+          <h2>月費方案</h2>
+          <div class="plan-cards">
+
+            <div class="plan-card">
+              <input type="radio" name="monthly" id="m-start" value="start" data-price="888" data-label="Start 方案">
+              <label for="m-start">
+                <div class="radio-dot"></div>
+                <div class="label-left">
+                  <div class="plan-name">Start</div>
+                  <div class="plan-features">CRM・客戶資料庫・報價管理・請款追蹤・Dashboard</div>
+                </div>
+                <div class="plan-price">NT$888<small>/月</small></div>
+              </label>
+            </div>
+
+            <div class="plan-card">
+              <input type="radio" name="monthly" id="m-plus" value="plus" data-price="1988" data-label="Plus 方案">
+              <label for="m-plus">
+                <div class="radio-dot"></div>
+                <div class="label-left">
+                  <div class="plan-name">Plus</div>
+                  <div class="plan-features">Start + 預約排程・任務管理・團隊協作・自動化模板</div>
+                </div>
+                <div class="plan-price">NT$1,988<small>/月</small></div>
+              </label>
+            </div>
+
+            <div class="plan-card">
+              <input type="radio" name="monthly" id="m-pro" value="pro" data-price="3988" data-label="Pro 方案" checked>
+              <label for="m-pro">
+                <div class="radio-dot"></div>
+                <div class="label-left">
+                  <div class="plan-name">Pro <span class="badge-rec">推薦</span></div>
+                  <div class="plan-features">Plus + ERP・POS・工作流自動化・API 整合・進階分析</div>
+                </div>
+                <div class="plan-price">NT$3,988<small>/月</small></div>
+              </label>
+            </div>
+
+            <div class="plan-card">
+              <input type="radio" name="monthly" id="m-biz" value="business" data-price="7988" data-label="Business 方案">
+              <label for="m-biz">
+                <div class="radio-dot"></div>
+                <div class="label-left">
+                  <div class="plan-name">Business</div>
+                  <div class="plan-features">Pro + 多分店管理・進階權限・自訂報表・優先支援</div>
+                </div>
+                <div class="plan-price">NT$7,988<small>/月</small></div>
+              </label>
+            </div>
+
+            <div class="plan-card enterprise">
+              <label>
+                <div class="radio-dot"></div>
+                <div class="label-left">
+                  <div class="plan-name">Enterprise</div>
+                  <div class="plan-features">Business + 客製開發・專屬基礎設施・Private AI・SLA</div>
+                </div>
+                <div class="plan-price"><a href="mailto:hello@obarai.com" class="enterprise-link">聯繫業務</a></div>
+              </label>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Section 2: Onboarding -->
+        <div class="plan-section">
+          <h2>導入服務 <span>一次性費用</span></h2>
+          <div class="plan-cards">
+
+            <div class="plan-card">
+              <input type="radio" name="onboarding" id="o-setup" value="setup" data-price="888" data-label="基礎設定">
+              <label for="o-setup">
+                <div class="radio-dot"></div>
+                <div class="label-left">
+                  <div class="plan-name">基礎設定</div>
+                  <div class="plan-features">系統開通・帳號建立・基本環境設定</div>
+                </div>
+                <div class="plan-price">NT$888<small>一次性</small></div>
+              </label>
+            </div>
+
+            <div class="plan-card">
+              <input type="radio" name="onboarding" id="o-standard" value="standard" data-price="8000" data-label="標準導入" checked>
+              <label for="o-standard">
+                <div class="radio-dot"></div>
+                <div class="label-left">
+                  <div class="plan-name">標準導入</div>
+                  <div class="plan-features">系統設定・資料匯入・操作教育訓練・上線支援</div>
+                </div>
+                <div class="plan-price">NT$8,000<small>一次性</small></div>
+              </label>
+            </div>
+
+            <div class="plan-card">
+              <input type="radio" name="onboarding" id="o-ai" value="ai_kb" data-price="15000" data-label="ORBIT AI 知識庫導入">
+              <label for="o-ai">
+                <div class="radio-dot"></div>
+                <div class="label-left">
+                  <div class="plan-name">ORBIT AI 知識庫導入 <span class="badge-new">AI</span></div>
+                  <div class="plan-features">標準導入 + AI 模型訓練・知識庫建置・客製化 AI 助理</div>
+                </div>
+                <div class="plan-price">NT$15,000+<small>一次性</small></div>
+              </label>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Section 3: AI Add-on -->
+        <div class="plan-section">
+          <h2>AI 加購 <span>選填</span></h2>
+          <div class="plan-cards">
+
+            <div class="plan-card">
+              <input type="radio" name="ai" id="ai-none" value="none" data-price="0" data-label="" checked>
+              <label for="ai-none">
+                <div class="radio-dot"></div>
+                <div class="label-left">
+                  <div class="plan-name">不加購</div>
+                  <div class="plan-features">暫不加購 AI 功能</div>
+                </div>
+                <div class="plan-price" style="color:var(--w40)">—</div>
+              </label>
+            </div>
+
+            <div class="plan-card">
+              <input type="radio" name="ai" id="ai-basic" value="ai_basic" data-price="388" data-label="AI Basic">
+              <label for="ai-basic">
+                <div class="radio-dot"></div>
+                <div class="label-left">
+                  <div class="plan-name">AI Basic</div>
+                  <div class="plan-features">基礎 AI 查詢・報表摘要・智慧提醒</div>
+                </div>
+                <div class="plan-price">NT$388<small>/月</small></div>
+              </label>
+            </div>
+
+            <div class="plan-card">
+              <input type="radio" name="ai" id="ai-pro" value="ai_pro" data-price="688" data-label="AI Pro">
+              <label for="ai-pro">
+                <div class="radio-dot"></div>
+                <div class="label-left">
+                  <div class="plan-name">AI Pro</div>
+                  <div class="plan-features">AI Basic + 進階分析・預測模型・自動化建議</div>
+                </div>
+                <div class="plan-price">NT$688<small>/月</small></div>
+              </label>
+            </div>
+
+            <div class="plan-card">
+              <input type="radio" name="ai" id="ai-max" value="ai_max" data-price="1288" data-label="AI Max">
+              <label for="ai-max">
+                <div class="radio-dot"></div>
+                <div class="label-left">
+                  <div class="plan-name">AI Max</div>
+                  <div class="plan-features">AI Pro + 自訂 AI 工作流・知識庫查詢・多語言支援</div>
+                </div>
+                <div class="plan-price">NT$1,288<small>/月</small></div>
+              </label>
+            </div>
+
+            <div class="plan-card">
+              <input type="radio" name="ai" id="ai-biz" value="ai_biz_max" data-price="2288" data-label="AI Business Max">
+              <label for="ai-biz">
+                <div class="radio-dot"></div>
+                <div class="label-left">
+                  <div class="plan-name">AI Business Max</div>
+                  <div class="plan-features">AI Max + 專屬 AI 模型・API 存取・優先 GPU 資源</div>
+                </div>
+                <div class="plan-price">NT$2,288<small>/月</small></div>
+              </label>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: Cart sidebar -->
+      <div class="cart-sidebar">
+        <div class="cart-box">
+          <div class="cart-title">訂單摘要</div>
+
+          <div class="cart-items" id="cart-items">
+            <div class="cart-empty">請選擇方案</div>
+          </div>
+
+          <hr class="cart-divider">
+
+          <div class="cart-trial">
+            <div>
+              <div class="cart-trial-text">
+                <strong>14 天免費試用</strong>
+                試用期間不收費。到期後開始計費。
+              </div>
+            </div>
+          </div>
+
+          <div class="cart-row">
+            <span class="cart-row-label">首月費用（試用後）</span>
+            <span class="cart-row-val" id="first-payment">—</span>
+          </div>
+          <div class="cart-row">
+            <span class="cart-row-label">每月費用（第二個月起）</span>
+            <span class="cart-row-val" id="monthly-fee">—</span>
+          </div>
+
+          <hr class="cart-divider">
+
+          <div class="cart-row" style="margin-bottom:0">
+            <span class="cart-total-label">每月訂閱</span>
+            <span class="cart-total-val" id="total-display">NT$0</span>
+          </div>
+          <div class="cart-note">12 個月合約 · 自動續約</div>
+
+          <div style="margin-top:20px">
+            <button class="btn-gold" id="continue-btn" onclick="goToCheckout()">繼續</button>
+            <a href="index.html" class="btn-outline">返回首頁</a>
+          </div>
+
+          <div class="secure-note">信用卡由綠界科技 ECPay 安全處理</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <span class="footer-brand">ORBIT</span>
+      <ul class="footer-nav">
+        <li><a href="index.html">首頁</a></li>
+        <li><a href="pricing.html">方案定價</a></li>
+        <li><a href="terms.html">服務條款</a></li>
+        <li><a href="privacy.html">隱私權政策</a></li>
+        <li><a href="refund.html">退款政策</a></li>
+      </ul>
+      <span class="footer-copy">© 2026 OBARAI｜鎧洋聲影科技</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const fmt = n => 'NT$' + n.toLocaleString('zh-TW');
+
+  function getSelected(name) {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? { price: parseInt(el.dataset.price), label: el.dataset.label, value: el.value } : null;
+  }
+
+  function updateCart() {
+    const monthly    = getSelected('monthly');
+    const onboarding = getSelected('onboarding');
+    const ai         = getSelected('ai');
+
+    const cartEl = document.getElementById('cart-items');
+    const firstEl = document.getElementById('first-payment');
+    const mFeeEl  = document.getElementById('monthly-fee');
+    const totalEl = document.getElementById('total-display');
+
+    const items = [];
+
+    let monthlyTotal = 0;
+    let onetimeTotal = 0;
+
+    if (monthly && monthly.price > 0) {
+      items.push({ name: monthly.label, sub: '月費方案', price: fmt(monthly.price) + '/月' });
+      monthlyTotal += monthly.price;
+    }
+    if (onboarding) {
+      items.push({ name: onboarding.label, sub: '導入服務（一次性）', price: fmt(onboarding.price) });
+      onetimeTotal += onboarding.price;
+    }
+    if (ai && ai.price > 0) {
+      items.push({ name: ai.label, sub: 'AI 加購', price: fmt(ai.price) + '/月' });
+      monthlyTotal += ai.price;
+    }
+
+    if (items.length === 0) {
+      cartEl.innerHTML = '<div class="cart-empty">請選擇方案</div>';
+    } else {
+      cartEl.innerHTML = items.map(i => `
+        <div class="cart-item">
+          <div><div class="cart-item-name">${i.name}</div><div class="cart-item-sub">${i.sub}</div></div>
+          <div class="cart-item-price">${i.price}</div>
+        </div>
+      `).join('');
+    }
+
+    const firstPayment = onetimeTotal + monthlyTotal;
+    firstEl.textContent  = firstPayment > 0 ? fmt(firstPayment) : '—';
+    mFeeEl.textContent   = monthlyTotal > 0 ? fmt(monthlyTotal) + '/月' : '—';
+    totalEl.textContent  = monthlyTotal > 0 ? fmt(monthlyTotal) + '/月' : 'NT$0';
+  }
+
+  function goToCheckout() {
+    const monthly    = getSelected('monthly');
+    const onboarding = getSelected('onboarding');
+    const ai         = getSelected('ai');
+
+    if (!monthly) { alert('請選擇月費方案'); return; }
+
+    const data = {
+      monthly:    { label: monthly.label,    price: monthly.price,    value: monthly.value },
+      onboarding: { label: onboarding.label, price: onboarding.price, value: onboarding.value },
+      ai:         ai && ai.price > 0 ? { label: ai.label, price: ai.price, value: ai.value } : null,
+    };
+    sessionStorage.setItem('orbit_order', JSON.stringify(data));
+    window.location.href = 'checkout.html';
+  }
+
+  document.querySelectorAll('input[type="radio"]').forEach(el => {
+    el.addEventListener('change', updateCart);
+  });
+
+  updateCart();
+</script>
+
+</body>
+</html>
