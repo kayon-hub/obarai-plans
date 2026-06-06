@@ -462,7 +462,7 @@
           <span class="cart-bar-val" id="bar-first">—</span>
           <div class="breakdown-popup" id="breakdown-popup">
             <div class="breakdown-row" style="color:var(--green,#4caf82);font-weight:600;">
-              <span>🎉 15 天免費試用</span>
+              <span>🎉 14 天免費試用</span>
               <span>NT$0</span>
             </div>
             <div class="breakdown-row" style="border-top:1px solid var(--borderl);padding-top:8px;margin-top:4px;color:var(--w40);font-size:11px;">
@@ -682,7 +682,7 @@
       : ONBOARDING.price + kbPrice + unitFee;     // 15 天後扣：888 + 首月
 
     document.getElementById('bar-plan').textContent    = plan ? plan.label : '—';
-    document.getElementById('bar-first').textContent   = plan ? 'NT$0（15 天免費試用）' : '—';
+    document.getElementById('bar-first').textContent   = plan ? 'NT$0（14 天免費試用）' : '—';
     document.getElementById('bar-monthly').textContent = plan
       ? fmt(isAnnual ? annualSub : unitFee) + (isAnnual ? '/年' : '/月')
       : '—';
