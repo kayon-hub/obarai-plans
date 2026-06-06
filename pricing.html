@@ -631,7 +631,7 @@
       const el = document.getElementById('price-' + key);
       const annualEl = document.getElementById('annual-' + key);
       if (billing === 'annual') {
-        const total = p.annual * 12 + 888;  // 月費×12×0.8+888
+        const total = Math.round(p.monthly * 12 * 0.8) + 888;  // 月費×12×80%+888
         el.innerHTML = fmt(total) + ' <span>/年</span>';
         annualEl.innerHTML = `原月費 ${fmt(p.monthly)}/月`;
       } else {
@@ -672,12 +672,12 @@
     const ai   = AI_PLANS[selectedAI];
     const kb   = KB_PLANS[selectedKB];
 
-    const planPrice  = plan ? (billing === 'annual' ? plan.annual : plan.monthly) : 0;
+    const planPrice  = plan ? plan.monthly : 0;
     const aiPrice    = ai.price;
     const kbPrice    = kb.price;
     const isAnnual   = billing === 'annual';
     const unitFee    = planPrice + aiPrice;
-    const annualSub  = isAnnual ? unitFee * 12 : 0;
+    const annualSub  = isAnnual ? Math.round(unitFee * 12 * 0.8) : 0;
     const afterTrial = isAnnual
       ? ONBOARDING.price + annualSub + kbPrice   // 15 天後扣：888 + 年費 + KB
       : ONBOARDING.price + kbPrice + unitFee;     // 15 天後扣：888 + 首月
