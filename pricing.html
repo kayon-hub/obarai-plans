@@ -633,7 +633,7 @@
       if (billing === 'annual') {
         const total = Math.round(p.monthly * 12 * 0.8) + 888;  // 月費×12×80%+888
         el.innerHTML = fmt(total) + ' <span>/年</span>';
-        annualEl.innerHTML = `原月費 ${fmt(p.monthly)}/月`;
+        annualEl.innerHTML = `原年費 ${fmt(p.monthly * 12)}`;
       } else {
         el.innerHTML = fmt(p.monthly) + ' <span>/月</span>';
         annualEl.innerHTML = '';
