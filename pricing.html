@@ -462,7 +462,7 @@
           <span class="cart-bar-val" id="bar-first">—</span>
           <div class="breakdown-popup" id="breakdown-popup">
             <div class="breakdown-row" style="color:var(--green,#4caf82);font-weight:600;">
-              <span>🎉 14 天免費試用</span>
+              <span>🎉 15 天免費試用</span>
               <span>NT$0</span>
             </div>
             <div class="breakdown-row" style="border-top:1px solid var(--borderl);padding-top:8px;margin-top:4px;color:var(--w40);font-size:11px;">
@@ -474,7 +474,7 @@
               <span id="bd-setup">NT$888</span>
             </div>
             <div class="breakdown-row">
-              <span>首月月費</span>
+              <span id="bd-month1-label">首月月費</span>
               <span id="bd-month1">—</span>
             </div>
             <div class="breakdown-row" id="bd-kb-row" style="display:none">
@@ -489,13 +489,13 @@
         </div>
         <div class="cart-bar-sep"></div>
         <div class="cart-bar-item">
-          <span class="cart-bar-label">每月（第二個月起）</span>
+          <span class="cart-bar-label" id="bar-monthly-label">每月（第二個月起）</span>
           <span class="cart-bar-val gold" id="bar-monthly">—</span>
         </div>
       </div>
       <div class="cart-bar-right">
         <div class="secure-note">🔒 256-bit SSL 加密保護，資料安全有保障</div>
-        <div style="font-size:11px;color:var(--w40);text-align:right;margin-bottom:8px;">按月扣款・最低服務期 12 個月・提前解約須支付違約金</div>
+        <div id="billing-note" style="font-size:11px;color:var(--w40);text-align:right;margin-bottom:8px;">按月扣款・最低服務期 12 個月・提前解約須支付違約金</div>
         <button class="btn-gold" onclick="goToCheckout()">繼續結帳 →</button>
       </div>
     </div>
@@ -674,15 +674,27 @@
     const planPrice  = plan ? (billing === 'annual' ? plan.annual : plan.monthly) : 0;
     const aiPrice    = ai.price;
     const kbPrice    = kb.price;
-    const monthly    = planPrice + aiPrice;
-    const afterTrial = ONBOARDING.price + kbPrice + monthly;  // 14 天後扣
+    const isAnnual   = billing === 'annual';
+    const unitFee    = planPrice + aiPrice;
+    const annualSub  = isAnnual ? unitFee * 12 : 0;
+    const afterTrial = isAnnual
+      ? ONBOARDING.price + annualSub + kbPrice   // 15 天後扣：888 + 年費 + KB
+      : ONBOARDING.price + kbPrice + unitFee;     // 15 天後扣：888 + 首月
 
     document.getElementById('bar-plan').textContent    = plan ? plan.label : '—';
-    document.getElementById('bar-first').textContent   = plan ? 'NT$0（14 天免費試用）' : '—';
-    document.getElementById('bar-monthly').textContent = plan ? fmt(monthly) + '/月' : '—';
+    document.getElementById('bar-first').textContent   = plan ? 'NT$0（15 天免費試用）' : '—';
+    document.getElementById('bar-monthly').textContent = plan
+      ? fmt(isAnnual ? annualSub : unitFee) + (isAnnual ? '/年' : '/月')
+      : '—';
+
+    document.getElementById('bar-monthly-label').textContent = isAnnual ? '每年（第二年起）' : '每月（第二個月起）';
+    document.getElementById('bd-month1-label').textContent   = isAnnual ? '首年年費' : '首月月費';
+    document.getElementById('billing-note').textContent      = isAnnual
+      ? '年繳方案 · 到期自動續約'
+      : '按月扣款・最低服務期 12 個月・提前解約須支付違約金';
 
     // breakdown popup
-    document.getElementById('bd-month1').textContent   = plan ? fmt(monthly) : '—';
+    document.getElementById('bd-month1').textContent   = plan ? fmt(isAnnual ? annualSub : unitFee) : '—';
     document.getElementById('bd-total').textContent    = plan ? fmt(afterTrial) : '—';
     const kbRow = document.getElementById('bd-kb-row');
     if (kbPrice > 0) {
