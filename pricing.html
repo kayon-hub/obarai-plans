@@ -628,13 +628,14 @@
 
   function updatePriceDisplays() {
     Object.entries(PLANS).forEach(([key, p]) => {
-      const price = billing === 'annual' ? p.annual : p.monthly;
       const el = document.getElementById('price-' + key);
       const annualEl = document.getElementById('annual-' + key);
-      el.innerHTML = fmt(price) + ' <span>/月</span>';
       if (billing === 'annual') {
-        annualEl.innerHTML = `<span class="pcard-price-strike">${fmt(p.monthly)}</span> 年繳方案`;
+        const total = p.annual * 12 + 888;  // 月費×12×0.8+888
+        el.innerHTML = fmt(total) + ' <span>/年</span>';
+        annualEl.innerHTML = `原月費 ${fmt(p.monthly)}/月`;
       } else {
+        el.innerHTML = fmt(p.monthly) + ' <span>/月</span>';
         annualEl.innerHTML = '';
       }
     });
@@ -683,11 +684,12 @@
 
     document.getElementById('bar-plan').textContent    = plan ? plan.label : '—';
     document.getElementById('bar-first').textContent   = plan ? 'NT$0（14 天免費試用）' : '—';
+    const annualTotal = isAnnual ? ONBOARDING.price + annualSub : 0;
     document.getElementById('bar-monthly').textContent = plan
-      ? fmt(isAnnual ? annualSub : unitFee) + (isAnnual ? '/年' : '/月')
+      ? fmt(isAnnual ? annualTotal : unitFee) + (isAnnual ? '/年' : '/月')
       : '—';
 
-    document.getElementById('bar-monthly-label').textContent = isAnnual ? '每年（第二年起）' : '每月（第二個月起）';
+    document.getElementById('bar-monthly-label').textContent = isAnnual ? '年繳總金額' : '每月（第二個月起）';
     document.getElementById('bd-month1-label').textContent   = isAnnual ? '首年年費' : '首月月費';
     document.getElementById('billing-note').textContent      = isAnnual
       ? '年繳方案 · 到期自動續約'
