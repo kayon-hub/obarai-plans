@@ -383,6 +383,7 @@
 <script>
   const fmt = n => 'NT$' + n.toLocaleString('zh-TW');
   const VALID_PROMO = 'ORBIT888';
+  const MODULE_NAMES = { rsvp:'RSVP', line:'LINE', erp:'ERP', hr:'HR', flow:'FLOW', auth:'AUTH', ai_pro:'AI Pro' };
   let promoApplied = false;
 
   function loadOrder() {
@@ -398,25 +399,33 @@
     const items = [];
     let monthly = 0, onetime = 0;
 
-    if (order.monthly) {
-      items.push({ name: order.monthly.label, sub: '月費方案', price: fmt(order.monthly.price) + '/月' });
-      monthly += order.monthly.price;
+    if (order.plan) {
+      const modNames = (order.modules || []).map(id => MODULE_NAMES[id]).filter(Boolean);
+      const sub = order.plan.value === 'pro'
+        ? '月費方案・全模組'
+        : `月費方案・已選 ${modNames.join('・')}`;
+      items.push({ name: order.plan.label, sub, price: fmt(order.plan.price) + '/月' });
+      monthly += order.plan.price;
     }
-    if (order.onboarding) {
+    if (order.setup) {
       const discounted = promoApplied;
       const priceHtml  = discounted
-        ? `<span style="text-decoration:line-through;color:var(--w40);font-size:11px;">${fmt(order.onboarding.price)}</span> <span style="color:var(--gold);font-weight:700;">NT$0</span>`
-        : fmt(order.onboarding.price);
+        ? `<span style="text-decoration:line-through;color:var(--w40);font-size:11px;">${fmt(order.setup)}</span> <span style="color:var(--gold);font-weight:700;">NT$0</span>`
+        : fmt(order.setup);
       items.push({
-        name:  order.onboarding.label,
+        name:  '系統開通費',
         sub:   discounted ? '導入服務（優惠碼折抵 ✓）' : '導入服務（一次性）',
         price: priceHtml,
       });
-      onetime += discounted ? 0 : order.onboarding.price;
+      onetime += discounted ? 0 : order.setup;
     }
-    if (order.ai) {
-      items.push({ name: order.ai.label, sub: 'AI 加購', price: fmt(order.ai.price) + '/月' });
-      monthly += order.ai.price;
+    if (order.ai_text) {
+      items.push({ name: order.ai_text.label, sub: 'AI 文字加量', price: fmt(order.ai_text.price) + '/月' });
+      monthly += order.ai_text.price;
+    }
+    if (order.ai_img) {
+      items.push({ name: order.ai_img.label, sub: 'AI 圖片加量', price: fmt(order.ai_img.price) + '/月' });
+      monthly += order.ai_img.price;
     }
     if (order.ai_kb) {
       const discounted = promoApplied;

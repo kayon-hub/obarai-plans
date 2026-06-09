@@ -276,6 +276,7 @@
 
 <script>
   const fmt = n => 'NT$' + n.toLocaleString('zh-TW');
+  const MODULE_NAMES = { rsvp:'RSVP', line:'LINE', erp:'ERP', hr:'HR', flow:'FLOW', auth:'AUTH', ai_pro:'AI Pro' };
 
   function loadOrder() {
     const raw = sessionStorage.getItem('orbit_order');
@@ -295,28 +296,36 @@
     /* ── 訂閱內容 ── */
     const lines = [];
     let monthly = 0;
-    if (order.monthly) {
-      lines.push({ name: order.monthly.label, sub: order.billing === 'annual' ? '年繳方案（每月）' : '月費方案', price: fmt(order.monthly.price) + '/月' });
-      monthly += order.monthly.price;
+    if (order.plan) {
+      const modNames = (order.modules || []).map(id => MODULE_NAMES[id]).filter(Boolean);
+      const sub = order.plan.value === 'pro'
+        ? '月費方案・全模組'
+        : `月費方案・已選 ${modNames.join('・')}`;
+      lines.push({ name: order.plan.label, sub, price: fmt(order.plan.price) + '/月' });
+      monthly += order.plan.price;
     }
-    if (order.ai && order.ai.price > 0) {
-      lines.push({ name: order.ai.label, sub: 'AI 加購', price: fmt(order.ai.price) + '/月' });
-      monthly += order.ai.price;
+    if (order.ai_text && order.ai_text.price > 0) {
+      lines.push({ name: order.ai_text.label, sub: 'AI 文字加量', price: fmt(order.ai_text.price) + '/月' });
+      monthly += order.ai_text.price;
+    }
+    if (order.ai_img && order.ai_img.price > 0) {
+      lines.push({ name: order.ai_img.label, sub: 'AI 圖片加量', price: fmt(order.ai_img.price) + '/月' });
+      monthly += order.ai_img.price;
     }
     document.getElementById('order-lines').innerHTML = lines.map(l =>
       `<div class="order-line"><div><div class="ol-name">${l.name}</div><div class="ol-sub">${l.sub}</div></div><div class="ol-price">${l.price}</div></div>`
     ).join('');
 
-    const setup   = order.promoApplied ? 0 : (order.onboarding ? order.onboarding.price : 888);
+    const setup   = order.promoApplied ? 0 : (order.setup ?? 888);
     const kbPrice = order.promoApplied ? 0 : (order.ai_kb ? order.ai_kb.price : 0);
     const firstPay = setup + kbPrice + monthly;
 
-    document.getElementById('c-setup').textContent   = order.promoApplied ? 'NT$0（折抵）' : fmt(order.onboarding ? order.onboarding.price : 888);
+    document.getElementById('c-setup').textContent   = order.promoApplied ? 'NT$0（折抵）' : fmt(order.setup ?? 888);
     document.getElementById('c-month1').textContent  = fmt(monthly);
     document.getElementById('c-total').textContent   = 'NT$0';
     document.getElementById('c-total').style.color   = '#4caf82';
     document.getElementById('c-monthly-note').textContent = `🎉 14 天免費試用・試用後首筆 ${fmt(firstPay)}`;
-    document.getElementById('s-setup').textContent   = order.promoApplied ? 'NT$0（折抵）' : fmt(order.onboarding ? order.onboarding.price : 888);
+    document.getElementById('s-setup').textContent   = order.promoApplied ? 'NT$0（折抵）' : fmt(order.setup ?? 888);
     document.getElementById('s-month1').textContent  = fmt(monthly);
     document.getElementById('s-total').textContent   = 'NT$0';
     document.getElementById('s-total').style.color   = '#4caf82';
@@ -384,8 +393,8 @@
     }).catch(function(err) { console.warn('Sheets write failed:', err); });
 
     setTimeout(() => {
-      const email = order.customer?.ownerEmail || order.customer?.contactEmail || '您的信箱';
-      const plan  = order.monthly?.label || 'ORBIT 訂閱方案';
+      const email = order.customer?.owner?.email || order.customer?.contact?.email || '您的信箱';
+      const plan  = order.plan?.label || 'ORBIT 訂閱方案';
       overlay.innerHTML = `
         <div style="max-width:400px;text-align:center;">
           <div style="font-size:48px;margin-bottom:20px;">✅</div>
