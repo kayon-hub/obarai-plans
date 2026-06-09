@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ORBIT 方案定價 — 選擇最適合的方案</title>
-  <meta name="description" content="ORBIT 模組化企業訂閱方案。START 月費 NT$1,488 起，自選 CRM、ERP、POS、RSVP、LINE、HR、AI 等模組，規模改變系統不換。">
+  <title>ORBIT 方案定價 — 選方案・挑模組・開始試用</title>
+  <meta name="description" content="ORBIT 三種方案 START／PLUS／PRO，每個方案自選模組，14 天免費試用。NT$1,488 起。">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://plans.obarai.com/pricing.html">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://plans.obarai.com/pricing.html">
   <meta property="og:locale" content="zh_TW">
-  <meta property="og:title" content="ORBIT 訂閱方案 — 模組化企業智慧平台">
+  <meta property="og:title" content="ORBIT 訂閱方案 — 選方案・挑模組">
   <meta property="og:description" content="ORBIT 模組化企業訂閱方案。START 月費 NT$1,488 起，自選 CRM、ERP、POS、RSVP、LINE、HR、AI 等模組，規模改變系統不換。">
   <meta property="og:site_name" content="ORBIT by OBARAI">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ORBIT 訂閱方案 — 模組化企業智慧平台">
+  <meta name="twitter:title" content="ORBIT 訂閱方案 — 選方案・挑模組">
   <meta name="twitter:description" content="ORBIT 模組化企業訂閱方案。START 月費 NT$1,488 起，自選 CRM、ERP、POS、RSVP、LINE、HR、AI 等模組。">
   <script type="application/ld+json">
   {
@@ -85,35 +85,36 @@
     /* ── Hero ── */
     .hero { padding: 56px 0 40px; text-align: center; }
     .eyebrow { font-family: var(--sans); font-size: 11px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
-    .hero h1 { font-size: clamp(26px, 3vw, 38px); font-weight: 300; letter-spacing: -0.01em; line-height: 1.2; color: var(--white); margin-bottom: 10px; }
-    .hero p { font-size: 15px; color: var(--w40); }
+    .hero h1 { font-size: clamp(24px, 2.8vw, 36px); font-weight: 300; letter-spacing: -0.01em; line-height: 1.2; color: var(--white); margin-bottom: 10px; }
+    .hero p { font-size: 14px; color: var(--w40); }
 
     /* ── Billing Toggle ── */
-    .billing-toggle { display: flex; align-items: center; justify-content: center; gap: 0; margin: 28px auto 0; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 4px; width: fit-content; }
+    .billing-toggle { display: flex; align-items: center; justify-content: center; gap: 0; margin: 24px auto 0; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 4px; width: fit-content; }
     .billing-btn { font-family: var(--tc); font-size: 13px; font-weight: 500; padding: 8px 22px; border-radius: 7px; border: none; cursor: pointer; transition: background 0.2s, color 0.2s; background: transparent; color: var(--w50); }
     .billing-btn.active { background: var(--surface3); color: var(--white); }
     .billing-save { font-size: 11px; font-weight: 600; background: var(--gold20); color: var(--gold); padding: 2px 8px; border-radius: 20px; margin-left: 4px; }
 
     /* ── Stepper ── */
-    .stepper { display: flex; gap: 0; margin: 32px auto 0; justify-content: center; }
-    .step-tab { display: flex; align-items: center; gap: 10px; padding: 10px 20px 10px 0; font-size: 12.5px; color: var(--w40); }
-    .step-tab .num { width: 22px; height: 22px; border-radius: 50%; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--sans); font-size: 11px; font-weight: 600; color: var(--w40); flex-shrink: 0; }
+    .stepper { display: flex; gap: 0; margin: 28px auto 0; justify-content: center; flex-wrap: wrap; }
+    .step-tab { display: flex; align-items: center; gap: 8px; padding: 8px 14px 8px 0; font-size: 12px; color: var(--w40); }
+    .step-tab .num { width: 22px; height: 22px; border-radius: 50%; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--sans); font-size: 11px; font-weight: 600; color: var(--w40); flex-shrink: 0; transition: all 0.3s; }
     .step-tab.done .num { background: var(--gold); border-color: var(--gold); color: #0c0c0c; }
     .step-tab.done .step-label { color: var(--w70); }
     .step-tab.active .num { background: var(--surface2); border-color: var(--gold60); color: var(--gold); }
     .step-tab.active .step-label { color: var(--white); }
-    .step-arrow { color: var(--border); font-size: 12px; padding: 0 4px 0 0; line-height: 22px; align-self: center; }
+    .step-arrow { color: var(--border); font-size: 12px; padding: 0 2px 0 0; line-height: 22px; align-self: center; }
 
     /* ── Plan Section ── */
     .section-title { font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--w40); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
     .section-title::after { content: ''; flex: 1; height: 1px; background: var(--borderl); }
     .section-subtitle { font-size: 11px; color: var(--w40); font-weight: 400; letter-spacing: 0; text-transform: none; margin-left: 8px; }
+    .section-hint { font-size: 12px; color: var(--w40); margin-bottom: 16px; line-height: 1.6; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; }
+    .section-hint strong { color: var(--gold); }
 
     /* ── Plan Cards Grid ── */
-    .plans-section { padding: 48px 0 24px; }
-    .plan-cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 40px; }
-    @media (max-width: 900px) { .plan-cards-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 560px) { .plan-cards-grid { grid-template-columns: 1fr; } }
+    .plans-section { padding: 40px 0 24px; }
+    .plan-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 40px; }
+    @media (max-width: 760px) { .plan-cards-grid { grid-template-columns: 1fr; } }
 
     .pcard { position: relative; background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 24px 20px 20px; cursor: pointer; transition: border-color 0.22s, background 0.22s, transform 0.18s; display: flex; flex-direction: column; }
     .pcard:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-2px); }
@@ -144,47 +145,35 @@
     .pcard-feature.dim { color: var(--w40); }
     .pcard-feature.dim::before { color: var(--w20); }
     .pcard-feature em { font-style: normal; color: var(--blue); font-size: 11px; font-weight: 600; background: var(--blue08); border: 1px solid var(--blue20); padding: 1px 6px; border-radius: 4px; margin-left: 4px; }
+    .pcard-feature strong { font-weight: 600; color: var(--white); }
 
-    /* Enterprise card */
-    .pcard.enterprise { opacity: 0.55; cursor: default; }
-    .pcard.enterprise:hover { transform: none; border-color: var(--border); }
-    .enterprise-link { font-size: 13px; color: var(--gold); text-decoration: none; }
-    .enterprise-link:hover { text-decoration: underline; }
+    /* ── Module Selection ── */
+    .module-section { margin-bottom: 40px; animation: fadeDown 0.3s ease; }
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+    .module-section.hidden { display: none; }
+    .module-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(168px, 1fr)); gap: 10px; }
+    .mcard { position: relative; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 16px 16px 14px; cursor: pointer; transition: border-color 0.2s, background 0.2s; display: flex; flex-direction: column; gap: 5px; }
+    .mcard:hover:not(.mcard-disabled) { border-color: rgba(255,255,255,0.15); }
+    .mcard.mcard-selected { border-color: var(--gold60); background: var(--gold08); }
+    .mcard.mcard-disabled { opacity: 0.38; cursor: not-allowed; }
+    .mcard.mcard-auto { border-color: var(--gold60); background: var(--gold08); cursor: default; }
+    .mcard-header { display: flex; align-items: center; justify-content: space-between; }
+    .mcard-name { font-size: 12.5px; font-weight: 600; color: var(--white); }
+    .mcard-tick { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid rgba(255,255,255,0.15); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .mcard.mcard-selected .mcard-tick,
+    .mcard.mcard-auto .mcard-tick { background: var(--gold); border-color: var(--gold); }
+    .mcard.mcard-selected .mcard-tick::after,
+    .mcard.mcard-auto .mcard-tick::after { content: '✓'; font-size: 10px; color: #0c0c0c; font-weight: 700; }
+    .mcard-desc { font-size: 11px; color: var(--w40); }
+    .mcard-fit { font-size: 10px; color: rgba(236,233,224,0.2); margin-top: 2px; }
+    .slot-info { font-size: 12px; color: var(--w40); margin-bottom: 14px; padding: 8px 14px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; }
+    .slot-info strong { color: var(--gold); }
 
-    /* Business inquiry card */
-    .pcard-business-inquiry { border-color: var(--gold20); cursor: pointer; }
-    .pcard-business-inquiry:hover { border-color: var(--gold60); }
-    .pcard-btn-gold { background: var(--gold08) !important; border-color: var(--gold60) !important; color: var(--gold) !important; }
-    .pcard-btn-gold:hover { background: var(--gold20) !important; }
-
-    /* ── Modal ── */
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 500; align-items: center; justify-content: center; padding: 20px; }
-    .modal-overlay.open { display: flex; }
-    .modal { background: var(--surface2); border: 1px solid var(--border); border-radius: 16px; padding: 28px; width: 100%; max-width: 420px; position: relative; }
-    .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--w40); font-size: 18px; cursor: pointer; line-height: 1; transition: color 0.2s; }
-    .modal-close:hover { color: var(--white); }
-    .modal-title { font-size: 16px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
-    .modal-sub { font-size: 13px; color: var(--w40); margin-bottom: 20px; line-height: 1.6; }
-    .modal-field { margin-bottom: 14px; }
-    .modal-field label { display: block; font-size: 12px; color: var(--w40); margin-bottom: 6px; }
-    .modal-field input, .modal-field select { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 13px; font-size: 14px; font-family: var(--tc); color: var(--white); outline: none; transition: border-color 0.2s; }
-    .modal-field input::placeholder { color: var(--w40); }
-    .modal-field input:focus, .modal-field select:focus { border-color: var(--gold60); }
-    .modal-field select { appearance: none; cursor: pointer; }
-    .modal-radio-group { display: flex; flex-direction: column; gap: 8px; }
-    .modal-radio { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.2s; }
-    .modal-radio:hover { border-color: var(--gold60); }
-    .modal-radio input[type="radio"] { accent-color: var(--gold); width: 15px; height: 15px; flex-shrink: 0; }
-    .modal-radio input:checked ~ span { color: var(--white); }
-    .modal-radio span { font-size: 13px; color: var(--w70); }
-    .btn-modal-send { width: 100%; padding: 13px; border-radius: 8px; background: var(--gold); border: none; font-family: var(--tc); font-size: 14px; font-weight: 600; color: #0c0c0c; cursor: pointer; margin-top: 6px; transition: opacity 0.2s; }
-    .btn-modal-send:hover { opacity: 0.88; }
-
-    /* ── AI Add-on section (horizontal) ── */
+    /* ── Add-on Cards (horizontal 5-col) ── */
     .addon-section { margin-bottom: 40px; }
-    .addon-cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
-    @media (max-width: 900px) { .addon-cards { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 560px) { .addon-cards { grid-template-columns: repeat(2, 1fr); } }
+    .addon-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    @media (max-width: 900px) { .addon-cards { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .addon-cards { grid-template-columns: 1fr 1fr; } }
 
     .acard { position: relative; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 14px 12px; cursor: pointer; transition: border-color 0.2s, background 0.2s; text-align: center; }
     .acard:hover { border-color: rgba(255,255,255,0.14); }
@@ -228,14 +217,37 @@
     .breakdown-row { display: flex; justify-content: space-between; gap: 16px; font-size: 12px; color: var(--w70); margin-bottom: 7px; }
     .breakdown-row:last-child { margin-bottom: 0; }
     .breakdown-row.total { border-top: 1px solid var(--borderl); padding-top: 8px; margin-top: 4px; color: var(--white); font-weight: 600; }
-    .breakdown-row .note { font-size: 10px; color: var(--w40); font-weight: 400; }
     .cart-bar-right { display: flex; align-items: center; gap: 12px; }
     .cart-total-block { text-align: right; }
     .cart-total-block .label { font-size: 11px; color: var(--w40); }
     .cart-total-block .amount { font-family: var(--sans); font-size: 22px; font-weight: 700; color: var(--gold); }
     .btn-gold { display: inline-flex; align-items: center; justify-content: center; font-family: var(--tc); font-size: 14px; font-weight: 600; color: #0c0c0c; background: var(--gold); padding: 13px 32px; border-radius: 9px; border: none; cursor: pointer; transition: opacity 0.2s, transform 0.18s; white-space: nowrap; }
-    .btn-gold:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-gold:hover:not(:disabled) { opacity: 0.88; transform: translateY(-1px); }
+    .btn-gold:disabled { opacity: 0.3; cursor: not-allowed; transform: none; }
     .secure-note { font-size: 10.5px; color: var(--w40); display: flex; align-items: center; gap: 4px; }
+
+    /* ── Modal ── */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 500; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: var(--surface2); border: 1px solid var(--border); border-radius: 16px; padding: 28px; width: 100%; max-width: 420px; position: relative; }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: var(--w40); font-size: 18px; cursor: pointer; line-height: 1; transition: color 0.2s; }
+    .modal-close:hover { color: var(--white); }
+    .modal-title { font-size: 16px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+    .modal-sub { font-size: 13px; color: var(--w40); margin-bottom: 20px; line-height: 1.6; }
+    .modal-field { margin-bottom: 14px; }
+    .modal-field label { display: block; font-size: 12px; color: var(--w40); margin-bottom: 6px; }
+    .modal-field input, .modal-field select { width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 13px; font-size: 14px; font-family: var(--tc); color: var(--white); outline: none; transition: border-color 0.2s; }
+    .modal-field input::placeholder { color: var(--w40); }
+    .modal-field input:focus, .modal-field select:focus { border-color: var(--gold60); }
+    .modal-field select { appearance: none; cursor: pointer; }
+    .modal-radio-group { display: flex; flex-direction: column; gap: 8px; }
+    .modal-radio { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; cursor: pointer; transition: border-color 0.2s; }
+    .modal-radio:hover { border-color: var(--gold60); }
+    .modal-radio input[type="radio"] { accent-color: var(--gold); width: 15px; height: 15px; flex-shrink: 0; }
+    .modal-radio input:checked ~ span { color: var(--white); }
+    .modal-radio span { font-size: 13px; color: var(--w70); }
+    .btn-modal-send { width: 100%; padding: 13px; border-radius: 8px; background: var(--gold); border: none; font-family: var(--tc); font-size: 14px; font-weight: 600; color: #0c0c0c; cursor: pointer; margin-top: 6px; transition: opacity 0.2s; }
+    .btn-modal-send:hover { opacity: 0.88; }
 
     /* ── Footer ── */
     footer { border-top: 1px solid var(--borderl); padding: 28px 0; }
@@ -273,8 +285,8 @@
     <!-- Hero -->
     <div class="hero">
       <p class="eyebrow">Pricing</p>
-      <h1>升級您的套餐</h1>
-      <p>模組化設計，依業務規模彈性升級</p>
+      <h1>選一個方案，自己挑模組</h1>
+      <p>每個方案都內建 POS + CRM + AI 基礎，再從 7 個模組中選出最適合你生意的幾個</p>
 
       <!-- Billing Toggle -->
       <div class="billing-toggle">
@@ -284,18 +296,23 @@
 
       <!-- Stepper -->
       <div class="stepper">
-        <div class="step-tab active">
+        <div class="step-tab active" id="step1">
           <div class="num">1</div>
           <span class="step-label">選擇方案</span>
         </div>
         <div class="step-arrow">›</div>
-        <div class="step-tab">
+        <div class="step-tab" id="step2">
           <div class="num">2</div>
+          <span class="step-label">挑選模組</span>
+        </div>
+        <div class="step-arrow">›</div>
+        <div class="step-tab" id="step3">
+          <div class="num">3</div>
           <span class="step-label">填寫資料</span>
         </div>
         <div class="step-arrow">›</div>
-        <div class="step-tab">
-          <div class="num">3</div>
+        <div class="step-tab" id="step4">
+          <div class="num">4</div>
           <span class="step-label">確認訂閱</span>
         </div>
       </div>
@@ -304,106 +321,75 @@
     <!-- Plan Cards -->
     <div class="plans-section">
 
-      <!-- Monthly Plan -->
+      <!-- Step 1: Plan -->
       <div style="margin-bottom:40px">
         <div class="section-title">月費方案</div>
+        <p class="section-hint">所有方案均含 <strong>POS + CRM + AI 基礎</strong>。開通費 NT$888（一次性）。14 天免費試用，到期後才開始計費。</p>
         <div class="plan-cards-grid" id="main-plans">
 
-          <!-- Start -->
+          <!-- START -->
           <div class="pcard" id="pcard-start" onclick="selectPlan('start')">
             <div class="pcard-name">START</div>
             <div class="pcard-price" id="price-start">NT$1,488 <span>/月</span></div>
             <div class="pcard-price-annual" id="annual-start"></div>
-            <button class="pcard-btn" onclick="event.stopPropagation();selectPlan('start')">開始使用</button>
+            <button class="pcard-btn" onclick="event.stopPropagation();selectPlan('start')">選擇此方案</button>
             <hr class="pcard-divider">
             <div class="pcard-features">
               <div class="pcard-feature-group">
                 <div class="pcard-feature-label">使用規模</div>
-                <div class="pcard-feature">1 個帳號</div>
-                <div class="pcard-feature">1 個據點</div>
-                <div class="pcard-feature">1 台裝置</div>
+                <div class="pcard-feature"><strong>1</strong> 個帳號</div>
+                <div class="pcard-feature"><strong>1</strong> 店</div>
                 <div class="pcard-feature">AI 基礎額度</div>
               </div>
               <div class="pcard-feature-group">
-                <div class="pcard-feature-label">核心功能</div>
-                <div class="pcard-feature">CRM 客戶管理</div>
-                <div class="pcard-feature">報價 & 請款追蹤</div>
-                <div class="pcard-feature">數據 Dashboard</div>
+                <div class="pcard-feature-label">模組</div>
+                <div class="pcard-feature">POS + CRM + AI 基礎 <em>內建</em></div>
+                <div class="pcard-feature">從 7 個模組中 <em>選 3 個</em></div>
               </div>
             </div>
           </div>
 
-          <!-- Plus -->
-          <div class="pcard" id="pcard-plus" onclick="selectPlan('plus')">
+          <!-- PLUS (Featured) -->
+          <div class="pcard featured" id="pcard-plus" onclick="selectPlan('plus')">
+            <div class="pcard-badge">⭐ 最多人選</div>
             <div class="pcard-name">PLUS</div>
             <div class="pcard-price" id="price-plus">NT$1,988 <span>/月</span></div>
             <div class="pcard-price-annual" id="annual-plus"></div>
-            <button class="pcard-btn" onclick="event.stopPropagation();selectPlan('plus')">開始使用</button>
+            <button class="pcard-btn" onclick="event.stopPropagation();selectPlan('plus')">選擇此方案</button>
             <hr class="pcard-divider">
             <div class="pcard-features">
               <div class="pcard-feature-group">
                 <div class="pcard-feature-label">使用規模</div>
-                <div class="pcard-feature">3 個帳號</div>
-                <div class="pcard-feature">1 個據點</div>
-                <div class="pcard-feature">5 台裝置</div>
+                <div class="pcard-feature"><strong>3</strong> 個帳號</div>
+                <div class="pcard-feature"><strong>1</strong> 店</div>
                 <div class="pcard-feature">AI 進階額度</div>
               </div>
               <div class="pcard-feature-group">
-                <div class="pcard-feature-label">包含 Start，另加</div>
-                <div class="pcard-feature">預約排程系統</div>
-                <div class="pcard-feature">任務 & 團隊協作</div>
-                <div class="pcard-feature">自動化模板</div>
+                <div class="pcard-feature-label">模組</div>
+                <div class="pcard-feature">POS + CRM + AI 基礎 <em>內建</em></div>
+                <div class="pcard-feature">從 7 個模組中 <em>選 5 個</em></div>
               </div>
             </div>
           </div>
 
-          <!-- Pro (Featured) -->
-          <div class="pcard featured" id="pcard-pro" onclick="selectPlan('pro')">
-            <div class="pcard-badge">⭐ 推薦方案</div>
+          <!-- PRO -->
+          <div class="pcard" id="pcard-pro" onclick="selectPlan('pro')">
             <div class="pcard-name">PRO</div>
             <div class="pcard-price" id="price-pro">NT$3,988 <span>/月</span></div>
             <div class="pcard-price-annual" id="annual-pro"></div>
-            <button class="pcard-btn" onclick="event.stopPropagation();selectPlan('pro')">開始使用</button>
+            <button class="pcard-btn" onclick="event.stopPropagation();selectPlan('pro')">選擇此方案</button>
             <hr class="pcard-divider">
             <div class="pcard-features">
               <div class="pcard-feature-group">
                 <div class="pcard-feature-label">使用規模</div>
-                <div class="pcard-feature">10 個帳號</div>
-                <div class="pcard-feature">多據點支援</div>
-                <div class="pcard-feature">無限台裝置</div>
-                <div class="pcard-feature">AI Pro 額度</div>
+                <div class="pcard-feature"><strong>5</strong> 個帳號</div>
+                <div class="pcard-feature"><strong>1</strong> 店</div>
+                <div class="pcard-feature">AI 專業額度</div>
               </div>
               <div class="pcard-feature-group">
-                <div class="pcard-feature-label">包含 Plus，另加</div>
-                <div class="pcard-feature">ERP 企業資源規劃</div>
-                <div class="pcard-feature">POS 銷售系統</div>
-                <div class="pcard-feature">API 整合</div>
-                <div class="pcard-feature">進階數據分析</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Business -->
-          <div class="pcard pcard-business-inquiry" id="pcard-business" onclick="openBusinessModal()">
-            <div class="pcard-name">BUSINESS</div>
-            <div style="font-family:var(--sans);font-size:15px;font-weight:600;color:var(--gold);margin-bottom:4px;">專屬客製化方案</div>
-            <div style="font-size:12px;color:var(--w40);margin-bottom:16px;min-height:16px;">依需求報價</div>
-            <button class="pcard-btn pcard-btn-gold" onclick="event.stopPropagation();openBusinessModal()">洽詢專人</button>
-            <hr class="pcard-divider">
-            <div class="pcard-features">
-              <div class="pcard-feature-group">
-                <div class="pcard-feature-label">使用規模</div>
-                <div class="pcard-feature">無限帳號</div>
-                <div class="pcard-feature">多品牌管理</div>
-                <div class="pcard-feature">無限台裝置</div>
-                <div class="pcard-feature">AI Max 額度</div>
-              </div>
-              <div class="pcard-feature-group">
-                <div class="pcard-feature-label">包含 Pro，另加</div>
-                <div class="pcard-feature">自訂報表</div>
-                <div class="pcard-feature">進階權限控管</div>
-                <div class="pcard-feature">優先技術支援</div>
-                <div class="pcard-feature">專屬客製開發</div>
+                <div class="pcard-feature-label">模組</div>
+                <div class="pcard-feature">POS + CRM + AI 基礎 <em>內建</em></div>
+                <div class="pcard-feature"><em>全選 7 個</em>模組，無需挑選</div>
               </div>
             </div>
           </div>
@@ -411,39 +397,137 @@
         </div>
       </div>
 
-      <!-- AI Add-on -->
-      <div class="addon-section">
-        <div class="section-title">AI 加購 <span class="section-subtitle">選填・每月計費</span></div>
-        <div class="addon-cards">
+      <!-- Step 2: Module Selection -->
+      <div class="module-section hidden" id="module-section">
+        <div class="section-title" id="module-section-title">挑選模組</div>
+        <p class="slot-info" id="slot-info"></p>
+        <div class="module-grid" id="module-grid">
 
-          <div class="acard none-card selected" id="acard-none" onclick="selectAI('none')">
+          <div class="mcard" id="mcard-rsvp" onclick="toggleModule('rsvp')">
+            <div class="mcard-header">
+              <span class="mcard-name">ORBIT RSVP</span>
+              <div class="mcard-tick" id="mtick-rsvp"></div>
+            </div>
+            <div class="mcard-desc">訂位 & 預約管理</div>
+            <div class="mcard-fit">適合：餐廳・美容・診所・健身</div>
+          </div>
+
+          <div class="mcard" id="mcard-line" onclick="toggleModule('line')">
+            <div class="mcard-header">
+              <span class="mcard-name">ORBIT LINE</span>
+              <div class="mcard-tick" id="mtick-line"></div>
+            </div>
+            <div class="mcard-desc">LINE 官方帳號整合</div>
+            <div class="mcard-fit">適合：所有行業</div>
+          </div>
+
+          <div class="mcard" id="mcard-erp" onclick="toggleModule('erp')">
+            <div class="mcard-header">
+              <span class="mcard-name">ORBIT ERP</span>
+              <div class="mcard-tick" id="mtick-erp"></div>
+            </div>
+            <div class="mcard-desc">進銷存 & 資源規劃</div>
+            <div class="mcard-fit">適合：零售・批發・製造</div>
+          </div>
+
+          <div class="mcard" id="mcard-hr" onclick="toggleModule('hr')">
+            <div class="mcard-header">
+              <span class="mcard-name">ORBIT HR</span>
+              <div class="mcard-tick" id="mtick-hr"></div>
+            </div>
+            <div class="mcard-desc">人事 & 出勤管理</div>
+            <div class="mcard-fit">適合：有員工的店家</div>
+          </div>
+
+          <div class="mcard" id="mcard-flow" onclick="toggleModule('flow')">
+            <div class="mcard-header">
+              <span class="mcard-name">ORBIT FLOW</span>
+              <div class="mcard-tick" id="mtick-flow"></div>
+            </div>
+            <div class="mcard-desc">任務 & 團隊協作</div>
+            <div class="mcard-fit">適合：多人團隊</div>
+          </div>
+
+          <div class="mcard" id="mcard-auth" onclick="toggleModule('auth')">
+            <div class="mcard-header">
+              <span class="mcard-name">ORBIT AUTH</span>
+              <div class="mcard-tick" id="mtick-auth"></div>
+            </div>
+            <div class="mcard-desc">細粒度權限管控</div>
+            <div class="mcard-fit">適合：多角色・多店管理</div>
+          </div>
+
+          <div class="mcard" id="mcard-ai_pro" onclick="toggleModule('ai_pro')">
+            <div class="mcard-header">
+              <span class="mcard-name">ORBIT AI Pro</span>
+              <div class="mcard-tick" id="mtick-ai_pro"></div>
+            </div>
+            <div class="mcard-desc">深度分析 & 自動化建議</div>
+            <div class="mcard-fit">適合：需要 AI 洞察的店家</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- AI 文字加量 -->
+      <div class="addon-section">
+        <div class="section-title">AI 文字加量 <span class="section-subtitle">選填・每月計費</span></div>
+        <div class="addon-cards" id="ai-text-cards">
+
+          <div class="acard none-card selected" id="atcard-none" onclick="selectAIText('none')">
             <div class="acard-name">不加購</div>
             <div class="acard-price">—</div>
             <div class="acard-desc">暫不加購</div>
           </div>
 
-          <div class="acard" id="acard-ai_basic" onclick="selectAI('ai_basic')">
-            <div class="acard-name">AI Basic</div>
-            <div class="acard-price">NT$388 <span>/月</span></div>
-            <div class="acard-desc">基礎查詢・報表摘要・智慧提醒</div>
+          <div class="acard" id="atcard-s" onclick="selectAIText('s')">
+            <div class="acard-name">文字加量 S</div>
+            <div class="acard-price">NT$549 <span>/月</span></div>
+            <div class="acard-desc">+基礎額度/天</div>
           </div>
 
-          <div class="acard" id="acard-ai_pro" onclick="selectAI('ai_pro')">
-            <div class="acard-name">AI Pro</div>
-            <div class="acard-price">NT$688 <span>/月</span></div>
-            <div class="acard-desc">進階分析・預測模型・自動化建議</div>
+          <div class="acard" id="atcard-m" onclick="selectAIText('m')">
+            <div class="acard-name">文字加量 M</div>
+            <div class="acard-price">NT$1,088 <span>/月</span></div>
+            <div class="acard-desc">+進階額度/天</div>
           </div>
 
-          <div class="acard" id="acard-ai_max" onclick="selectAI('ai_max')">
-            <div class="acard-name">AI Max</div>
-            <div class="acard-price">NT$1,288 <span>/月</span></div>
-            <div class="acard-desc">自訂工作流・知識庫查詢・多語言</div>
+          <div class="acard" id="atcard-l" onclick="selectAIText('l')">
+            <div class="acard-name">文字加量 L</div>
+            <div class="acard-price">NT$1,788 <span>/月</span></div>
+            <div class="acard-desc">+專業額度/天</div>
           </div>
 
-          <div class="acard" id="acard-ai_biz_max" onclick="selectAI('ai_biz_max')">
-            <div class="acard-name">AI Business Max</div>
-            <div class="acard-price">NT$2,288 <span>/月</span></div>
-            <div class="acard-desc">專屬模型・API 存取・優先資源</div>
+        </div>
+      </div>
+
+      <!-- AI 圖片加量 -->
+      <div class="addon-section">
+        <div class="section-title">AI 圖片加量 <span class="section-subtitle">選填・每月計費</span></div>
+        <div class="addon-cards" id="ai-img-cards">
+
+          <div class="acard none-card selected" id="aicard-none" onclick="selectAIImg('none')">
+            <div class="acard-name">不加購</div>
+            <div class="acard-price">—</div>
+            <div class="acard-desc">暫不加購</div>
+          </div>
+
+          <div class="acard" id="aicard-s" onclick="selectAIImg('s')">
+            <div class="acard-name">圖片加量 S</div>
+            <div class="acard-price">NT$188 <span>/月</span></div>
+            <div class="acard-desc">+30 張/月</div>
+          </div>
+
+          <div class="acard" id="aicard-m" onclick="selectAIImg('m')">
+            <div class="acard-name">圖片加量 M</div>
+            <div class="acard-price">NT$299 <span>/月</span></div>
+            <div class="acard-desc">+50 張/月</div>
+          </div>
+
+          <div class="acard" id="aicard-l" onclick="selectAIImg('l')">
+            <div class="acard-name">圖片加量 L</div>
+            <div class="acard-price">NT$588 <span>/月</span></div>
+            <div class="acard-desc">+100 張/月</div>
           </div>
 
         </div>
@@ -474,7 +558,6 @@
       </div>
 
     </div>
-    <!-- spacer for sticky bar -->
     <div style="height:80px"></div>
   </div>
 </div>
@@ -488,12 +571,17 @@
           <span class="cart-bar-label">方案</span>
           <span class="cart-bar-val" id="bar-plan">—</span>
         </div>
+        <div class="cart-bar-sep" id="bar-mods-sep" style="display:none"></div>
+        <div class="cart-bar-item" id="bar-mods-item" style="display:none">
+          <span class="cart-bar-label">已選模組</span>
+          <span class="cart-bar-val" id="bar-mods">—</span>
+        </div>
         <div class="cart-bar-sep"></div>
         <div class="cart-bar-item first-pay-wrap" id="first-pay-wrap" onclick="toggleBreakdown()">
           <span class="cart-bar-label">試用後首筆 <span class="info-icon">?</span></span>
           <span class="cart-bar-val" id="bar-first">—</span>
           <div class="breakdown-popup" id="breakdown-popup">
-            <div class="breakdown-row" style="color:var(--green,#4caf82);font-weight:600;">
+            <div class="breakdown-row" style="color:var(--gold);font-weight:600;">
               <span>🎉 14 天免費試用</span>
               <span>NT$0</span>
             </div>
@@ -526,15 +614,17 @@
         </div>
       </div>
       <div class="cart-bar-right">
-        <div class="secure-note">🔒 256-bit SSL 加密保護，資料安全有保障</div>
-        <div id="billing-note" style="font-size:11px;color:var(--w40);text-align:right;margin-bottom:8px;">按月扣款・最低服務期 12 個月・提前解約須支付違約金</div>
-        <button class="btn-gold" onclick="goToCheckout()">繼續結帳 →</button>
+        <div style="text-align:right">
+          <div class="secure-note" style="justify-content:flex-end;margin-bottom:4px;">🔒 256-bit SSL 加密保護，資料安全有保障</div>
+          <div id="billing-note" style="font-size:11px;color:var(--w40);">按月扣款・最低服務期 12 個月・提前解約須支付違約金</div>
+        </div>
+        <button class="btn-gold" id="checkout-btn" disabled onclick="goToCheckout()">繼續結帳 →</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ── Modal: Business 洽詢 ── -->
+<!-- Modal: Business 洽詢 -->
 <div class="modal-overlay" id="modal-business">
   <div class="modal">
     <button class="modal-close" onclick="closeModal('modal-business')">✕</button>
@@ -565,7 +655,7 @@
   </div>
 </div>
 
-<!-- ── Modal: 無統編洽詢 ── -->
+<!-- Modal: 無統編洽詢 -->
 <div class="modal-overlay" id="modal-notaxid">
   <div class="modal">
     <button class="modal-close" onclick="closeModal('modal-notaxid')">✕</button>
@@ -624,28 +714,43 @@
 <script>
   /* ── State ── */
   const PLANS = {
-    start:    { label: 'Start 方案',    monthly: 1488, annual: 1190 },
-    plus:     { label: 'Plus 方案',     monthly: 1988, annual: 1590 },
-    pro:      { label: 'Pro 方案',      monthly: 3988, annual: 3190 },
-    business: { label: 'Business 方案', monthly: 7988, annual: 6390 },
+    start: { label: 'ORBIT START', monthly: 1488, annual: Math.round(1488 * 12 * 0.8), slots: 3, accounts: 1, ai: 'AI 基礎額度' },
+    plus:  { label: 'ORBIT PLUS',  monthly: 1988, annual: Math.round(1988 * 12 * 0.8), slots: 5, accounts: 3, ai: 'AI 進階額度' },
+    pro:   { label: 'ORBIT PRO',   monthly: 3988, annual: Math.round(3988 * 12 * 0.8), slots: 7, accounts: 5, ai: 'AI 專業額度' },
   };
-  const AI_PLANS = {
-    none:       { label: '', price: 0 },
-    ai_basic:   { label: 'AI Basic', price: 388 },
-    ai_pro:     { label: 'AI Pro', price: 688 },
-    ai_max:     { label: 'AI Max', price: 1288 },
-    ai_biz_max: { label: 'AI Business Max', price: 2288 },
+  const ALL_MODULES = [
+    { id: 'rsvp',   name: 'RSVP'   },
+    { id: 'line',   name: 'LINE'   },
+    { id: 'erp',    name: 'ERP'    },
+    { id: 'hr',     name: 'HR'     },
+    { id: 'flow',   name: 'FLOW'   },
+    { id: 'auth',   name: 'AUTH'   },
+    { id: 'ai_pro', name: 'AI Pro' },
+  ];
+  const AI_TEXT = {
+    none: { label: '',           price: 0    },
+    s:    { label: '文字加量 S', price: 549  },
+    m:    { label: '文字加量 M', price: 1088 },
+    l:    { label: '文字加量 L', price: 1788 },
+  };
+  const AI_IMG = {
+    none: { label: '',           price: 0   },
+    s:    { label: '圖片加量 S', price: 188 },
+    m:    { label: '圖片加量 M', price: 299 },
+    l:    { label: '圖片加量 L', price: 588 },
   };
   const KB_PLANS = {
     none:  { label: '', price: 0 },
     ai_kb: { label: 'ORBIT AI 知識庫建置', price: 15000 },
   };
-  const ONBOARDING = { label: '系統開通費', price: 888 };
+  const SETUP_FEE = 888;
 
-  let billing = 'monthly';
+  let billing      = 'monthly';
   let selectedPlan = null;
-  let selectedAI = 'none';
-  let selectedKB = 'none';
+  let selectedMods = new Set();
+  let selectedAIT  = 'none';
+  let selectedAII  = 'none';
+  let selectedKB   = 'none';
 
   const fmt = n => 'NT$' + n.toLocaleString('zh-TW');
 
@@ -661,14 +766,13 @@
   function updatePriceDisplays() {
     Object.entries(PLANS).forEach(([key, p]) => {
       const el = document.getElementById('price-' + key);
-      const annualEl = document.getElementById('annual-' + key);
+      const annEl = document.getElementById('annual-' + key);
       if (billing === 'annual') {
-        const total = Math.round(p.monthly * 12 * 0.8) + 888;  // 月費×12×80%+888
-        el.innerHTML = fmt(total) + ' <span>/年</span>';
-        annualEl.innerHTML = `原年費 ${fmt(p.monthly * 12)}`;
+        el.innerHTML = fmt(p.annual) + ' <span>/年</span>';
+        annEl.innerHTML = `原年費 <span style="text-decoration:line-through;color:rgba(236,233,224,0.2)">${fmt(p.monthly * 12)}</span>`;
       } else {
         el.innerHTML = fmt(p.monthly) + ' <span>/月</span>';
-        annualEl.innerHTML = '';
+        annEl.innerHTML = '';
       }
     });
   }
@@ -676,17 +780,118 @@
   /* ── Plan selection ── */
   function selectPlan(key) {
     selectedPlan = key;
+    selectedMods.clear();
+
     document.querySelectorAll('.pcard').forEach(el => el.classList.remove('selected'));
     const card = document.getElementById('pcard-' + key);
     if (card) card.classList.add('selected');
+
+    const plan = PLANS[key];
+    const sec = document.getElementById('module-section');
+    const secTitle = document.getElementById('module-section-title');
+
+    if (plan.slots >= 7) {
+      // PRO: auto-select all
+      ALL_MODULES.forEach(m => selectedMods.add(m.id));
+      sec.classList.remove('hidden');
+      secTitle.textContent = '已包含全部 7 個模組';
+    } else {
+      sec.classList.remove('hidden');
+      secTitle.textContent = '挑選模組';
+    }
+
+    renderModules();
+    updateStepper();
+    updateBar();
+
+    setTimeout(() => {
+      sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+  }
+
+  /* ── Module selection ── */
+  function toggleModule(id) {
+    if (!selectedPlan) return;
+    const plan = PLANS[selectedPlan];
+    if (plan.slots >= 7) return; // PRO: auto-selected, no toggle
+
+    const card = document.getElementById('mcard-' + id);
+    if (card.classList.contains('mcard-disabled')) return;
+
+    if (selectedMods.has(id)) {
+      selectedMods.delete(id);
+    } else {
+      if (selectedMods.size >= plan.slots) return;
+      selectedMods.add(id);
+    }
+
+    renderModules();
+    updateStepper();
     updateBar();
   }
 
-  /* ── AI selection ── */
-  function selectAI(key) {
-    selectedAI = key;
-    document.querySelectorAll('.acard').forEach(el => el.classList.remove('selected'));
-    document.getElementById('acard-' + key).classList.add('selected');
+  function renderModules() {
+    const plan = selectedPlan ? PLANS[selectedPlan] : null;
+    const isPro = plan && plan.slots >= 7;
+    const infoEl = document.getElementById('slot-info');
+
+    if (isPro) {
+      infoEl.innerHTML = 'PRO 方案包含全部 7 個模組，<strong>無需手動選擇</strong>。';
+    } else if (plan) {
+      const rem = plan.slots - selectedMods.size;
+      infoEl.innerHTML = `已選 <strong>${selectedMods.size}</strong> / ${plan.slots} 個 · 還可選 <strong>${rem}</strong> 個`;
+    }
+
+    ALL_MODULES.forEach(m => {
+      const card = document.getElementById('mcard-' + m.id);
+      const tick = document.getElementById('mtick-' + m.id);
+      if (!card) return;
+
+      card.classList.remove('mcard-selected', 'mcard-disabled', 'mcard-auto');
+      tick.textContent = '';
+
+      if (isPro) {
+        card.classList.add('mcard-auto');
+        tick.style.background = 'var(--gold)';
+        tick.style.borderColor = 'var(--gold)';
+        tick.textContent = '✓';
+        tick.style.color = '#0c0c0c';
+        tick.style.fontSize = '10px';
+        tick.style.fontWeight = '700';
+      } else {
+        tick.style.background = '';
+        tick.style.borderColor = '';
+        tick.style.color = '';
+        tick.style.fontSize = '';
+        tick.style.fontWeight = '';
+        if (selectedMods.has(m.id)) {
+          card.classList.add('mcard-selected');
+          tick.textContent = '✓';
+          tick.style.background = 'var(--gold)';
+          tick.style.borderColor = 'var(--gold)';
+          tick.style.color = '#0c0c0c';
+          tick.style.fontSize = '10px';
+          tick.style.fontWeight = '700';
+        } else if (plan && selectedMods.size >= plan.slots) {
+          card.classList.add('mcard-disabled');
+        }
+      }
+    });
+  }
+
+  /* ── AI text add-on ── */
+  function selectAIText(key) {
+    selectedAIT = key;
+    document.querySelectorAll('[id^="atcard-"]').forEach(el => el.classList.remove('selected'));
+    document.getElementById('atcard-' + key).classList.add('selected');
+    updateBar();
+  }
+
+  /* ── AI image add-on ── */
+  function selectAIImg(key) {
+    selectedAII = key;
+    document.querySelectorAll('[id^="aicard-"]').forEach(el => el.classList.remove('selected'));
+    document.getElementById('aicard-' + key).classList.add('selected');
     updateBar();
   }
 
@@ -698,38 +903,72 @@
     updateBar();
   }
 
+  /* ── Stepper ── */
+  function updateStepper() {
+    const s1 = document.getElementById('step1');
+    const s2 = document.getElementById('step2');
+
+    if (!selectedPlan) {
+      s1.className = 'step-tab active';
+      s2.className = 'step-tab';
+      return;
+    }
+
+    const plan = PLANS[selectedPlan];
+    const modulesReady = plan.slots >= 7 || selectedMods.size > 0;
+
+    s1.className = 'step-tab done';
+    s2.className = modulesReady ? 'step-tab active' : 'step-tab';
+  }
+
   /* ── Update bottom bar ── */
   function updateBar() {
-    const plan = selectedPlan ? PLANS[selectedPlan] : null;
-    const ai   = AI_PLANS[selectedAI];
-    const kb   = KB_PLANS[selectedKB];
+    const plan  = selectedPlan ? PLANS[selectedPlan] : null;
+    const ait   = AI_TEXT[selectedAIT];
+    const aii   = AI_IMG[selectedAII];
+    const kb    = KB_PLANS[selectedKB];
+    const isAnn = billing === 'annual';
 
-    const planPrice  = plan ? plan.monthly : 0;
-    const aiPrice    = ai.price;
+    const planPrice  = plan ? (isAnn ? plan.annual : plan.monthly) : 0;
+    const aitPrice   = ait.price;
+    const aiiPrice   = aii.price;
     const kbPrice    = kb.price;
-    const isAnnual   = billing === 'annual';
-    const unitFee    = planPrice + aiPrice;
-    const annualSub  = isAnnual ? Math.round(unitFee * 12 * 0.8) : 0;
-    const afterTrial = isAnnual
-      ? ONBOARDING.price + annualSub + kbPrice   // 15 天後扣：888 + 年費 + KB
-      : ONBOARDING.price + kbPrice + unitFee;     // 15 天後扣：888 + 首月
+    const addonMo    = aitPrice + aiiPrice;
+    const afterTrial = isAnn
+      ? SETUP_FEE + planPrice + kbPrice
+      : SETUP_FEE + planPrice + kbPrice;
+    const monthlyCont = planPrice + addonMo;
 
-    document.getElementById('bar-plan').textContent    = plan ? plan.label : '—';
+    // Plan label
+    document.getElementById('bar-plan').textContent = plan ? plan.label : '—';
+
+    // Module chips in bar
+    const modsItem = document.getElementById('bar-mods-item');
+    const modsSep  = document.getElementById('bar-mods-sep');
+    if (plan && selectedMods.size > 0) {
+      const names = [...selectedMods].map(id => ALL_MODULES.find(m => m.id === id)?.name).filter(Boolean);
+      document.getElementById('bar-mods').textContent = `${names.join('・')} (${selectedMods.size}/${plan.slots})`;
+      modsItem.style.display = 'flex';
+      modsSep.style.display = 'block';
+    } else {
+      modsItem.style.display = 'none';
+      modsSep.style.display = 'none';
+    }
+
+    // First pay / monthly
     document.getElementById('bar-first').textContent   = plan ? 'NT$0（14 天免費試用）' : '—';
-    const annualTotal = isAnnual ? ONBOARDING.price + annualSub : 0;
     document.getElementById('bar-monthly').textContent = plan
-      ? fmt(isAnnual ? annualTotal : unitFee) + (isAnnual ? '/年' : '/月')
+      ? fmt(isAnn ? planPrice : monthlyCont) + (isAnn ? '/年' : '/月')
       : '—';
-
-    document.getElementById('bar-monthly-label').textContent = isAnnual ? '年繳總金額' : '每月（第二個月起）';
-    document.getElementById('bd-month1-label').textContent   = isAnnual ? '首年年費' : '首月月費';
-    document.getElementById('billing-note').textContent      = isAnnual
+    document.getElementById('bar-monthly-label').textContent = isAnn ? '年繳總金額' : '每月（第二個月起）';
+    document.getElementById('billing-note').textContent = isAnn
       ? '年繳方案 · 到期自動續約'
       : '按月扣款・最低服務期 12 個月・提前解約須支付違約金';
 
-    // breakdown popup
-    document.getElementById('bd-month1').textContent   = plan ? fmt(isAnnual ? annualSub : unitFee) : '—';
-    document.getElementById('bd-total').textContent    = plan ? fmt(afterTrial) : '—';
+    // Breakdown popup
+    document.getElementById('bd-month1-label').textContent = isAnn ? '首年年費' : '首月月費';
+    document.getElementById('bd-month1').textContent = plan ? fmt(planPrice) : '—';
+    document.getElementById('bd-total').textContent   = plan ? fmt(afterTrial) : '—';
     const kbRow = document.getElementById('bd-kb-row');
     if (kbPrice > 0) {
       kbRow.style.display = 'flex';
@@ -737,13 +976,16 @@
     } else {
       kbRow.style.display = 'none';
     }
+
+    // Enable checkout button only when plan + modules ready
+    const modReady = plan && (plan.slots >= 7 || selectedMods.size > 0);
+    document.getElementById('checkout-btn').disabled = !modReady;
   }
 
   /* ── Breakdown toggle (mobile) ── */
   function toggleBreakdown() {
     document.getElementById('first-pay-wrap').classList.toggle('open');
   }
-  // close when clicking outside
   document.addEventListener('click', function(e) {
     const wrap = document.getElementById('first-pay-wrap');
     if (wrap && !wrap.contains(e.target)) wrap.classList.remove('open');
@@ -752,31 +994,32 @@
   /* ── Checkout ── */
   function goToCheckout() {
     if (!selectedPlan) { alert('請先選擇月費方案'); return; }
-    const plan  = PLANS[selectedPlan];
-    const ai    = AI_PLANS[selectedAI];
-    const kb    = KB_PLANS[selectedKB];
-    const price = billing === 'annual' ? plan.annual : plan.monthly;
+    const plan = PLANS[selectedPlan];
+    const modReady = plan.slots >= 7 || selectedMods.size > 0;
+    if (!modReady) { alert('請選擇模組後再繼續'); return; }
+
+    const ait = AI_TEXT[selectedAIT];
+    const aii = AI_IMG[selectedAII];
+    const kb  = KB_PLANS[selectedKB];
     const data = {
       billing,
-      monthly:    { label: plan.label, price, value: selectedPlan },
-      onboarding: ONBOARDING,
-      ai:         ai.price > 0 ? { label: ai.label, price: ai.price, value: selectedAI } : null,
-      ai_kb:      kb.price > 0 ? { label: kb.label, price: kb.price, value: selectedKB } : null,
+      plan:    { label: plan.label, price: billing === 'annual' ? plan.annual : plan.monthly, value: selectedPlan, accounts: plan.accounts, ai: plan.ai },
+      modules: [...selectedMods],
+      setup:   SETUP_FEE,
+      ai_text: ait.price > 0 ? { label: ait.label, price: ait.price, value: selectedAIT } : null,
+      ai_img:  aii.price > 0 ? { label: aii.label, price: aii.price, value: selectedAII } : null,
+      ai_kb:   kb.price  > 0 ? { label: kb.label,  price: kb.price,  value: selectedKB  } : null,
     };
     sessionStorage.setItem('orbit_order', JSON.stringify(data));
     window.location.href = 'checkout.html';
   }
 
   /* ── Modal helpers ── */
-  function openModal(id) { document.getElementById(id).classList.add('open'); }
+  function openModal(id)  { document.getElementById(id).classList.add('open'); }
   function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-
-  // 點 overlay 背景關閉
   document.querySelectorAll('.modal-overlay').forEach(el => {
     el.addEventListener('click', function(e) { if (e.target === this) this.classList.remove('open'); });
   });
-
-  function openBusinessModal() { openModal('modal-business'); }
 
   function sendBusinessInquiry() {
     const company = document.getElementById('biz-company').value.trim();
@@ -790,49 +1033,29 @@
     }
     errEl.style.display = 'none';
     const subject = encodeURIComponent(`【ORBIT Business 洽詢】${company} — ${name}`);
-    const body = encodeURIComponent(
-`您好，我想洽詢 ORBIT Business 客製方案。
-
-公司 / 店名：${company}
-聯絡人：${name}
-聯絡電話：${phone}
-E-mail：${email}${note ? `\n需求說明：${note}` : ''}
-
-請問後續洽談流程為何？感謝您。`
-    );
+    const body = encodeURIComponent(`您好，我想洽詢 ORBIT Business 客製方案。\n\n公司 / 店名：${company}\n聯絡人：${name}\n聯絡電話：${phone}\nE-mail：${email}${note ? `\n需求說明：${note}` : ''}\n\n請問後續洽談流程為何？感謝您。`);
     window.location.href = `mailto:hello@obarai.com?subject=${subject}&body=${body}`;
   }
 
-  function openNoTaxIdModal() { openModal('modal-notaxid'); }
-
   function sendNoTaxIdInquiry() {
-    const typeEl   = document.querySelector('input[name="notaxid-type"]:checked');
-    const company  = document.getElementById('ntx-company').value.trim();
-    const name     = document.getElementById('ntx-name').value.trim();
-    const phone    = document.getElementById('ntx-phone').value.trim();
-    const errEl    = document.getElementById('ntx-err');
+    const typeEl  = document.querySelector('input[name="notaxid-type"]:checked');
+    const company = document.getElementById('ntx-company').value.trim();
+    const name    = document.getElementById('ntx-name').value.trim();
+    const phone   = document.getElementById('ntx-phone').value.trim();
+    const errEl   = document.getElementById('ntx-err');
     if (!typeEl || !company || !name || !phone) {
       errEl.textContent = '請填寫所有必填欄位並選擇商家類型'; errEl.style.display = 'block'; return;
     }
     errEl.style.display = 'none';
     const type    = typeEl.value;
     const subject = encodeURIComponent(`【ORBIT 訂閱洽詢】${type} — ${name}`);
-    const body    = encodeURIComponent(
-`您好，我想詢問 ORBIT 訂閱方案，但我們沒有統一編號。
-
-商家類型：${type}
-商家名稱：${company}
-聯絡人：${name}
-聯絡電話：${phone}
-
-請問後續需要提供哪些資料？感謝您。`
-    );
+    const body    = encodeURIComponent(`您好，我想詢問 ORBIT 訂閱方案，但我們沒有統一編號。\n\n商家類型：${type}\n商家名稱：${company}\n聯絡人：${name}\n聯絡電話：${phone}\n\n請問後續需要提供哪些資料？感謝您。`);
     window.location.href = `mailto:hello@obarai.com?subject=${subject}&body=${body}`;
   }
 
   /* ── Init ── */
   updatePriceDisplays();
-  selectPlan('pro'); // default to Pro (recommended)
+  updateBar();
 </script>
 
 </body>
