@@ -304,13 +304,9 @@
       lines.push({ name: order.plan.label, sub, price: fmt(order.plan.price) + '/月' });
       monthly += order.plan.price;
     }
-    if (order.ai_text && order.ai_text.price > 0) {
-      lines.push({ name: order.ai_text.label, sub: 'AI 文字加量', price: fmt(order.ai_text.price) + '/月' });
-      monthly += order.ai_text.price;
-    }
-    if (order.ai_img && order.ai_img.price > 0) {
-      lines.push({ name: order.ai_img.label, sub: 'AI 圖片加量', price: fmt(order.ai_img.price) + '/月' });
-      monthly += order.ai_img.price;
+    if (order.ai_addon && order.ai_addon.price > 0) {
+      lines.push({ name: order.ai_addon.label, sub: 'AI 使用量加購', price: fmt(order.ai_addon.price) + '/月' });
+      monthly += order.ai_addon.price;
     }
     document.getElementById('order-lines').innerHTML = lines.map(l =>
       `<div class="order-line"><div><div class="ol-name">${l.name}</div><div class="ol-sub">${l.sub}</div></div><div class="ol-price">${l.price}</div></div>`

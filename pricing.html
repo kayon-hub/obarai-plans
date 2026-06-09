@@ -177,6 +177,12 @@
     .addon-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
     @media (max-width: 900px) { .addon-cards { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 560px) { .addon-cards { grid-template-columns: 1fr 1fr; } }
+    .ai-addon-cards { grid-template-columns: repeat(5, 1fr); }
+    @media (max-width: 900px) { .ai-addon-cards { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .ai-addon-cards { grid-template-columns: 1fr 1fr; } }
+    .acard-input { width: 60px; background: transparent; border: none; border-bottom: 1px solid var(--border); color: var(--white); font-family: var(--sans); font-size: 18px; font-weight: 700; text-align: center; padding: 0 2px; }
+    .acard-input:focus { outline: none; border-color: var(--gold60); }
+    .acard-input::-webkit-outer-spin-button, .acard-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 
     .acard { position: relative; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 14px 12px; cursor: pointer; transition: border-color 0.2s, background 0.2s; text-align: center; }
     .acard:hover { border-color: rgba(255,255,255,0.14); }
@@ -481,65 +487,41 @@
         </div>
       </div>
 
-      <!-- AI 文字加量 -->
+      <!-- ORBIT AI+ -->
       <div class="addon-section">
-        <div class="section-title">AI 文字加量 <span class="section-subtitle">選填・每月計費</span></div>
-        <div class="addon-cards" id="ai-text-cards">
+        <div class="section-title">ORBIT AI+ <span class="section-subtitle">選填・每月計費・加購 AI 使用量</span></div>
+        <div class="addon-cards ai-addon-cards" id="ai-addon-cards">
 
-          <div class="acard none-card selected" id="atcard-none" onclick="selectAIText('none')">
+          <div class="acard none-card selected" id="aicard-none" onclick="selectAIAddon('none')">
             <div class="acard-name">不加購</div>
             <div class="acard-price">—</div>
             <div class="acard-desc">暫不加購</div>
           </div>
 
-          <div class="acard" id="atcard-s" onclick="selectAIText('s')">
-            <div class="acard-name">文字加量 S</div>
-            <div class="acard-price">NT$549 <span>/月</span></div>
-            <div class="acard-desc">標準版</div>
+          <div class="acard" id="aicard-150" onclick="selectAIAddon('150')">
+            <div class="acard-name">ORBIT AI+</div>
+            <div class="acard-price">NT$150 <span>/月</span></div>
+            <div class="acard-desc">輕量加購</div>
           </div>
 
-          <div class="acard" id="atcard-m" onclick="selectAIText('m')">
-            <div class="acard-name">文字加量 M</div>
-            <div class="acard-price">NT$1,088 <span>/月</span></div>
-            <div class="acard-desc">Pro 進階版</div>
+          <div class="acard" id="aicard-300" onclick="selectAIAddon('300')">
+            <div class="acard-name">ORBIT AI+</div>
+            <div class="acard-price">NT$300 <span>/月</span></div>
+            <div class="acard-desc">標準加購</div>
           </div>
 
-          <div class="acard" id="atcard-l" onclick="selectAIText('l')">
-            <div class="acard-name">文字加量 L</div>
-            <div class="acard-price">NT$1,788 <span>/月</span></div>
-            <div class="acard-desc">Deluxe 旗艦版</div>
+          <div class="acard" id="aicard-600" onclick="selectAIAddon('600')">
+            <div class="acard-name">ORBIT AI+</div>
+            <div class="acard-price">NT$600 <span>/月</span></div>
+            <div class="acard-desc">大量加購</div>
           </div>
 
-        </div>
-      </div>
-
-      <!-- AI 圖片加量 -->
-      <div class="addon-section">
-        <div class="section-title">AI 圖片加量 <span class="section-subtitle">選填・每月計費</span></div>
-        <div class="addon-cards" id="ai-img-cards">
-
-          <div class="acard none-card selected" id="aicard-none" onclick="selectAIImg('none')">
-            <div class="acard-name">不加購</div>
-            <div class="acard-price">—</div>
-            <div class="acard-desc">暫不加購</div>
-          </div>
-
-          <div class="acard" id="aicard-s" onclick="selectAIImg('s')">
-            <div class="acard-name">圖片加量 S</div>
-            <div class="acard-price">NT$188 <span>/月</span></div>
-            <div class="acard-desc">標準版</div>
-          </div>
-
-          <div class="acard" id="aicard-m" onclick="selectAIImg('m')">
-            <div class="acard-name">圖片加量 M</div>
-            <div class="acard-price">NT$299 <span>/月</span></div>
-            <div class="acard-desc">Pro 進階版</div>
-          </div>
-
-          <div class="acard" id="aicard-l" onclick="selectAIImg('l')">
-            <div class="acard-name">圖片加量 L</div>
-            <div class="acard-price">NT$588 <span>/月</span></div>
-            <div class="acard-desc">Deluxe 旗艦版</div>
+          <div class="acard" id="aicard-custom" onclick="selectAIAddon('custom')">
+            <div class="acard-name">自訂金額</div>
+            <div class="acard-price">
+              NT$<input type="number" id="ai-custom-input" class="acard-input" min="150" step="50" placeholder="150" oninput="onAICustomInput()" onclick="event.stopPropagation()"> <span>/月</span>
+            </div>
+            <div class="acard-desc">最低 NT$150</div>
           </div>
 
         </div>
@@ -739,18 +721,13 @@
     { id: 'auth',   name: 'AUTH'   },
     { id: 'ai_pro', name: 'AI Pro' },
   ];
-  const AI_TEXT = {
-    none: { label: '',           price: 0    },
-    s:    { label: '文字加量 S', price: 549  },
-    m:    { label: '文字加量 M', price: 1088 },
-    l:    { label: '文字加量 L', price: 1788 },
+  const AI_ADDON_PRESETS = {
+    none: 0,
+    150:  150,
+    300:  300,
+    600:  600,
   };
-  const AI_IMG = {
-    none: { label: '',           price: 0   },
-    s:    { label: '圖片加量 S', price: 188 },
-    m:    { label: '圖片加量 M', price: 299 },
-    l:    { label: '圖片加量 L', price: 588 },
-  };
+  const AI_ADDON_MIN = 150;
   const KB_PLANS = {
     none:  { label: '', price: 0 },
     ai_kb: { label: 'ORBIT AI 知識庫建置', price: 15000 },
@@ -760,8 +737,8 @@
   let billing      = 'monthly';
   let selectedPlan = null;
   let selectedMods = new Set();
-  let selectedAIT  = 'none';
-  let selectedAII  = 'none';
+  let selectedAIAddon = 'none';
+  let aiCustomAmount  = 0;
   let selectedKB   = 'none';
 
   const fmt = n => 'NT$' + n.toLocaleString('zh-TW');
@@ -891,20 +868,24 @@
     });
   }
 
-  /* ── AI text add-on ── */
-  function selectAIText(key) {
-    selectedAIT = key;
-    document.querySelectorAll('[id^="atcard-"]').forEach(el => el.classList.remove('selected'));
-    document.getElementById('atcard-' + key).classList.add('selected');
+  /* ── ORBIT AI+ add-on ── */
+  function selectAIAddon(key) {
+    selectedAIAddon = key;
+    document.querySelectorAll('#ai-addon-cards .acard').forEach(el => el.classList.remove('selected'));
+    document.getElementById('aicard-' + key).classList.add('selected');
     updateBar();
   }
 
-  /* ── AI image add-on ── */
-  function selectAIImg(key) {
-    selectedAII = key;
-    document.querySelectorAll('[id^="aicard-"]').forEach(el => el.classList.remove('selected'));
-    document.getElementById('aicard-' + key).classList.add('selected');
-    updateBar();
+  function onAICustomInput() {
+    const input = document.getElementById('ai-custom-input');
+    aiCustomAmount = parseInt(input.value, 10) || 0;
+    selectAIAddon('custom');
+  }
+
+  function getAIAddonPrice() {
+    if (selectedAIAddon === 'none') return 0;
+    if (selectedAIAddon === 'custom') return Math.max(0, aiCustomAmount);
+    return AI_ADDON_PRESETS[selectedAIAddon] || 0;
   }
 
   /* ── KB selection ── */
@@ -936,16 +917,12 @@
   /* ── Update bottom bar ── */
   function updateBar() {
     const plan  = selectedPlan ? PLANS[selectedPlan] : null;
-    const ait   = AI_TEXT[selectedAIT];
-    const aii   = AI_IMG[selectedAII];
     const kb    = KB_PLANS[selectedKB];
     const isAnn = billing === 'annual';
 
     const planPrice  = plan ? (isAnn ? plan.annual : plan.monthly) : 0;
-    const aitPrice   = ait.price;
-    const aiiPrice   = aii.price;
     const kbPrice    = kb.price;
-    const addonMo    = aitPrice + aiiPrice;
+    const addonMo    = getAIAddonPrice();
     const afterTrial = isAnn
       ? SETUP_FEE + planPrice + kbPrice
       : SETUP_FEE + planPrice + kbPrice;
@@ -1010,17 +987,20 @@
     const modReady = plan.slots >= 7 || selectedMods.size > 0;
     if (!modReady) { alert('請選擇模組後再繼續'); return; }
 
-    const ait = AI_TEXT[selectedAIT];
-    const aii = AI_IMG[selectedAII];
+    if (selectedAIAddon === 'custom' && aiCustomAmount > 0 && aiCustomAmount < AI_ADDON_MIN) {
+      alert(`ORBIT AI+ 自訂金額最低為 NT$${AI_ADDON_MIN}`);
+      return;
+    }
+
+    const aiAddonPrice = getAIAddonPrice();
     const kb  = KB_PLANS[selectedKB];
     const data = {
       billing,
-      plan:    { label: plan.label, price: billing === 'annual' ? plan.annual : plan.monthly, value: selectedPlan, accounts: plan.accounts, ai: plan.ai },
-      modules: [...selectedMods],
-      setup:   SETUP_FEE,
-      ai_text: ait.price > 0 ? { label: ait.label, price: ait.price, value: selectedAIT } : null,
-      ai_img:  aii.price > 0 ? { label: aii.label, price: aii.price, value: selectedAII } : null,
-      ai_kb:   kb.price  > 0 ? { label: kb.label,  price: kb.price,  value: selectedKB  } : null,
+      plan:     { label: plan.label, price: billing === 'annual' ? plan.annual : plan.monthly, value: selectedPlan, accounts: plan.accounts, ai: plan.ai },
+      modules:  [...selectedMods],
+      setup:    SETUP_FEE,
+      ai_addon: aiAddonPrice > 0 ? { label: 'ORBIT AI+', price: aiAddonPrice } : null,
+      ai_kb:    kb.price > 0 ? { label: kb.label, price: kb.price, value: selectedKB } : null,
     };
     sessionStorage.setItem('orbit_order', JSON.stringify(data));
     window.location.href = 'checkout.html';

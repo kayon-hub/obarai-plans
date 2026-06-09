@@ -419,13 +419,9 @@
       });
       onetime += discounted ? 0 : order.setup;
     }
-    if (order.ai_text) {
-      items.push({ name: order.ai_text.label, sub: 'AI 文字加量', price: fmt(order.ai_text.price) + '/月' });
-      monthly += order.ai_text.price;
-    }
-    if (order.ai_img) {
-      items.push({ name: order.ai_img.label, sub: 'AI 圖片加量', price: fmt(order.ai_img.price) + '/月' });
-      monthly += order.ai_img.price;
+    if (order.ai_addon) {
+      items.push({ name: order.ai_addon.label, sub: 'AI 使用量加購', price: fmt(order.ai_addon.price) + '/月' });
+      monthly += order.ai_addon.price;
     }
     if (order.ai_kb) {
       const discounted = promoApplied;
