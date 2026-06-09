@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /pricing.html
+Allow: /terms.html
+Allow: /privacy.html
+Allow: /refund.html
+Disallow: /checkout.html
+Disallow: /confirm.html
+Disallow: /payment.html
+Disallow: /legal.html
+
+Sitemap: https://plans.obarai.com/sitemap.xml
