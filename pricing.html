@@ -110,6 +110,9 @@
     .section-subtitle { font-size: 11px; color: var(--w40); font-weight: 400; letter-spacing: 0; text-transform: none; margin-left: 8px; }
     .section-hint { font-size: 12px; color: var(--w40); margin-bottom: 16px; line-height: 1.6; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; }
     .section-hint strong { color: var(--gold); }
+    details.section-hint { cursor: pointer; }
+    details.section-hint summary { color: var(--gold); font-weight: 600; }
+    details.section-hint .baseline-detail { margin-top: 8px; line-height: 1.8; }
 
     /* ── Plan Cards Grid ── */
     .plans-section { padding: 40px 0 24px; }
@@ -325,6 +328,15 @@
       <div style="margin-bottom:40px">
         <div class="section-title">月費方案</div>
         <p class="section-hint">所有方案均含 <strong>POS + CRM + AI 基礎</strong>。開通費 NT$888（一次性）。14 天免費試用，到期後才開始計費。</p>
+        <details class="section-hint">
+          <summary>▸ POS + CRM + AI 基礎包含哪些功能？</summary>
+          <div class="baseline-detail">
+            <div>• <strong>POS</strong>：點餐 / 收銀、訂單建立與結帳</div>
+            <div>• <strong>CRM</strong>：客戶資料庫、消費紀錄與會員管理</div>
+            <div>• <strong>AI 基礎</strong>：基礎 AI 客服問答對話</div>
+            <div>• 後台帳號與系統設定</div>
+          </div>
+        </details>
         <div class="plan-cards-grid" id="main-plans">
 
           <!-- START -->
