@@ -12,15 +12,15 @@ function doPost(e) {
     var contact = c.contact || {};
     var p = data.payment || {};
 
-    var monthly = (data.monthly ? data.monthly.price : 0) + (data.ai ? data.ai.price : 0);
-    var setup = data.promoApplied ? 0 : (data.onboarding ? data.onboarding.price : 888);
+    var monthly = (data.plan ? data.plan.price : 0) + (data.ai_addon ? data.ai_addon.price : 0);
+    var setup = data.promoApplied ? 0 : (data.setup != null ? data.setup : 888);
     var kbPrice = data.promoApplied ? 0 : (data.ai_kb ? data.ai_kb.price : 0);
     var firstPay = setup + kbPrice + monthly;
 
     var row = [
       data.submittedAt || new Date().toISOString(),
-      data.monthly ? data.monthly.label : '',
-      data.ai ? data.ai.label : '',
+      data.plan ? data.plan.label : '',
+      data.ai_addon ? data.ai_addon.label : '',
       data.ai_kb ? data.ai_kb.label : '',
       data.billing || 'monthly',
       firstPay,
@@ -38,7 +38,8 @@ function doPost(e) {
       p.cardHolder || '',
       p.cardLast4 || '',
       p.expiry || '',
-      data.legalAcceptedAt || ''
+      data.legalAcceptedAt || '',
+      (data.modules || []).join(', ')
     ];
 
     sheet.appendRow(row);
@@ -46,7 +47,7 @@ function doPost(e) {
 
     var clientEmail = owner.email || contact.email;
     if (clientEmail) {
-      sendConfirm(clientEmail, owner.name || contact.name, data.monthly ? data.monthly.label : '', firstPay, monthly);
+      sendConfirm(clientEmail, owner.name || contact.name, data.plan ? data.plan.label : '', firstPay, monthly);
     }
 
     return ContentService
@@ -63,14 +64,15 @@ function doPost(e) {
 function sendNotify(data, firstPay, monthly) {
   var c = data.customer || {};
   var owner = c.owner || {};
-  var subject = '【ORBIT 新訂單】' + (c.company || owner.name) + ' - ' + (data.monthly ? data.monthly.label : '');
+  var subject = '【ORBIT 新訂單】' + (c.company || owner.name) + ' - ' + (data.plan ? data.plan.label : '');
   var body = '新訂單通知\n\n'
     + '公司名稱：' + (c.company || '—') + '\n'
     + '統編：' + (c.taxid || '無') + '\n'
     + '負責人：' + (owner.name || '—') + '（' + (owner.phone || '—') + '）\n'
     + 'Email：' + (owner.email || '—') + '\n\n'
-    + '方案：' + (data.monthly ? data.monthly.label : '—') + '\n'
-    + 'AI加購：' + (data.ai ? data.ai.label : '無') + '\n'
+    + '方案：' + (data.plan ? data.plan.label : '—') + '\n'
+    + '已選模組：' + ((data.modules || []).join(', ') || '無') + '\n'
+    + 'AI加購：' + (data.ai_addon ? data.ai_addon.label : '無') + '\n'
     + '今日付款：NT$' + firstPay + '\n'
     + '每月月費：NT$' + monthly + '\n'
     + '優惠碼：' + (data.promoCode || '無') + '\n\n'
