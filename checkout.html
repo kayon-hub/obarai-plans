@@ -150,9 +150,7 @@
         <div class="step-arrow">›</div>
         <div class="step-tab active"><div class="num">2</div><span class="step-label">填寫資料</span></div>
         <div class="step-arrow">›</div>
-        <div class="step-tab"><div class="num">3</div><span class="step-label">付款資訊</span></div>
-        <div class="step-arrow">›</div>
-        <div class="step-tab"><div class="num">4</div><span class="step-label">確認訂閱</span></div>
+        <div class="step-tab"><div class="num">3</div><span class="step-label">送出申請</span></div>
       </div>
     </div>
 
@@ -281,7 +279,7 @@
 
         <div id="err-msg" class="error-msg" style="display:none;margin-bottom:12px;"></div>
 
-        <button class="btn-gold" onclick="goToConfirm()">下一步：確認訂閱</button>
+        <button class="btn-gold" onclick="goToConfirm()">下一步：送出申請</button>
         <a href="pricing.html" class="btn-outline">← 返回修改方案</a>
 
       </div>
@@ -525,7 +523,7 @@
     order.promoApplied = promoApplied;
     order.promoCode    = promoApplied ? VALID_PROMO : null;
     sessionStorage.setItem('orbit_order', JSON.stringify(order));
-    window.location.href = 'payment.html';
+    window.location.href = 'submitted.html';
   }
 
   renderSummary();
