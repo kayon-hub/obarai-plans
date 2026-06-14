@@ -88,12 +88,6 @@
     .hero h1 { font-size: clamp(24px, 2.8vw, 36px); font-weight: 300; letter-spacing: -0.01em; line-height: 1.2; color: var(--white); margin-bottom: 10px; }
     .hero p { font-size: 14px; color: var(--w40); }
 
-    /* ── Billing Toggle ── */
-    .billing-toggle { display: flex; align-items: center; justify-content: center; gap: 0; margin: 24px auto 0; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 4px; width: fit-content; }
-    .billing-btn { font-family: var(--tc); font-size: 13px; font-weight: 500; padding: 8px 22px; border-radius: 7px; border: none; cursor: pointer; transition: background 0.2s, color 0.2s; background: transparent; color: var(--w50); }
-    .billing-btn.active { background: var(--surface3); color: var(--white); }
-    .billing-save { font-size: 11px; font-weight: 600; background: var(--gold20); color: var(--gold); padding: 2px 8px; border-radius: 20px; margin-left: 4px; }
-
     /* ── Stepper ── */
     .stepper { display: flex; gap: 0; margin: 28px auto 0; justify-content: center; flex-wrap: wrap; }
     .step-tab { display: flex; align-items: center; gap: 8px; padding: 8px 14px 8px 0; font-size: 12px; color: var(--w40); }
@@ -130,7 +124,6 @@
     .pcard-name { font-family: var(--sans); font-size: 13px; font-weight: 600; letter-spacing: 0.04em; color: var(--w70); margin-bottom: 16px; }
     .pcard-price { font-family: var(--sans); font-size: 36px; font-weight: 700; color: var(--white); line-height: 1; margin-bottom: 4px; }
     .pcard-price span { font-size: 15px; font-weight: 400; color: var(--w50); }
-    .pcard-price-annual { font-size: 11px; color: var(--w40); margin-bottom: 16px; min-height: 16px; }
     .pcard-price-strike { text-decoration: line-through; color: var(--w20); margin-right: 4px; }
 
     .pcard-btn { width: 100%; padding: 11px; border-radius: 8px; font-family: var(--tc); font-size: 13px; font-weight: 500; cursor: pointer; border: 1.5px solid var(--border); background: transparent; color: var(--w70); transition: all 0.18s; margin-bottom: 20px; }
@@ -298,12 +291,6 @@
       <h1>選一個方案，自己挑模組</h1>
       <p>每個方案都內建 POS + CRM + AI 基礎，再從 7 個模組中選出最適合你生意的幾個</p>
 
-      <!-- Billing Toggle -->
-      <div class="billing-toggle">
-        <button class="billing-btn active" id="btn-monthly" onclick="setBilling('monthly')">按月</button>
-        <button class="billing-btn" id="btn-annual" onclick="setBilling('annual')">按年 <span class="billing-save">節省 20%</span></button>
-      </div>
-
       <!-- Stepper -->
       <div class="stepper">
         <div class="step-tab active" id="step1">
@@ -350,7 +337,6 @@
           <div class="pcard" id="pcard-start" onclick="selectPlan('start')">
             <div class="pcard-name">START</div>
             <div class="pcard-price" id="price-start">NT$1,488 <span>/月</span></div>
-            <div class="pcard-price-annual" id="annual-start"></div>
             <button class="pcard-btn" onclick="event.stopPropagation();selectPlan('start')">選擇此方案</button>
             <hr class="pcard-divider">
             <div class="pcard-features">
@@ -373,7 +359,6 @@
             <div class="pcard-badge">⭐ 最多人選</div>
             <div class="pcard-name">PLUS</div>
             <div class="pcard-price" id="price-plus">NT$1,988 <span>/月</span></div>
-            <div class="pcard-price-annual" id="annual-plus"></div>
             <button class="pcard-btn" onclick="event.stopPropagation();selectPlan('plus')">選擇此方案</button>
             <hr class="pcard-divider">
             <div class="pcard-features">
@@ -395,7 +380,6 @@
           <div class="pcard" id="pcard-pro" onclick="selectPlan('pro')">
             <div class="pcard-name">PRO</div>
             <div class="pcard-price" id="price-pro">NT$3,988 <span>/月</span></div>
-            <div class="pcard-price-annual" id="annual-pro"></div>
             <button class="pcard-btn" onclick="event.stopPropagation();selectPlan('pro')">選擇此方案</button>
             <hr class="pcard-divider">
             <div class="pcard-features">
@@ -612,7 +596,7 @@
       <div class="cart-bar-right">
         <div style="text-align:right">
           <div class="secure-note" style="justify-content:flex-end;margin-bottom:4px;">🔒 256-bit SSL 加密保護，資料安全有保障</div>
-          <div id="billing-note" style="font-size:11px;color:var(--w40);">按月扣款・最低服務期 12 個月・提前解約須支付違約金</div>
+          <div id="billing-note" style="font-size:11px;color:var(--w40);">最低服務期 12 個月・詳細付款方式將由專員與您確認</div>
         </div>
         <button class="btn-gold" id="checkout-btn" disabled onclick="goToCheckout()">繼續結帳 →</button>
       </div>
@@ -710,9 +694,9 @@
 <script>
   /* ── State ── */
   const PLANS = {
-    start: { label: 'ORBIT START', monthly: 1488, annual: Math.round(1488 * 12 * 0.8), slots: 3, accounts: 1, ai: 'AI 基礎額度' },
-    plus:  { label: 'ORBIT PLUS',  monthly: 1988, annual: Math.round(1988 * 12 * 0.8), slots: 5, accounts: 3, ai: 'AI 進階額度' },
-    pro:   { label: 'ORBIT PRO',   monthly: 3988, annual: Math.round(3988 * 12 * 0.8), slots: 7, accounts: 5, ai: 'AI 專業額度' },
+    start: { label: 'ORBIT START', monthly: 1488, slots: 3, accounts: 1, ai: 'AI 基礎額度' },
+    plus:  { label: 'ORBIT PLUS',  monthly: 1988, slots: 5, accounts: 3, ai: 'AI 進階額度' },
+    pro:   { label: 'ORBIT PRO',   monthly: 3988, slots: 7, accounts: 5, ai: 'AI 專業額度' },
   };
   const ALL_MODULES = [
     { id: 'rsvp',   name: 'RSVP'   },
@@ -736,7 +720,6 @@
   };
   const SETUP_FEE = 888;
 
-  let billing      = 'monthly';
   let selectedPlan = null;
   let selectedMods = new Set();
   let selectedAIAddon = 'none';
@@ -744,29 +727,6 @@
   let selectedKB   = 'none';
 
   const fmt = n => 'NT$' + n.toLocaleString('zh-TW');
-
-  /* ── Billing toggle ── */
-  function setBilling(mode) {
-    billing = mode;
-    document.getElementById('btn-monthly').classList.toggle('active', mode === 'monthly');
-    document.getElementById('btn-annual').classList.toggle('active', mode === 'annual');
-    updatePriceDisplays();
-    updateBar();
-  }
-
-  function updatePriceDisplays() {
-    Object.entries(PLANS).forEach(([key, p]) => {
-      const el = document.getElementById('price-' + key);
-      const annEl = document.getElementById('annual-' + key);
-      if (billing === 'annual') {
-        el.innerHTML = fmt(p.annual) + ' <span>/年</span>';
-        annEl.innerHTML = `原年費 <span style="text-decoration:line-through;color:rgba(236,233,224,0.2)">${fmt(p.monthly * 12)}</span>`;
-      } else {
-        el.innerHTML = fmt(p.monthly) + ' <span>/月</span>';
-        annEl.innerHTML = '';
-      }
-    });
-  }
 
   /* ── Plan selection ── */
   function selectPlan(key) {
@@ -920,14 +880,11 @@
   function updateBar() {
     const plan  = selectedPlan ? PLANS[selectedPlan] : null;
     const kb    = KB_PLANS[selectedKB];
-    const isAnn = billing === 'annual';
 
-    const planPrice  = plan ? (isAnn ? plan.annual : plan.monthly) : 0;
+    const planPrice  = plan ? plan.monthly : 0;
     const kbPrice    = kb.price;
     const addonMo    = getAIAddonPrice();
-    const afterTrial = isAnn
-      ? SETUP_FEE + planPrice + kbPrice
-      : SETUP_FEE + planPrice + kbPrice;
+    const afterTrial = SETUP_FEE + planPrice + kbPrice;
     const monthlyCont = planPrice + addonMo;
 
     // Plan label
@@ -948,16 +905,12 @@
 
     // First pay / monthly
     document.getElementById('bar-first').textContent   = plan ? 'NT$0（14 天免費試用）' : '—';
-    document.getElementById('bar-monthly').textContent = plan
-      ? fmt(isAnn ? planPrice : monthlyCont) + (isAnn ? '/年' : '/月')
-      : '—';
-    document.getElementById('bar-monthly-label').textContent = isAnn ? '年繳總金額' : '每月（第二個月起）';
-    document.getElementById('billing-note').textContent = isAnn
-      ? '年繳方案 · 到期自動續約'
-      : '按月扣款・最低服務期 12 個月・提前解約須支付違約金';
+    document.getElementById('bar-monthly').textContent = plan ? fmt(monthlyCont) + '/月' : '—';
+    document.getElementById('bar-monthly-label').textContent = '每月（第二個月起）';
+    document.getElementById('billing-note').textContent = '最低服務期 12 個月・詳細付款方式將由專員與您確認';
 
     // Breakdown popup
-    document.getElementById('bd-month1-label').textContent = isAnn ? '首年年費' : '首月月費';
+    document.getElementById('bd-month1-label').textContent = '首月月費';
     document.getElementById('bd-month1').textContent = plan ? fmt(planPrice) : '—';
     document.getElementById('bd-total').textContent   = plan ? fmt(afterTrial) : '—';
     const kbRow = document.getElementById('bd-kb-row');
@@ -997,8 +950,7 @@
     const aiAddonPrice = getAIAddonPrice();
     const kb  = KB_PLANS[selectedKB];
     const data = {
-      billing,
-      plan:     { label: plan.label, price: billing === 'annual' ? plan.annual : plan.monthly, value: selectedPlan, accounts: plan.accounts, ai: plan.ai },
+      plan:     { label: plan.label, price: plan.monthly, value: selectedPlan, accounts: plan.accounts, ai: plan.ai },
       modules:  [...selectedMods],
       setup:    SETUP_FEE,
       ai_addon: aiAddonPrice > 0 ? { label: 'ORBIT AI+', price: aiAddonPrice } : null,
@@ -1048,7 +1000,6 @@
   }
 
   /* ── Init ── */
-  updatePriceDisplays();
   updateBar();
 </script>
 
