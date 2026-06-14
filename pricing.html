@@ -289,7 +289,7 @@
     <div class="hero">
       <p class="eyebrow">Pricing</p>
       <h1>選一個方案，自己挑模組</h1>
-      <p>每個方案都內建 POS + CRM + AI 基礎，再從 7 個模組中選出最適合你生意的幾個</p>
+      <p>每個方案都內建 POS + CRM + AI 基礎，再從 6 個模組中選出最適合你生意的幾個</p>
 
       <!-- Stepper -->
       <div class="stepper">
@@ -349,7 +349,7 @@
               <div class="pcard-feature-group">
                 <div class="pcard-feature-label">模組</div>
                 <div class="pcard-feature">POS + CRM + AI 基礎 <em>內建</em></div>
-                <div class="pcard-feature">從 7 個模組中 <em>選 3 個</em></div>
+                <div class="pcard-feature">從 6 個模組中 <em>選 3 個</em></div>
               </div>
             </div>
           </div>
@@ -371,7 +371,7 @@
               <div class="pcard-feature-group">
                 <div class="pcard-feature-label">模組</div>
                 <div class="pcard-feature">POS + CRM + AI 基礎 <em>內建</em></div>
-                <div class="pcard-feature">從 7 個模組中 <em>選 5 個</em></div>
+                <div class="pcard-feature">從 6 個模組中 <em>選 5 個</em></div>
               </div>
             </div>
           </div>
@@ -392,7 +392,7 @@
               <div class="pcard-feature-group">
                 <div class="pcard-feature-label">模組</div>
                 <div class="pcard-feature">POS + CRM + AI 基礎 <em>內建</em></div>
-                <div class="pcard-feature"><em>全選 7 個</em>模組，無需挑選</div>
+                <div class="pcard-feature"><em>全選 6 個</em>模組，無需挑選</div>
               </div>
             </div>
           </div>
@@ -459,15 +459,6 @@
             </div>
             <div class="mcard-desc">細粒度權限管控</div>
             <div class="mcard-fit">適合：多角色・多店管理</div>
-          </div>
-
-          <div class="mcard" id="mcard-ai_pro" onclick="toggleModule('ai_pro')">
-            <div class="mcard-header">
-              <span class="mcard-name">ORBIT AI Pro</span>
-              <div class="mcard-tick" id="mtick-ai_pro"></div>
-            </div>
-            <div class="mcard-desc">深度分析 & 自動化建議</div>
-            <div class="mcard-fit">適合：需要 AI 洞察的店家</div>
           </div>
 
         </div>
@@ -696,7 +687,7 @@
   const PLANS = {
     start: { label: 'ORBIT START', monthly: 1488, slots: 3, accounts: 1, ai: 'AI 基礎額度' },
     plus:  { label: 'ORBIT PLUS',  monthly: 1988, slots: 5, accounts: 3, ai: 'AI 進階額度' },
-    pro:   { label: 'ORBIT PRO',   monthly: 3988, slots: 7, accounts: 5, ai: 'AI 專業額度' },
+    pro:   { label: 'ORBIT PRO',   monthly: 3988, slots: 6, accounts: 5, ai: 'AI 專業額度' },
   };
   const ALL_MODULES = [
     { id: 'rsvp',   name: 'RSVP'   },
@@ -705,7 +696,6 @@
     { id: 'hr',     name: 'HR'     },
     { id: 'flow',   name: 'FLOW'   },
     { id: 'auth',   name: 'AUTH'   },
-    { id: 'ai_pro', name: 'AI Pro' },
   ];
   const AI_ADDON_PRESETS = {
     none: 0,
@@ -741,11 +731,11 @@
     const sec = document.getElementById('module-section');
     const secTitle = document.getElementById('module-section-title');
 
-    if (plan.slots >= 7) {
+    if (plan.slots >= ALL_MODULES.length) {
       // PRO: auto-select all
       ALL_MODULES.forEach(m => selectedMods.add(m.id));
       sec.classList.remove('hidden');
-      secTitle.textContent = '已包含全部 7 個模組';
+      secTitle.textContent = '已包含全部 6 個模組';
     } else {
       sec.classList.remove('hidden');
       secTitle.textContent = '挑選模組';
@@ -783,11 +773,11 @@
 
   function renderModules() {
     const plan = selectedPlan ? PLANS[selectedPlan] : null;
-    const isPro = plan && plan.slots >= 7;
+    const isPro = plan && plan.slots >= ALL_MODULES.length;
     const infoEl = document.getElementById('slot-info');
 
     if (isPro) {
-      infoEl.innerHTML = 'PRO 方案包含全部 7 個模組，<strong>無需手動選擇</strong>。';
+      infoEl.innerHTML = 'PRO 方案包含全部 6 個模組，<strong>無需手動選擇</strong>。';
     } else if (plan) {
       const rem = plan.slots - selectedMods.size;
       infoEl.innerHTML = `已選 <strong>${selectedMods.size}</strong> / ${plan.slots} 個 · 還可選 <strong>${rem}</strong> 個`;
@@ -870,7 +860,7 @@
     }
 
     const plan = PLANS[selectedPlan];
-    const modulesReady = plan.slots >= 7 || selectedMods.size > 0;
+    const modulesReady = plan.slots >= ALL_MODULES.length || selectedMods.size > 0;
 
     s1.className = 'step-tab done';
     s2.className = modulesReady ? 'step-tab active' : 'step-tab';
