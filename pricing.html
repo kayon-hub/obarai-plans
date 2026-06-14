@@ -209,17 +209,6 @@
     .cart-bar-val { font-family: var(--sans); font-size: 15px; font-weight: 700; color: var(--white); }
     .cart-bar-val.gold { color: var(--gold); }
     .cart-bar-sep { width: 1px; height: 32px; background: var(--border); }
-
-    /* Breakdown tooltip */
-    .first-pay-wrap { position: relative; cursor: pointer; }
-    .first-pay-wrap .cart-bar-label { display: flex; align-items: center; gap: 4px; }
-    .first-pay-wrap .info-icon { width: 13px; height: 13px; border-radius: 50%; border: 1px solid var(--w40); display: inline-flex; align-items: center; justify-content: center; font-size: 9px; color: var(--w40); flex-shrink: 0; }
-    .breakdown-popup { display: none; position: absolute; bottom: calc(100% + 10px); left: 0; background: var(--surface3); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; min-width: 240px; z-index: 999; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
-    .first-pay-wrap:hover .breakdown-popup,
-    .first-pay-wrap.open .breakdown-popup { display: block; }
-    .breakdown-row { display: flex; justify-content: space-between; gap: 16px; font-size: 12px; color: var(--w70); margin-bottom: 7px; }
-    .breakdown-row:last-child { margin-bottom: 0; }
-    .breakdown-row.total { border-top: 1px solid var(--borderl); padding-top: 8px; margin-top: 4px; color: var(--white); font-weight: 600; }
     .cart-bar-right { display: flex; align-items: center; gap: 12px; }
     .cart-total-block { text-align: right; }
     .cart-total-block .label { font-size: 11px; color: var(--w40); }
@@ -547,49 +536,13 @@
           <span class="cart-bar-label">已選模組</span>
           <span class="cart-bar-val" id="bar-mods">—</span>
         </div>
-        <div class="cart-bar-sep"></div>
-        <div class="cart-bar-item first-pay-wrap" id="first-pay-wrap" onclick="toggleBreakdown()">
-          <span class="cart-bar-label">試用後首筆 <span class="info-icon">?</span></span>
-          <span class="cart-bar-val" id="bar-first">—</span>
-          <div class="breakdown-popup" id="breakdown-popup">
-            <div class="breakdown-row" style="color:var(--gold);font-weight:600;">
-              <span>🎉 14 天免費試用</span>
-              <span>NT$0</span>
-            </div>
-            <div class="breakdown-row" style="border-top:1px solid var(--borderl);padding-top:8px;margin-top:4px;color:var(--w40);font-size:11px;">
-              <span>試用結束後第一筆</span>
-              <span></span>
-            </div>
-            <div class="breakdown-row">
-              <span>系統開通費</span>
-              <span id="bd-setup">NT$888</span>
-            </div>
-            <div class="breakdown-row">
-              <span id="bd-month1-label">首月月費</span>
-              <span id="bd-month1">—</span>
-            </div>
-            <div class="breakdown-row" id="bd-kb-row" style="display:none">
-              <span>AI 知識庫建置</span>
-              <span id="bd-kb">—</span>
-            </div>
-            <div class="breakdown-row total">
-              <span>試用後合計</span>
-              <span id="bd-total">—</span>
-            </div>
-          </div>
-        </div>
-        <div class="cart-bar-sep"></div>
-        <div class="cart-bar-item">
-          <span class="cart-bar-label" id="bar-monthly-label">每月（第二個月起）</span>
-          <span class="cart-bar-val gold" id="bar-monthly">—</span>
-        </div>
       </div>
       <div class="cart-bar-right">
         <div style="text-align:right">
           <div class="secure-note" style="justify-content:flex-end;margin-bottom:4px;">🔒 256-bit SSL 加密保護，資料安全有保障</div>
           <div id="billing-note" style="font-size:11px;color:var(--w40);">最低服務期 12 個月・詳細付款方式將由專員與您確認</div>
         </div>
-        <button class="btn-gold" id="checkout-btn" disabled onclick="goToCheckout()">繼續結帳 →</button>
+        <button class="btn-gold" id="checkout-btn" disabled onclick="goToCheckout()">下一步：填寫資料 →</button>
       </div>
     </div>
   </div>
@@ -754,7 +707,7 @@
   function toggleModule(id) {
     if (!selectedPlan) return;
     const plan = PLANS[selectedPlan];
-    if (plan.slots >= 7) return; // PRO: auto-selected, no toggle
+    if (plan.slots >= ALL_MODULES.length) return; // PRO: auto-selected, no toggle
 
     const card = document.getElementById('mcard-' + id);
     if (card.classList.contains('mcard-disabled')) return;
@@ -868,14 +821,7 @@
 
   /* ── Update bottom bar ── */
   function updateBar() {
-    const plan  = selectedPlan ? PLANS[selectedPlan] : null;
-    const kb    = KB_PLANS[selectedKB];
-
-    const planPrice  = plan ? plan.monthly : 0;
-    const kbPrice    = kb.price;
-    const addonMo    = getAIAddonPrice();
-    const afterTrial = SETUP_FEE + planPrice + kbPrice;
-    const monthlyCont = planPrice + addonMo;
+    const plan = selectedPlan ? PLANS[selectedPlan] : null;
 
     // Plan label
     document.getElementById('bar-plan').textContent = plan ? plan.label : '—';
@@ -893,43 +839,16 @@
       modsSep.style.display = 'none';
     }
 
-    // First pay / monthly
-    document.getElementById('bar-first').textContent   = plan ? 'NT$0（14 天免費試用）' : '—';
-    document.getElementById('bar-monthly').textContent = plan ? fmt(monthlyCont) + '/月' : '—';
-    document.getElementById('bar-monthly-label').textContent = '每月（第二個月起）';
-    document.getElementById('billing-note').textContent = '最低服務期 12 個月・詳細付款方式將由專員與您確認';
-
-    // Breakdown popup
-    document.getElementById('bd-month1-label').textContent = '首月月費';
-    document.getElementById('bd-month1').textContent = plan ? fmt(planPrice) : '—';
-    document.getElementById('bd-total').textContent   = plan ? fmt(afterTrial) : '—';
-    const kbRow = document.getElementById('bd-kb-row');
-    if (kbPrice > 0) {
-      kbRow.style.display = 'flex';
-      document.getElementById('bd-kb').textContent = fmt(kbPrice) + '+';
-    } else {
-      kbRow.style.display = 'none';
-    }
-
     // Enable checkout button only when plan + modules ready
-    const modReady = plan && (plan.slots >= 7 || selectedMods.size > 0);
+    const modReady = plan && (plan.slots >= ALL_MODULES.length || selectedMods.size > 0);
     document.getElementById('checkout-btn').disabled = !modReady;
   }
-
-  /* ── Breakdown toggle (mobile) ── */
-  function toggleBreakdown() {
-    document.getElementById('first-pay-wrap').classList.toggle('open');
-  }
-  document.addEventListener('click', function(e) {
-    const wrap = document.getElementById('first-pay-wrap');
-    if (wrap && !wrap.contains(e.target)) wrap.classList.remove('open');
-  });
 
   /* ── Checkout ── */
   function goToCheckout() {
     if (!selectedPlan) { alert('請先選擇月費方案'); return; }
     const plan = PLANS[selectedPlan];
-    const modReady = plan.slots >= 7 || selectedMods.size > 0;
+    const modReady = plan.slots >= ALL_MODULES.length || selectedMods.size > 0;
     if (!modReady) { alert('請選擇模組後再繼續'); return; }
 
     if (selectedAIAddon === 'custom' && aiCustomAmount > 0 && aiCustomAmount < AI_ADDON_MIN) {
