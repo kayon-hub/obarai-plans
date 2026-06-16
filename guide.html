@@ -409,6 +409,25 @@ const INDUSTRIES = {
   }
 };
 
+  universal: {
+    name: '你的產業',
+    greeting: '以下這幾個問題，不管什麼行業都常會遇到。你選選看，有哪幾個最讓你頭痛？',
+    pains: [
+      { id: 'reporting',  text: '每個月對帳或整理報表，要花很多時間，還不確定數字是不是對的', feature: '財務報表', solution: '每筆收支進入系統後，月報自動生成，從手動幾小時變成幾分鐘。' },
+      { id: 'staff',      text: '員工排班靠群組協調，換班或請假的時候容易出亂子', feature: '排班管理', solution: '班表線上管理，換班申請走系統，主管確認後員工收到通知，不靠群組傳訊。' },
+      { id: 'customer',   text: '客戶或往來對象的資料散落各處，需要的時候找不到', feature: 'CRM 客戶管理', solution: '所有客戶資料集中在一個地方，聯絡記錄、往來歷史隨時查閱。' },
+      { id: 'profit',     text: '不確定哪些業務真正在賺錢，決策靠感覺而不是數字', feature: '業績分析', solution: 'ORBIT 統計每個業務項目的收入和成本，讓你的決策有數字依據。' },
+      { id: 'inventory',  text: '材料或存貨靠人工估計，缺了才發現，或備太多造成浪費', feature: '庫存管理', solution: '進出貨都有記錄，剩餘量即時更新，低於安全庫存就提醒你。' },
+      { id: 'cashflow',   text: '公司的錢到底夠不夠用，要到月底才知道，平時心裡沒底', feature: '現金流追蹤', solution: '所有收支即時記錄，任何時間點都能看到公司的資金全貌。' }
+    ],
+    steps: [
+      { title: '先試試基礎功能', desc: '財務記錄、客戶管理、員工排班等通用功能現在就能用，從你最有感的問題開始。' },
+      { title: '把你的業務流程告訴我們', desc: '你的產業怎麼運作、最頭痛的是什麼，這些反饋直接影響 ORBIT 的下一個版本。' },
+      { title: '等我們聯繫你', desc: '分享需求後，OBARAI 團隊會主動聯繫，了解更多你的產業細節。' }
+    ]
+  }
+};
+
 // 關鍵字對應產業
 const INDUSTRY_KEYWORDS = [
   { id: 'tutoring',   words: ['補習', '補教', '教育', '才藝', '安親', '家教', '英文', '數學', '理化', '作文', '音樂', '鋼琴', '學員', '學生', '老師', '課程', '授課', '教學', '學習'] },
@@ -502,6 +521,7 @@ function screenIndustry() {
 
 function screenPains() {
   const ind = INDUSTRIES[state.industry];
+  const isUniversal = state.industry === 'universal';
   const cards = ind.pains.map(p => {
     const sel = state.pains.includes(p.id) ? 'selected' : '';
     return `<div class="pain-card ${sel}" data-pain="${p.id}">
@@ -510,11 +530,16 @@ function screenPains() {
     </div>`;
   }).join('');
   const limitTxt = state.pains.length === 0 ? '選 1 到 3 個你最有感的' : `已選 ${state.pains.length} 個`;
+  const speech = isUniversal
+    ? `<p>ORBIT 目前還在學習 <strong>${state.industryInput || '你的產業'}</strong>，這個產業還沒有專屬版本。</p>
+       <p>不過以下這幾個問題，不管什麼行業都常遇到。你選選看，有哪幾個最讓你頭痛？</p>
+       <div class="note">很歡迎之後跟我們分享你的業務狀況，幫助 ORBIT 做得更適合你。</div>`
+    : `<p>了解，你做的是 <strong>${ind.name}</strong>。</p>
+       <p>${ind.greeting}</p>
+       <div class="note">選你最有感的就好，沒有對錯，最多選 3 個。</div>`;
   return `<div class="screen">
     <div class="orbit-speech"><div class="orbit-avatar">O</div><div class="orbit-bubble">
-      <p>了解，你做的是 <strong>${ind.name}</strong>。</p>
-      <p>${ind.greeting}</p>
-      <div class="note">選你最有感的就好，沒有對錯，最多選 3 個。</div>
+      ${speech}
     </div></div>
     <div class="pain-limit" id="pain-limit">${limitTxt}</div>
     <div class="pain-list">${cards}</div>
@@ -580,6 +605,7 @@ function screenDiag() {
 
 function screenStart() {
   const ind = INDUSTRIES[state.industry];
+  const isUniversal = state.industry === 'universal';
   const tags = ind.pains.filter(p => state.pains.includes(p.id)).map(p =>
     `<span class="tag">${p.feature}</span>`
   ).join('');
@@ -589,14 +615,24 @@ function screenStart() {
       <div class="step-body"><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div></div>
     </div>`
   ).join('');
+  const subject = encodeURIComponent('ORBIT 產業回饋：' + (state.industryInput || '未知產業'));
+  const shareBlock = isUniversal ? `
+    <div style="margin-top:16px;padding:16px 18px;background:rgba(129,140,248,0.05);border:1px solid rgba(129,140,248,0.12);border-radius:14px;">
+      <p style="font-size:13px;font-weight:600;color:#a5b4fc;margin-bottom:6px;">幫 ORBIT 學習你的產業</p>
+      <p style="font-size:13px;color:var(--muted);line-height:1.65;">把你的業務流程和最頭痛的問題告訴我們。你的分享直接影響 ORBIT 的下一個版本。</p>
+      <a href="mailto:kayon@obarai.com?subject=${subject}" style="display:inline-block;margin-top:12px;font-size:13px;color:#818cf8;text-decoration:none;">聯繫 OBARAI 團隊 →</a>
+    </div>` : '';
+  const orbitSpeech = isUniversal
+    ? `<p>好的，記下來了。</p><p>ORBIT 還在學習你的產業，但這些問題現在就可以開始處理。</p>`
+    : `<p>很好。ORBIT 已經了解你需要什麼了。</p><p>接下來只需要做 3 件事，今天就能讓系統開始為你記錄。</p>`;
   return `<div class="screen">
     <div class="orbit-speech"><div class="orbit-avatar">O</div><div class="orbit-bubble">
-      <p>很好。ORBIT 已經了解你需要什麼了。</p>
-      <p>接下來只需要做 3 件事，今天就能讓系統開始為你記錄。</p>
+      ${orbitSpeech}
     </div></div>
     <div class="tag-list">${tags}</div>
     <div class="section-label">今天先做這 3 件事</div>
     <div class="start-steps">${steps}</div>
+    ${shareBlock}
     <div class="cta-wrap">
       <a class="btn-enter" href="https://app.obarai.com/dashboard" target="_blank">進入 ORBIT 開始設定</a>
       <button class="btn-secondary" id="btn-restart">重新填寫</button>
@@ -627,8 +663,8 @@ function attachEvents() {
       if (detected) { detected.textContent = '偵測到：' + name; detected.classList.add('visible'); }
       if (btnNext) btnNext.disabled = false;
     } else {
-      state.industry = 'cafe'; // 通用 fallback
-      if (detected) { detected.textContent = '此產業目前尚無專屬設定，先以通用版本展示供你參考'; detected.classList.add('visible'); }
+      state.industry = 'universal';
+      if (detected) { detected.textContent = 'ORBIT 目前還在學習這個產業，先帶你看看通用版本，也很歡迎你之後跟我們分享'; detected.classList.add('visible'); }
       if (btnNext) btnNext.disabled = false;
     }
   }
