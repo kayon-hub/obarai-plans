@@ -531,9 +531,8 @@ function screenPains() {
   }).join('');
   const limitTxt = state.pains.length === 0 ? '選 1 到 3 個你最有感的' : `已選 ${state.pains.length} 個`;
   const speech = isUniversal
-    ? `<p>ORBIT 目前還在學習 <strong>${state.industryInput || '你的產業'}</strong>，這個產業還沒有專屬版本。</p>
-       <p>不過以下這幾個問題，不管什麼行業都常遇到。你選選看，有哪幾個最讓你頭痛？</p>
-       <div class="note">很歡迎之後跟我們分享你的業務狀況，幫助 ORBIT 做得更適合你。</div>`
+    ? `<p>因為您的產業涉及的範圍較廣，為了更有效地協助您，請先從以下選出您目前<strong>最想解決</strong>的事情。</p>
+       <div class="note">選出來之後，ORBIT 會針對您的需求說明對應的解法。最多選 3 個。</div>`
     : `<p>了解，你做的是 <strong>${ind.name}</strong>。</p>
        <p>${ind.greeting}</p>
        <div class="note">選你最有感的就好，沒有對錯，最多選 3 個。</div>`;
@@ -615,15 +614,9 @@ function screenStart() {
       <div class="step-body"><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div></div>
     </div>`
   ).join('');
-  const subject = encodeURIComponent('ORBIT 產業回饋：' + (state.industryInput || '未知產業'));
-  const shareBlock = isUniversal ? `
-    <div style="margin-top:16px;padding:16px 18px;background:rgba(129,140,248,0.05);border:1px solid rgba(129,140,248,0.12);border-radius:14px;">
-      <p style="font-size:13px;font-weight:600;color:#a5b4fc;margin-bottom:6px;">幫 ORBIT 學習你的產業</p>
-      <p style="font-size:13px;color:var(--muted);line-height:1.65;">把你的業務流程和最頭痛的問題告訴我們。你的分享直接影響 ORBIT 的下一個版本。</p>
-      <a href="mailto:kayon@obarai.com?subject=${subject}" style="display:inline-block;margin-top:12px;font-size:13px;color:#818cf8;text-decoration:none;">聯繫 OBARAI 團隊 →</a>
-    </div>` : '';
+  const shareBlock = '';
   const orbitSpeech = isUniversal
-    ? `<p>好的，記下來了。</p><p>ORBIT 還在學習你的產業，但這些問題現在就可以開始處理。</p>`
+    ? `<p>了解，根據您選的重點，以下是建議的起步方式。</p><p>這幾件事做完，ORBIT 就能開始為你記錄和分析。</p>`
     : `<p>很好。ORBIT 已經了解你需要什麼了。</p><p>接下來只需要做 3 件事，今天就能讓系統開始為你記錄。</p>`;
   return `<div class="screen">
     <div class="orbit-speech"><div class="orbit-avatar">O</div><div class="orbit-bubble">
@@ -664,7 +657,7 @@ function attachEvents() {
       if (btnNext) btnNext.disabled = false;
     } else {
       state.industry = 'universal';
-      if (detected) { detected.textContent = 'ORBIT 目前還在學習這個產業，先帶你看看通用版本，也很歡迎你之後跟我們分享'; detected.classList.add('visible'); }
+      if (detected) { detected.textContent = '您的產業範圍較廣，ORBIT 將協助您找出最適合的起步方向'; detected.classList.add('visible'); }
       if (btnNext) btnNext.disabled = false;
     }
   }
