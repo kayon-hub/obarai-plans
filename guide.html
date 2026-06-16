@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORBIT — 業務診斷與入門</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #060610;
+    --surface: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+    --text: #e8e8f0;
+    --muted: #7070a0;
+    --accent: #818cf8;
+    --accent-glow: rgba(129,140,248,0.15);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #app {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 680px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  /* Topbar */
+  .topbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 20px 0 0;
+  }
+  .orbit-mark {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #818cf8, #a78bfa);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 0 16px rgba(129,140,248,0.4);
+  }
+  .orbit-name {
+    font-size: 13px; font-weight: 600;
+    letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase;
+  }
+  .step-indicator { margin-left: auto; font-size: 12px; color: var(--muted); }
+
+  /* Progress */
+  .progress-bar {
+    height: 2px; background: var(--border); border-radius: 2px;
+    margin: 16px 0 0; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #818cf8, #a78bfa);
+    border-radius: 2px; transition: width 0.5s ease;
+  }
+
+  /* Screen */
+  .screen {
+    flex: 1; display: flex; flex-direction: column;
+    padding: 32px 0 40px;
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ORBIT speech bubble */
+  .orbit-speech { display: flex; gap: 12px; margin-bottom: 28px; }
+  .orbit-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, #818cf8, #a78bfa);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 700; color: #fff;
+    flex-shrink: 0; margin-top: 2px;
+    box-shadow: 0 0 20px rgba(129,140,248,0.3);
+  }
+  .orbit-bubble {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px 16px 16px 16px; padding: 14px 18px; flex: 1;
+  }
+  .orbit-bubble p { font-size: 15px; line-height: 1.65; color: var(--text); }
+  .orbit-bubble p + p { margin-top: 10px; }
+  .orbit-bubble strong { color: #c4b5fd; }
+  .orbit-bubble .honest-note {
+    margin-top: 12px; padding: 10px 14px;
+    background: rgba(129,140,248,0.08);
+    border-left: 2px solid #818cf8;
+    border-radius: 0 8px 8px 0;
+    font-size: 13px; color: #a5b4fc; line-height: 1.5;
+  }
+
+  /* Section label */
+  .section-label {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 12px;
+  }
+
+  /* Industry grid */
+  .industry-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (min-width: 480px) { .industry-grid { grid-template-columns: repeat(3, 1fr); } }
+  .industry-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 14px; cursor: pointer;
+    text-align: center; transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .industry-card:hover { border-color: var(--accent); background: var(--accent-glow); }
+  .industry-card .ic-icon { font-size: 28px; margin-bottom: 8px; }
+  .industry-card .ic-name { font-size: 13px; font-weight: 500; line-height: 1.3; }
+
+  /* Pain cards */
+  .pain-list { display: flex; flex-direction: column; gap: 8px; }
+  .pain-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 16px; cursor: pointer;
+    display: flex; align-items: flex-start; gap: 12px;
+    transition: all 0.2s; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none;
+  }
+  .pain-card:hover { border-color: rgba(129,140,248,0.4); }
+  .pain-card.selected { border-color: var(--accent); background: var(--accent-glow); }
+  .pain-check {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 1.5px solid var(--border); flex-shrink: 0; margin-top: 1px;
+    display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+  }
+  .pain-card.selected .pain-check { background: #818cf8; border-color: #818cf8; }
+  .pain-check-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #fff; opacity: 0; transition: opacity 0.2s;
+  }
+  .pain-card.selected .pain-check-dot { opacity: 1; }
+  .pain-text { font-size: 14px; line-height: 1.5; color: var(--text); }
+  .pain-limit { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+
+  /* Tool grid */
+  .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tool-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 14px; cursor: pointer;
+    transition: all 0.2s; -webkit-tap-highlight-color: transparent;
+  }
+  .tool-card:hover { border-color: rgba(129,140,248,0.4); }
+  .tool-card.selected { border-color: var(--accent); background: var(--accent-glow); }
+  .tool-icon { font-size: 22px; margin-bottom: 6px; }
+  .tool-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .tool-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+  /* Tool response */
+  .tool-response {
+    background: rgba(129,140,248,0.06); border-left: 2px solid #818cf8;
+    border-radius: 0 8px 8px 0; padding: 12px 16px;
+    font-size: 13px; color: #a5b4fc; line-height: 1.55;
+    margin-top: 16px; animation: fadeUp 0.3s ease both; display: none;
+  }
+  .tool-response.visible { display: block; }
+
+  /* Honest pact */
+  .honest-pact {
+    background: rgba(129,140,248,0.05); border: 1px solid rgba(129,140,248,0.2);
+    border-radius: 14px; padding: 20px; margin-top: 16px;
+    animation: fadeUp 0.5s ease both; display: none;
+  }
+  .honest-pact.visible { display: block; }
+  .honest-pact-title {
+    font-size: 13px; font-weight: 600; color: #a5b4fc;
+    letter-spacing: 0.05em; margin-bottom: 10px;
+  }
+  .honest-pact p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .honest-pact p + p { margin-top: 8px; }
+  .honest-pact strong { color: var(--text); }
+
+  /* Diagnosis cards */
+  .diag-list { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+  .diag-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 18px;
+    animation: fadeUp 0.4s ease both;
+  }
+  .diag-card:nth-child(2) { animation-delay: 0.08s; }
+  .diag-card:nth-child(3) { animation-delay: 0.16s; }
+  .diag-problem {
+    font-size: 12px; color: var(--muted); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .diag-problem::before {
+    content: ''; display: inline-block;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #f87171; flex-shrink: 0;
+  }
+  .diag-arrow { font-size: 18px; color: var(--muted); margin: 8px 0; display: block; }
+  .diag-feature {
+    font-size: 13px; font-weight: 600; color: #a5b4fc; margin-bottom: 4px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .diag-feature::before {
+    content: ''; display: inline-block;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #6ee7b7; flex-shrink: 0;
+  }
+  .diag-solution { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* Start steps */
+  .start-steps { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .start-step {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px;
+    animation: fadeUp 0.4s ease both;
+  }
+  .start-step:nth-child(2) { animation-delay: 0.08s; }
+  .start-step:nth-child(3) { animation-delay: 0.16s; }
+  .step-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, #818cf8, #a78bfa);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .step-body { flex: 1; }
+  .step-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+  .step-desc { font-size: 13px; color: var(--muted); line-height: 1.4; }
+
+  /* Tags */
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+  .tag {
+    padding: 4px 10px;
+    background: rgba(129,140,248,0.1); border: 1px solid rgba(129,140,248,0.2);
+    border-radius: 99px; font-size: 12px; color: #a5b4fc;
+  }
+
+  /* CTAs */
+  .cta-wrap { margin-top: auto; padding-top: 24px; }
+  .btn-primary {
+    display: block; width: 100%; padding: 15px;
+    background: linear-gradient(135deg, #818cf8, #a78bfa);
+    border: none; border-radius: 12px;
+    font-size: 15px; font-weight: 600; color: #fff;
+    cursor: pointer; transition: opacity 0.2s, transform 0.1s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-secondary {
+    display: block; width: 100%; padding: 13px;
+    background: transparent; border: 1px solid var(--border);
+    border-radius: 12px; font-size: 14px; color: var(--muted);
+    cursor: pointer; margin-top: 10px;
+    transition: border-color 0.2s, color 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-secondary:hover { border-color: rgba(129,140,248,0.4); color: var(--text); }
+  .btn-enter {
+    display: block; width: 100%; padding: 15px;
+    background: linear-gradient(135deg, #6ee7b7, #34d399);
+    border: none; border-radius: 12px;
+    font-size: 15px; font-weight: 600; color: #052e16;
+    cursor: pointer; transition: opacity 0.2s, transform 0.1s;
+    text-decoration: none; text-align: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-enter:hover { opacity: 0.9; }
+  .btn-enter:active { transform: scale(0.98); }
+
+  /* Footer */
+  .footer { text-align: center; padding: 16px 0 24px; font-size: 12px; color: #3a3a5a; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────
+
+const INDUSTRIES = {
+  tutoring: {
+    name: '補習班 / 教育機構', icon: '🎓',
+    greeting: '你的補習班現在最讓你頭痛的是什麼？',
+    pains: [
+      { id: 'attendance', text: '學生出缺勤靠點名、紙本記錄，漏掉了也不知道', feature: '出缺勤追蹤', solution: '每堂課的到課狀況自動記錄，缺課即時標記。再也不用查紙本，家長問你立刻能回答。' },
+      { id: 'payment', text: '學費收繳靠 LINE 催費，追錢很尷尬，有時候只好算了', feature: 'POS 收費記錄', solution: '哪位學員繳了、欠了多少、繳費日期，全部清單列表，不需要開口催，數字自己說話。' },
+      { id: 'schedule', text: '課表和師資排班靠 Excel，改一個地方要改很多地方', feature: '課程 / 排班管理', solution: '課表集中管理，調整一次全部更新，老師即時看到自己的班表，不再漏改。' },
+      { id: 'parent', text: '家長問孩子上課狀況，要翻記錄本才能回答，靠記憶很不放心', feature: '學員備註 + 歷史記錄', solution: '每位學員的完整記錄一鍵查到，接了電話就能回答，不需要掛掉電話再找資料。' },
+      { id: 'analytics', text: '哪些科目、哪些老師最受歡迎，靠感覺在排課和決策', feature: '報表分析', solution: '各科目報名率、師資業績、課堂飽和度，ORBIT 自動統計，讓數字做決策，不靠感覺。' },
+      { id: 'report', text: '每個月的收入報表要花好幾個小時手動整理', feature: '財務報表', solution: '月報表自動生成，收入、退費、欠費一張表看完，每個月省下半天時間。' }
+    ],
+    steps: [
+      { title: '建立你的第一位學員', desc: '到 CRM → 新增學員，填入姓名、聯絡電話、就讀科目。這是 ORBIT 開始記錄一切的起點。' },
+      { title: '設定你的課程與費用', desc: '到品項管理，把課程名稱和每堂費用建起來，之後每次收費都從這裡選，不用重複輸入。' },
+      { title: '完成第一筆收費記錄', desc: '到 POS → 選學員 → 選課程 → 完成收費。第一筆進入系統後，統計就開始自動運作了。' }
+    ]
+  },
+  cafe: {
+    name: '咖啡廳', icon: '☕',
+    greeting: '你的咖啡廳現在最讓你頭痛的是什麼？',
+    pains: [
+      { id: 'order', text: '尖峰時段靠手寫或吼叫點單，出錯率高，客人等太久', feature: 'POS 點餐系統', solution: '點單直接在 ORBIT 操作，即時傳到出單，不靠記憶，不靠喊，出錯率大幅降低。' },
+      { id: 'stock', text: '備貨靠經驗，食材常常缺料或浪費', feature: '庫存管理', solution: '每次出杯自動扣減庫存，低於安全庫存即時警示，讓你在缺貨前就知道要補。' },
+      { id: 'cashier', text: '每日對帳要手動計算，POS 和實際收款常常不符', feature: '收銀 + 日結報表', solution: '每筆交易清楚記錄，日結報表自動生成，30 秒對完一天的帳。' },
+      { id: 'menu', text: '不知道哪些品項真的在賺錢，哪些其實在賠錢', feature: '品項銷售分析', solution: 'ORBIT 幫你算每個品項的銷售量和利潤貢獻，讓你知道哪些留、哪些調整。' },
+      { id: 'customer', text: '回頭客有多少、消費習慣是什麼，完全不知道', feature: 'CRM 會員管理', solution: '每位客人的消費記錄累積起來，你可以看到誰是忠實客戶、他們最常點什麼。' },
+      { id: 'staff', text: '員工班表靠群組協調，換班時一片混亂', feature: '排班管理', solution: '班表線上管理，員工可以看到自己的班，換班申請不用靠群組，主管一鍵確認。' }
+    ],
+    steps: [
+      { title: '建立你的菜單品項', desc: '到品項管理，把飲品和食物全部建進來，含售價和成本，這是庫存和報表的基礎。' },
+      { title: '設定庫存初始數量', desc: '每個品項填入目前庫存量和安全庫存下限，ORBIT 才能在缺料前提醒你。' },
+      { title: '跑一次完整的點單收款', desc: '從選品項 → 結帳 → 完成收款，跑一次真實流程，確認整個動線符合你的作業方式。' }
+    ]
+  },
+  restaurant: {
+    name: '餐廳', icon: '🍽️',
+    greeting: '你的餐廳現在最讓你頭痛的是什麼？',
+    pains: [
+      { id: 'order', text: '出菜順序靠廚師記憶，上錯菜或漏菜的情況時有發生', feature: 'POS 出單管理', solution: '點單進入系統後即時顯示廚房出單，依序排列，廚師不靠記憶，每道菜都有記錄。' },
+      { id: 'table', text: '訂位靠電話記在紙上，桌況混亂，客人等位或重複安排', feature: '桌位 / 訂位管理', solution: '桌況即時更新，哪桌空著、哪桌預約、哪桌快結束，一個畫面看清楚，不靠紙本。' },
+      { id: 'stock', text: '食材庫存靠師傅估計，補貨不是多就是少', feature: '庫存管理', solution: '每道菜出去，對應食材自動扣減，讓你知道今天還能出幾份，不靠師傅的感覺。' },
+      { id: 'cashier', text: '月底結算要花半天，還不確定數字是否準確', feature: '財務報表', solution: '每日交易自動累積，月報表一鍵生成，對帳從半天變 5 分鐘，數字有記錄可查。' },
+      { id: 'staff', text: '員工排班換班靠群組，常常出現沒人來的狀況', feature: '排班管理', solution: '班表線上管理，排班換班全部走系統，不再靠群組，主管一鍵確認，員工收到通知。' },
+      { id: 'analytics', text: '哪些菜最受歡迎、哪些時段最忙，靠感覺決定人力和菜單', feature: '銷售分析', solution: 'ORBIT 告訴你每道菜的銷售排名、每個時段的來客數，讓你在對的時間配對的人力。' }
+    ],
+    steps: [
+      { title: '建立桌位配置', desc: '到桌位管理，把座位區域和桌號建起來，之後訂位和開單都從這裡選桌，不靠記憶。' },
+      { title: '輸入完整菜單', desc: '建立所有菜色，含售價和分類，讓點單時直接選，廚房也能看出單，不靠手寫。' },
+      { title: '跑一次完整桌況循環', desc: '從訂位 → 帶位開桌 → 點單 → 結帳，完整走一次，讓每個員工熟悉流程。' }
+    ]
+  },
+  retail: {
+    name: '零售店', icon: '🛍️',
+    greeting: '你的店面現在最讓你頭痛的是什麼？',
+    pains: [
+      { id: 'stock', text: '庫存靠肉眼和感覺，缺貨了才發現，已經錯過銷售機會', feature: '庫存管理', solution: '每筆銷售自動扣庫存，低於安全庫存立即警示，你在缺貨前 3 天就知道要補貨。' },
+      { id: 'purchase', text: '進貨沒有完整記錄，跟廠商對帳時沒有依據', feature: '採購 / 進貨記錄', solution: '每次進貨建立記錄，廠商、品項、數量、金額全部留存，對帳時有憑有據，不靠記憶。' },
+      { id: 'profit', text: '不知道哪些商品真正在賺錢，陳列和進貨憑感覺決定', feature: '商品利潤分析', solution: 'ORBIT 計算每個商品的毛利率和銷售速度，讓你把資金押在真正賺錢的商品上。' },
+      { id: 'cashier', text: '多個員工收銀，不確定每班的帳款是否正確', feature: '班別收銀報表', solution: '每班的交易獨立記錄，班結時報表自動生成，誰收的帳清楚分開，不靠人工對帳。' },
+      { id: 'customer', text: '忠實客戶沒有系統管理，促銷只能全館一起發', feature: 'CRM 會員管理', solution: '每位客人的購買記錄累積起來，你可以精準找出高消費客戶，給他們不一樣的優惠。' },
+      { id: 'inventory', text: '月底盤點要花很多時間，還常常有誤差', feature: '盤點功能', solution: 'ORBIT 即時庫存讓你隨時知道理論庫存，盤點時對比實際數量，誤差立刻找到原因。' }
+    ],
+    steps: [
+      { title: '建立商品資料', desc: '把所有商品（含成本、售價、庫存上下限）建入 ORBIT，這是庫存和利潤分析的基礎。' },
+      { title: '輸入目前庫存數量', desc: '每個商品填入目前實際庫存量，ORBIT 才能開始正確計算銷售後的剩餘庫存。' },
+      { title: '完成第一筆銷售記錄', desc: '走一次選品 → 結帳的完整流程，確認庫存正確扣減，報表數字正確跑起來。' }
+    ]
+  },
+  salon: {
+    name: '美髮沙龍', icon: '✂️',
+    greeting: '你的沙龍現在最讓你頭痛的是什麼？',
+    pains: [
+      { id: 'booking', text: '預約靠 LINE 或手寫，漏約、重複預約都發生過', feature: '預約管理', solution: '所有預約進入 ORBIT，每位設計師的時間表即時更新，重複預約不再發生，不靠記憶。' },
+      { id: 'performance', text: '設計師的業績靠自己記，月底對帳很麻煩、容易有爭議', feature: '設計師業績統計', solution: '每筆消費自動記錄到對應設計師，月底業績報表一鍵生成，沒有爭議，數字說話。' },
+      { id: 'client', text: '客人的喜好、上次做什麼，靠設計師自己記憶，設計師離職就消失了', feature: 'CRM 客戶記錄', solution: '每次服務記錄存在 ORBIT，不是存在設計師腦袋裡，任何人都能接續服務，客戶不流失。' },
+      { id: 'profit', text: '哪些服務最賺錢，定價和套餐怎麼設，靠感覺決定', feature: '服務項目分析', solution: 'ORBIT 統計每個服務項目的銷售量和利潤，讓你知道哪些值得推廣，哪些可以調整。' },
+      { id: 'supply', text: '藥水、材料的備貨靠經驗，常常缺料或過期浪費', feature: '消耗品庫存', solution: '每次使用記錄，剩餘量即時更新，快用完就提醒你補貨，不用靠人去目測倉庫。' },
+      { id: 'staff', text: '設計師請假換班靠群組，亂、慢、常出錯', feature: '排班管理', solution: '班表線上管理，請假走系統，主管一鍵確認，設計師收到通知，不靠群組傳訊。' }
+    ],
+    steps: [
+      { title: '建立服務項目和定價', desc: '把所有服務（剪、燙、染、護髮等）和對應費用建進 ORBIT，這是報表和業績計算的基礎。' },
+      { title: '設定設計師資料', desc: '新增每位設計師的帳號，之後每筆服務記錄到對應設計師，業績才能正確分開統計。' },
+      { title: '完成第一筆預約記錄', desc: '新增一筆真實預約（客人名字、設計師、服務項目、時間），走一次完整流程確認順暢。' }
+    ]
+  },
+  medspa: {
+    name: '醫美診所', icon: '💆',
+    greeting: '你的診所現在最讓你頭痛的是什麼？',
+    pains: [
+      { id: 'booking', text: '療程預約和客戶記錄分開管理，需要交叉查閱才能知道客人狀況', feature: '預約 + 客戶記錄整合', solution: '每位客人的預約和療程歷史在同一個地方，接了電話就能看到完整狀況，不靠手寫本。' },
+      { id: 'progress', text: '客戶的療程進度靠手寫或記憶追蹤，容易遺漏', feature: '療程進度管理', solution: '每次療程後記錄在 ORBIT，剩餘次數、下次建議時間清楚顯示，不靠記憶，不靠手寫。' },
+      { id: 'performance', text: '員工業績計算複雜，每月結算花很多時間，容易有爭議', feature: '員工業績統計', solution: '每筆服務記錄到對應員工，月底報表自動計算，數字有據可查，結算爭議大幅減少。' },
+      { id: 'supply', text: '針劑、材料的庫存記錄不清楚，成本難以精準掌控', feature: '消耗品庫存管理', solution: '每次使用記錄材料消耗，庫存即時更新，快到警戒線即時提醒，成本控制有據可查。' },
+      { id: 'profit', text: '哪些療程利潤最高，套餐怎麼設，定價靠直覺', feature: '療程利潤分析', solution: 'ORBIT 統計每個療程的銷售量、成本和利潤，讓你知道哪些療程值得推、哪些需要調整。' },
+      { id: 'revisit', text: '回診追蹤靠手動提醒，常常遺忘，流失不少回頭客', feature: '回訪提醒', solution: '設定療程間隔後，ORBIT 提醒你哪些客人該回診了，主動聯繫，不再被動等客人想到才來。' }
+    ],
+    steps: [
+      { title: '建立療程項目', desc: '把所有療程（含售價、成本、建議療程次數）建入 ORBIT，這是所有記錄的基礎。' },
+      { title: '建立現有客戶資料', desc: '逐步將目前的客戶資料移入 ORBIT，包含姓名、聯絡方式、已做療程記錄。' },
+      { title: '完成第一筆療程記錄', desc: '選一位客人，完成一次預約 → 服務 → 付款的完整流程，確認每個環節符合診所流程。' }
+    ]
+  },
+  accounting: {
+    name: '會計記帳系統', icon: '📊',
+    greeting: '你現在帳務管理最讓你頭痛的是什麼？',
+    pains: [
+      { id: 'receipt', text: '收據和憑證靠手動整理，一疊一疊放著，需要時找不到', feature: '憑證數位化', solution: 'ORBIT 讓你每筆收支當場記錄並分類，紙本憑證可拍照上傳，不再靠紙堆，隨時查。' },
+      { id: 'report', text: '每月報表要手動拉 Excel，格式不一致，花很多時間', feature: '自動財務報表', solution: '每筆交易記錄後，月報、季報、損益表自動生成，不需要再手動整理，格式統一。' },
+      { id: 'receivable', text: '應收應付帳款靠記憶追蹤，有時候忘記，錢就消失了', feature: '應收應付管理', solution: '應收帳款清楚列表，誰欠你、多少錢、到期日，過期未收自動標記，不靠記憶。' },
+      { id: 'cashflow', text: '不同帳戶的資金流向不清楚，月底才知道賺賠', feature: '現金流追蹤', solution: 'ORBIT 整合所有帳戶的收支，任何時間點都可以看到完整資金狀況，不用等到月底。' },
+      { id: 'expense', text: '員工費用報銷靠紙本，審核慢，沒辦法追蹤進度', feature: '費用核銷管理', solution: '員工線上提交費用報銷申請，主管系統審核，狀態即時更新，紙本往返消失。' },
+      { id: 'tax', text: '稅務申報完全靠會計師，自己完全看不懂財務狀況', feature: '財務概覽儀表板', solution: 'ORBIT 用清楚的方式呈現你的財務狀況，不需要懂會計術語也能掌握公司的錢。' }
+    ],
+    steps: [
+      { title: '設定帳戶（銀行、現金）', desc: '把你的帳戶建入 ORBIT，包含目前餘額，這是追蹤所有資金流向的起點。' },
+      { title: '建立收支分類', desc: '設定收入和支出類別（如進貨、薪資、房租、銷售收入），讓每筆交易有明確歸屬。' },
+      { title: '輸入本月第一筆收支', desc: '記錄一筆真實的收入或支出，走一次完整流程，確認分類和金額記錄正確。' }
+    ]
+  }
+};
+
+const TOOL_OPTIONS = [
+  { id: 'paper',  icon: '📝', name: '紙本 / 手寫', desc: '記在本子或白板上',
+    response: '紙本的問題不是你懶，是紙本本來就不是為了管理生意而設計的。數字容易消失、難以搜尋、無法分析趨勢。這不是工具的限制——這是錯誤的工具。' },
+  { id: 'excel',  icon: '📊', name: 'Excel / Google Sheets', desc: '自己建表格管理',
+    response: 'Excel 很強大，但它不是為即時業務設計的。你在花時間維護工具，而不是讓工具幫你分析。當生意規模變大，這個差距會越來越明顯。' },
+  { id: 'line',   icon: '💬', name: 'LINE / 通訊軟體', desc: '用群組或訊息協調',
+    response: 'LINE 是溝通工具，不是管理工具。用它來記帳、追費、排班是在將就，資訊散落在對話串裡，沒辦法統計，沒辦法搜尋，容易遺漏。' },
+  { id: 'mixed',  icon: '🔀', name: '都有一點，亂七八糟', desc: '多個工具混著用',
+    response: '這是最誠實的答案。混用工具的結果是資訊散落各地，沒有一個地方能看到全貌。你花在「整合資訊」的時間，是最大的隱性成本。' }
+];
+
+// ── STATE ─────────────────────────────────────────────
+
+let state = { industry: null, pains: [], tool: null, step: 'industry' };
+const STEPS = ['industry', 'pains', 'tool', 'diagnosis', 'start'];
+
+(function init() {
+  const p = new URLSearchParams(location.search).get('industry');
+  if (p && INDUSTRIES[p]) { state.industry = p; state.step = 'pains'; }
+})();
+
+// ── RENDER ────────────────────────────────────────────
+
+function render() {
+  const stepIdx = STEPS.indexOf(state.step) + 1;
+  const pct = Math.round((stepIdx / STEPS.length) * 100);
+
+  document.getElementById('app').innerHTML = `
+    <div class="topbar">
+      <div class="orbit-mark">O</div>
+      <span class="orbit-name">ORBIT</span>
+      <span class="step-indicator">${stepIdx} / ${STEPS.length}</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    ${buildScreen()}
+    <div class="footer">ORBIT by OBARAI INTELLIGENCE</div>
+  `;
+  attachEvents();
+}
+
+function buildScreen() {
+  const screens = { industry: screenIndustry, pains: screenPains, tool: screenTool, diagnosis: screenDiag, start: screenStart };
+  return (screens[state.step] || (() => ''))();
+}
+
+// ── SCREENS ───────────────────────────────────────────
+
+function screenIndustry() {
+  const cards = Object.entries(INDUSTRIES).map(([id, ind]) =>
+    `<div class="industry-card" data-id="${id}"><div class="ic-icon">${ind.icon}</div><div class="ic-name">${ind.name}</div></div>`
+  ).join('');
+  return `<div class="screen">
+    <div class="orbit-speech"><div class="orbit-avatar">O</div><div class="orbit-bubble">
+      <p>你好，我是 <strong>ORBIT</strong>。</p>
+      <p>在開始使用系統之前，我想先了解你的生意遇到了什麼挑戰。</p>
+      <p>這樣我才能帶你看到真正對你有用的功能，而不是走馬看花。</p>
+      <div class="honest-note">先告訴我，你做的是哪種生意？</div>
+    </div></div>
+    <div class="section-label">選擇你的產業</div>
+    <div class="industry-grid">${cards}</div>
+  </div>`;
+}
+
+function screenPains() {
+  const ind = INDUSTRIES[state.industry];
+  const cards = ind.pains.map(p => {
+    const sel = state.pains.includes(p.id) ? 'selected' : '';
+    return `<div class="pain-card ${sel}" data-pain="${p.id}">
+      <div class="pain-check"><div class="pain-check-dot"></div></div>
+      <div class="pain-text">${p.text}</div>
+    </div>`;
+  }).join('');
+  const limitTxt = state.pains.length === 0 ? '選 1–3 個最讓你頭痛的問題' : `已選 ${state.pains.length} 個`;
+  return `<div class="screen">
+    <div class="orbit-speech"><div class="orbit-avatar">O</div><div class="orbit-bubble">
+      <p>${ind.icon} <strong>${ind.name}</strong>，了解。</p>
+      <p>${ind.greeting}</p>
+      <div class="honest-note">請誠實選，即使有點難以開口說出來。ORBIT 不評判，只幫你找解法。最多選 3 個。</div>
+    </div></div>
+    <div class="pain-limit" id="pain-limit">${limitTxt}</div>
+    <div class="pain-list">${cards}</div>
+    <div class="cta-wrap">
+      <button class="btn-primary" id="btn-pains-next" ${state.pains.length > 0 ? '' : 'disabled'}>繼續 →</button>
+      <button class="btn-secondary" id="btn-back-industry">← 重選產業</button>
+    </div>
+  </div>`;
+}
+
+function screenTool() {
+  const cards = TOOL_OPTIONS.map(t =>
+    `<div class="tool-card ${state.tool === t.id ? 'selected' : ''}" data-tool="${t.id}">
+      <div class="tool-icon">${t.icon}</div>
+      <div class="tool-name">${t.name}</div>
+      <div class="tool-desc">${t.desc}</div>
+    </div>`
+  ).join('');
+  const sel = state.tool ? TOOL_OPTIONS.find(t => t.id === state.tool) : null;
+  const vis = sel ? 'visible' : '';
+  return `<div class="screen">
+    <div class="orbit-speech"><div class="orbit-avatar">O</div><div class="orbit-bubble">
+      <p>好，我記下來了。</p>
+      <p>在給你分析之前，我需要了解一件事：</p>
+      <p><strong>你現在是用什麼方式管理這些事情的？</strong></p>
+    </div></div>
+    <div class="section-label">目前使用的工具</div>
+    <div class="tool-grid">${cards}</div>
+    <div class="tool-response ${vis}" id="tool-response">${sel ? sel.response : ''}</div>
+    <div class="honest-pact ${vis}" id="honest-pact">
+      <div class="honest-pact-title">ORBIT 想在繼續前說一件事</div>
+      <p>ORBIT 可以幫你看清楚你的生意，但前提是你願意輸入<strong>真實的數字</strong>。</p>
+      <p>如果進入系統的資料是假的或不完整的，分析就沒有意義。</p>
+      <p><strong>你對 ORBIT 誠實，ORBIT 才能對你誠實。</strong></p>
+    </div>
+    <div class="cta-wrap">
+      <button class="btn-primary" id="btn-tool-next" ${state.tool ? '' : 'disabled'}>我了解，繼續 →</button>
+      <button class="btn-secondary" id="btn-back-pains">← 回上一步</button>
+    </div>
+  </div>`;
+}
+
+function screenDiag() {
+  const ind = INDUSTRIES[state.industry];
+  const selected = ind.pains.filter(p => state.pains.includes(p.id));
+  const cards = selected.map((p, i) =>
+    `<div class="diag-card" style="animation-delay:${i * 0.1}s">
+      <div class="diag-problem">${p.text}</div>
+      <span class="diag-arrow">↓</span>
+      <div class="diag-feature">${p.feature}</div>
+      <div class="diag-solution">${p.solution}</div>
+    </div>`
+  ).join('');
+  return `<div class="screen">
+    <div class="orbit-speech"><div class="orbit-avatar">O</div><div class="orbit-bubble">
+      <p>根據你說的，以下是 ORBIT 對你目前狀況的診斷。</p>
+      <p>這 ${selected.length} 個問題，ORBIT 都可以幫你解決。</p>
+      <div class="honest-note">以下不是功能介紹，是你遇到的問題對應到的解法。</div>
+    </div></div>
+    <div class="section-label">診斷結果</div>
+    <div class="diag-list">${cards}</div>
+    <div class="cta-wrap">
+      <button class="btn-primary" id="btn-diag-next">看看要怎麼開始 →</button>
+    </div>
+  </div>`;
+}
+
+function screenStart() {
+  const ind = INDUSTRIES[state.industry];
+  const tags = ind.pains.filter(p => state.pains.includes(p.id)).map(p =>
+    `<span class="tag">${p.feature}</span>`
+  ).join('');
+  const steps = ind.steps.map((s, i) =>
+    `<div class="start-step" style="animation-delay:${i * 0.1}s">
+      <div class="step-num">${i + 1}</div>
+      <div class="step-body"><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div></div>
+    </div>`
+  ).join('');
+  return `<div class="screen">
+    <div class="orbit-speech"><div class="orbit-avatar">O</div><div class="orbit-bubble">
+      <p>很好。ORBIT 已經知道你需要什麼了。</p>
+      <p>接下來只需要做 3 件事，今天就能讓系統開始為你記錄。</p>
+      <p>你會需要的功能：</p>
+    </div></div>
+    <div class="tag-list">${tags}</div>
+    <div class="section-label">今天要做的 3 件事</div>
+    <div class="start-steps">${steps}</div>
+    <div class="cta-wrap">
+      <a class="btn-enter" href="https://app.obarai.com/dashboard" target="_blank">進入 ORBIT 開始設定 →</a>
+      <button class="btn-secondary" id="btn-restart">重新診斷</button>
+    </div>
+  </div>`;
+}
+
+// ── EVENTS ────────────────────────────────────────────
+
+function attachEvents() {
+  // Industry
+  document.querySelectorAll('.industry-card').forEach(c =>
+    c.addEventListener('click', () => {
+      state.industry = c.dataset.id; state.pains = []; state.step = 'pains'; render();
+    })
+  );
+
+  // Pains
+  document.querySelectorAll('.pain-card').forEach(c =>
+    c.addEventListener('click', () => {
+      const id = c.dataset.pain, idx = state.pains.indexOf(id);
+      if (idx >= 0) state.pains.splice(idx, 1);
+      else if (state.pains.length < 3) state.pains.push(id);
+      c.classList.toggle('selected', state.pains.includes(id));
+      const lim = document.getElementById('pain-limit');
+      if (lim) lim.textContent = state.pains.length === 0 ? '選 1–3 個最讓你頭痛的問題' : `已選 ${state.pains.length} 個`;
+      const btn = document.getElementById('btn-pains-next');
+      if (btn) btn.disabled = state.pains.length === 0;
+    })
+  );
+  on('btn-pains-next', () => { if (state.pains.length > 0) { state.step = 'tool'; render(); } });
+  on('btn-back-industry', () => { state.step = 'industry'; render(); });
+
+  // Tool
+  document.querySelectorAll('.tool-card').forEach(c =>
+    c.addEventListener('click', () => {
+      state.tool = c.dataset.tool;
+      document.querySelectorAll('.tool-card').forEach(x => x.classList.toggle('selected', x.dataset.tool === state.tool));
+      const sel = TOOL_OPTIONS.find(t => t.id === state.tool);
+      const resp = document.getElementById('tool-response');
+      const pact = document.getElementById('honest-pact');
+      if (resp && sel) { resp.textContent = sel.response; resp.classList.add('visible'); }
+      if (pact) pact.classList.add('visible');
+      const btn = document.getElementById('btn-tool-next');
+      if (btn) btn.disabled = false;
+    })
+  );
+  on('btn-tool-next', () => { if (state.tool) { state.step = 'diagnosis'; render(); } });
+  on('btn-back-pains', () => { state.step = 'pains'; render(); });
+
+  // Diagnosis
+  on('btn-diag-next', () => { state.step = 'start'; render(); });
+
+  // Start
+  on('btn-restart', () => { state = { industry: null, pains: [], tool: null, step: 'industry' }; render(); });
+}
+
+function on(id, fn) {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('click', fn);
+}
+
+render();
+</script>
+</body>
+</html>
