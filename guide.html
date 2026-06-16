@@ -628,14 +628,30 @@ function attachEvents() {
       if (btnNext) btnNext.disabled = false;
     } else {
       state.industry = 'cafe'; // 通用 fallback
-      if (detected) { detected.textContent = '已記錄，我幫你找了最接近的版本參考'; detected.classList.add('visible'); }
+      if (detected) { detected.textContent = '此產業目前尚無專屬設定，先以通用版本展示供你參考'; detected.classList.add('visible'); }
       if (btnNext) btnNext.disabled = false;
     }
   }
 
+  let detectTimer = null;
+  function scheduleDetect(val) {
+    state.industryInput = val;
+    if (!val.trim()) {
+      if (detectTimer) { clearTimeout(detectTimer); detectTimer = null; }
+      state.industry = null;
+      if (detected) { detected.textContent = ''; detected.classList.remove('visible'); }
+      if (btnNext) btnNext.disabled = true;
+      return;
+    }
+    if (detectTimer) clearTimeout(detectTimer);
+    if (detected) { detected.textContent = ''; detected.classList.remove('visible'); }
+    if (btnNext) btnNext.disabled = true;
+    detectTimer = setTimeout(() => tryDetect(val), 600);
+  }
+
   if (input) {
     if (state.industryInput) tryDetect(state.industryInput);
-    input.addEventListener('input', e => tryDetect(e.target.value));
+    input.addEventListener('input', e => scheduleDetect(e.target.value));
     input.addEventListener('keydown', e => {
       if (e.key === 'Enter' && state.industry) { state.step = 'pains'; render(); }
     });
