@@ -542,9 +542,37 @@
           <div class="secure-note" style="justify-content:flex-end;margin-bottom:4px;">🔒 256-bit SSL 加密保護，資料安全有保障</div>
           <div id="billing-note" style="font-size:11px;color:var(--w40);">最低服務期 12 個月・詳細付款方式將由專員與您確認</div>
         </div>
-        <button class="btn-gold" id="checkout-btn" disabled onclick="goToCheckout()">下一步：填寫資料 →</button>
+        <button class="btn-gold" id="checkout-btn" disabled onclick="goToCheckout()">送出申請 →</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- Modal: 方案申請 -->
+<div class="modal-overlay" id="modal-apply">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-apply')">✕</button>
+    <div class="modal-title">送出方案申請</div>
+    <div class="modal-sub" id="apply-plan-summary" style="color:var(--gold);font-size:13px;margin-bottom:16px;word-break:break-all;"></div>
+    <div class="modal-sub">請留下聯絡資料，業務將在 1 個工作日內與您確認細節並完成開通。</div>
+    <div class="modal-field">
+      <label>公司 / 店名 <span style="color:var(--gold)">*</span></label>
+      <input type="text" id="apply-company" placeholder="例：OO 有限公司">
+    </div>
+    <div class="modal-field">
+      <label>聯絡人姓名 <span style="color:var(--gold)">*</span></label>
+      <input type="text" id="apply-name" placeholder="王小明">
+    </div>
+    <div class="modal-field">
+      <label>聯絡電話 <span style="color:var(--gold)">*</span></label>
+      <input type="tel" id="apply-phone" placeholder="0912-345-678">
+    </div>
+    <div class="modal-field">
+      <label>E-mail <span style="color:var(--gold)">*</span></label>
+      <input type="email" id="apply-email" placeholder="you@company.com">
+    </div>
+    <div id="apply-err" style="font-size:12px;color:rgba(255,120,120,0.9);margin-bottom:10px;display:none"></div>
+    <button class="btn-modal-send" onclick="sendApplyInquiry()">送出申請 →</button>
   </div>
 </div>
 
@@ -844,29 +872,42 @@
     document.getElementById('checkout-btn').disabled = !modReady;
   }
 
-  /* ── Checkout ── */
+  /* ── Apply (replaces checkout flow) ── */
   function goToCheckout() {
     if (!selectedPlan) { alert('請先選擇月費方案'); return; }
     const plan = PLANS[selectedPlan];
     const modReady = plan.slots >= ALL_MODULES.length || selectedMods.size > 0;
     if (!modReady) { alert('請選擇模組後再繼續'); return; }
 
-    if (selectedAIAddon === 'custom' && aiCustomAmount > 0 && aiCustomAmount < AI_ADDON_MIN) {
-      alert(`ORBIT AI+ 自訂金額最低為 NT$${AI_ADDON_MIN}`);
-      return;
-    }
-
     const aiAddonPrice = getAIAddonPrice();
     const kb  = KB_PLANS[selectedKB];
-    const data = {
-      plan:     { label: plan.label, price: plan.monthly, value: selectedPlan, accounts: plan.accounts, ai: plan.ai },
-      modules:  [...selectedMods],
-      setup:    SETUP_FEE,
-      ai_addon: aiAddonPrice > 0 ? { label: 'ORBIT AI+', price: aiAddonPrice } : null,
-      ai_kb:    kb.price > 0 ? { label: kb.label, price: kb.price, value: selectedKB } : null,
-    };
-    sessionStorage.setItem('orbit_order', JSON.stringify(data));
-    window.location.href = 'checkout.html';
+    const modList = [...selectedMods].join('、') || '（方案內全模組）';
+
+    document.getElementById('apply-plan-summary').textContent =
+      `${plan.label}・NT$${plan.monthly.toLocaleString()}/月` +
+      (modList !== '（方案內全模組）' ? `・${modList}` : '') +
+      (aiAddonPrice > 0 ? `・ORBIT AI+ NT$${aiAddonPrice.toLocaleString()}/月` : '') +
+      (kb && kb.price > 0 ? `・${kb.label}` : '');
+
+    document.getElementById('modal-apply').classList.add('open');
+  }
+
+  function sendApplyInquiry() {
+    const company = document.getElementById('apply-company').value.trim();
+    const name    = document.getElementById('apply-name').value.trim();
+    const phone   = document.getElementById('apply-phone').value.trim();
+    const email   = document.getElementById('apply-email').value.trim();
+    const errEl   = document.getElementById('apply-err');
+    if (!company || !name || !phone || !email) {
+      errEl.textContent = '請填寫所有必填欄位'; errEl.style.display = 'block'; return;
+    }
+    errEl.style.display = 'none';
+    const summary = document.getElementById('apply-plan-summary').textContent;
+    const subject = encodeURIComponent(`【ORBIT 方案申請】${company} — ${name}`);
+    const body = encodeURIComponent(
+      `您好，我想申請 ORBIT 訂閱方案。\n\n公司 / 店名：${company}\n聯絡人：${name}\n聯絡電話：${phone}\nE-mail：${email}\n\n選擇方案：${summary}\n\n請問後續開通流程為何？感謝您。`
+    );
+    window.location.href = `mailto:hello@obarai.com?subject=${subject}&body=${body}`;
   }
 
   /* ── Modal helpers ── */
