@@ -884,9 +884,9 @@
     const modList = [...selectedMods].join('、') || '（方案內全模組）';
 
     document.getElementById('apply-plan-summary').textContent =
-      `${plan.label}・NT$${plan.monthly.toLocaleString()}/月` +
-      (modList !== '（方案內全模組）' ? `・${modList}` : '') +
-      (aiAddonPrice > 0 ? `・ORBIT AI+ NT$${aiAddonPrice.toLocaleString()}/月` : '') +
+      plan.label +
+      (modList !== '（方案內全模組）' ? `・${modList}` : '・全模組') +
+      (aiAddonPrice > 0 ? '・ORBIT AI+' : '') +
       (kb && kb.price > 0 ? `・${kb.label}` : '');
 
     document.getElementById('modal-apply').classList.add('open');
