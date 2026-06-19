@@ -517,6 +517,30 @@
         </div>
       </div>
 
+      <!-- QR code 線上點餐 -->
+      <div class="addon-section">
+        <div class="section-title">QR code 線上點餐 <span class="section-subtitle">選填・每月計費</span></div>
+        <div class="kb-cards">
+
+          <div class="kbcard selected" id="qrcard-none" onclick="selectQR('none')">
+            <div class="kbcard-left">
+              <div class="kbcard-name">不加購</div>
+              <div class="kbcard-desc">暫不啟用線上點餐</div>
+            </div>
+            <div class="kbcard-price" style="color:var(--w40)">—</div>
+          </div>
+
+          <div class="kbcard" id="qrcard-qr" onclick="selectQR('qr')">
+            <div class="kbcard-left">
+              <div class="kbcard-name">QR code 線上點餐</div>
+              <div class="kbcard-desc">客人掃碼即可線上瀏覽菜單、下單，可選擇現場結帳。如需線上付款需另行串接金流服務。</div>
+            </div>
+            <div class="kbcard-price">NT$388<small>/月</small></div>
+          </div>
+
+        </div>
+      </div>
+
     </div>
     <div style="height:80px"></div>
   </div>
@@ -825,8 +849,16 @@
   /* ── KB selection ── */
   function selectKB(key) {
     selectedKB = key;
-    document.querySelectorAll('.kbcard').forEach(el => el.classList.remove('selected'));
+    document.querySelectorAll('#kbcard-none, #kbcard-ai_kb').forEach(el => el.classList.remove('selected'));
     document.getElementById('kbcard-' + key).classList.add('selected');
+    updateBar();
+  }
+
+  let selectedQR = 'none';
+  function selectQR(key) {
+    selectedQR = key;
+    document.querySelectorAll('#qrcard-none, #qrcard-qr').forEach(el => el.classList.remove('selected'));
+    document.getElementById('qrcard-' + key).classList.add('selected');
     updateBar();
   }
 
