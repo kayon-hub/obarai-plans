@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORBIT 產品推薦器 — 找到適合企業的營運模組</title>
+  <meta name="description" content="依行業與營運需求推薦 ORBIT CRM、ERP、POS、Inventory、HR、Finance、AI Assistant、Knowledge Base 等企業模組。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #08090a;
+      --ink: #101113;
+      --glass: rgba(255,255,255,0.075);
+      --glass2: rgba(255,255,255,0.045);
+      --line: rgba(255,255,255,0.12);
+      --line2: rgba(255,255,255,0.06);
+      --white: #f3f0e9;
+      --muted: rgba(243,240,233,0.62);
+      --dim: rgba(243,240,233,0.42);
+      --gold: #c8a96e;
+      --platinum: #dbe5ed;
+      --blue: #75a9db;
+      --green: #8ac6a3;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --tc: 'Noto Sans TC', 'PingFang TC', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(140deg, rgba(219,229,237,0.10), transparent 32%),
+        linear-gradient(220deg, rgba(200,169,110,0.12), transparent 36%),
+        var(--black);
+      color: var(--white);
+      font-family: var(--tc);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.72), transparent 76%);
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      background: rgba(8,9,10,0.76);
+      border-bottom: 1px solid var(--line2);
+      -webkit-backdrop-filter: blur(28px) saturate(145%);
+      backdrop-filter: blur(28px) saturate(145%);
+    }
+    .nav-logo { color: var(--white); text-decoration: none; font-family: var(--sans); font-size: 17px; font-weight: 600; letter-spacing: 0.14em; }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; align-items: center; gap: 30px; list-style: none; }
+    .nav-links a { color: var(--dim); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
+    .nav-cta { color: #111 !important; background: linear-gradient(135deg, var(--white), var(--platinum)); padding: 9px 18px; border-radius: 999px; font-weight: 600; }
+    .wrap { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
+    .hero { padding: 70px 0 28px; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(380px, 0.8fr); gap: 42px; align-items: center; }
+    .eyebrow { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    h1 { font-size: clamp(34px, 5.2vw, 68px); font-weight: 300; letter-spacing: 0; line-height: 1.05; max-width: 760px; }
+    .hero-copy { color: var(--muted); font-size: 16px; max-width: 590px; margin-top: 20px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+    .btn, button { font-family: var(--tc); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      text-decoration: none;
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--glass);
+      -webkit-backdrop-filter: blur(22px);
+      backdrop-filter: blur(22px);
+      transition: transform 0.18s, border-color 0.2s, background 0.2s;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.10); }
+    .btn.primary { color: #111; border-color: rgba(255,255,255,0.55); background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(219,229,237,0.82)); }
+    .orbital-view {
+      position: relative;
+      min-height: 420px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(150deg, rgba(255,255,255,0.15), rgba(255,255,255,0.045) 42%, rgba(255,255,255,0.025));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 28px 80px rgba(0,0,0,0.32);
+      -webkit-backdrop-filter: blur(32px) saturate(150%);
+      backdrop-filter: blur(32px) saturate(150%);
+      overflow: hidden;
+    }
+    .orbital-view::before {
+      content: '';
+      position: absolute;
+      inset: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(115deg, rgba(255,255,255,0.16), transparent 28%, rgba(200,169,110,0.06) 68%, transparent);
+    }
+    .core-mark {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      transform: translate(-50%, -50%);
+      width: 150px;
+      height: 150px;
+      border-radius: 38px;
+      display: grid;
+      place-items: center;
+      font-family: var(--sans);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      background: rgba(8,9,10,0.42);
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
+    }
+    .signal {
+      position: absolute;
+      width: 138px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.07);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+    }
+    .signal strong { display: block; font-family: var(--sans); font-size: 12px; letter-spacing: 0.1em; margin-bottom: 3px; }
+    .signal small { display: block; color: var(--dim); font-size: 11px; line-height: 1.35; }
+    .s1 { top: 44px; left: 42px; }
+    .s2 { top: 66px; right: 48px; }
+    .s3 { bottom: 62px; left: 62px; }
+    .s4 { bottom: 46px; right: 42px; }
+    .finder { padding: 36px 0 70px; }
+    .finder-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.82fr);
+      gap: 1px;
+      overflow: hidden;
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.07);
+      box-shadow: 0 32px 100px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.16);
+      -webkit-backdrop-filter: blur(34px) saturate(145%);
+      backdrop-filter: blur(34px) saturate(145%);
+    }
+    .panel { padding: 30px; background: rgba(8,9,10,0.33); }
+    .panel-head { display: flex; justify-content: space-between; gap: 18px; align-items: flex-end; margin-bottom: 26px; }
+    .section-kicker { font-family: var(--sans); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }
+    h2 { font-size: clamp(22px, 2.4vw, 32px); font-weight: 400; line-height: 1.2; }
+    .panel-note { color: var(--dim); font-size: 13px; max-width: 360px; }
+    .question { margin-top: 24px; }
+    .question-title { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; color: rgba(243,240,233,0.84); font-size: 13px; font-weight: 600; }
+    .question-title span { font-family: var(--sans); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(243,240,233,0.34); }
+    .industry-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .industry-btn, .need-chip {
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.055);
+      color: rgba(243,240,233,0.68);
+      cursor: pointer;
+      transition: transform 0.18s, border-color 0.2s, background 0.2s, color 0.2s;
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+    }
+    .industry-btn { min-height: 74px; border-radius: 16px; padding: 13px; text-align: left; }
+    .industry-btn strong { display: block; color: inherit; font-size: 13.5px; font-weight: 600; }
+    .industry-btn small { display: block; color: rgba(243,240,233,0.42); font-size: 11px; margin-top: 3px; }
+    .industry-btn:hover, .need-chip:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.23); background: rgba(255,255,255,0.085); color: var(--white); }
+    .industry-btn.active, .need-chip.active { color: #fff; border-color: rgba(219,229,237,0.56); background: linear-gradient(145deg, rgba(219,229,237,0.20), rgba(255,255,255,0.07)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.14); }
+    .needs-grid { display: flex; flex-wrap: wrap; gap: 9px; }
+    .need-chip { min-height: 38px; border-radius: 999px; padding: 8px 13px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 8px; }
+    .need-chip::before { content: ''; width: 7px; height: 7px; border-radius: 50%; border: 1px solid rgba(243,240,233,0.33); }
+    .need-chip.active::before { background: var(--platinum); border-color: var(--platinum); }
+    .finder-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+    .ghost {
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 12.5px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .ghost:hover { color: var(--white); border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.08); }
+    .result-panel { display: flex; flex-direction: column; }
+    .recommend-card { padding: 26px; border: 1px solid rgba(255,255,255,0.13); border-radius: 22px; background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04)); }
+    .result-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; margin-bottom: 18px; }
+    .plan-label { font-family: var(--sans); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); }
+    .plan-name { font-family: var(--sans); font-size: 42px; font-weight: 700; letter-spacing: 0.04em; line-height: 1; margin-top: 8px; }
+    .fit-score { width: 74px; height: 74px; border-radius: 50%; padding: 1px; flex-shrink: 0; background: conic-gradient(var(--platinum), var(--gold), rgba(255,255,255,0.16)); }
+    .fit-score span { width: 100%; height: 100%; border-radius: inherit; display: grid; place-items: center; background: rgba(8,9,10,0.75); font-family: var(--sans); font-size: 18px; font-weight: 700; }
+    .result-reason { color: var(--muted); font-size: 13px; line-height: 1.75; }
+    .result-meta { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 18px; }
+    .meta-tile { border: 1px solid rgba(255,255,255,0.09); border-radius: 14px; padding: 12px; background: rgba(255,255,255,0.035); }
+    .meta-tile span { display: block; color: var(--dim); font-size: 11px; margin-bottom: 4px; }
+    .meta-tile strong { display: block; font-size: 13px; font-weight: 600; color: var(--white); }
+    .module-list { display: grid; gap: 10px; margin-top: 18px; }
+    .module-card { border: 1px solid rgba(255,255,255,0.11); border-radius: 16px; background: rgba(255,255,255,0.045); padding: 14px 15px; }
+    .module-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 6px; }
+    .module-name { font-size: 13px; font-weight: 600; color: rgba(243,240,233,0.92); }
+    .module-badge { font-family: var(--sans); font-size: 10px; letter-spacing: 0.08em; color: var(--platinum); border: 1px solid rgba(219,229,237,0.22); background: rgba(219,229,237,0.07); padding: 3px 7px; border-radius: 999px; white-space: nowrap; }
+    .module-desc { font-size: 12px; color: rgba(243,240,233,0.48); line-height: 1.55; }
+    .all-modules { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line2); }
+    .all-modules-title { font-family: var(--sans); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); margin-bottom: 10px; }
+    .all-modules-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .mini-module { border: 1px solid rgba(255,255,255,0.10); border-radius: 999px; background: rgba(255,255,255,0.035); color: rgba(243,240,233,0.58); padding: 6px 10px; font-size: 11.5px; }
+    .result-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+    footer { border-top: 1px solid var(--line2); padding: 28px 0; }
+    .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; color: rgba(243,240,233,0.28); font-size: 12px; }
+    .footer-brand { font-family: var(--sans); font-weight: 600; letter-spacing: 0.14em; }
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .nav-links { gap: 18px; }
+      .hero, .finder-shell { grid-template-columns: 1fr; }
+      .hero { padding-top: 46px; }
+      .orbital-view { min-height: 340px; }
+      .industry-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .wrap { width: min(100% - 36px, 1180px); }
+      nav { padding: 0 18px; }
+      .nav-links { display: none; }
+      .hero { gap: 28px; }
+      .panel { padding: 22px 18px; }
+      .panel-head { flex-direction: column; align-items: flex-start; }
+      .industry-grid, .result-meta { grid-template-columns: 1fr; }
+      .signal { width: 118px; padding: 10px; }
+      .core-mark { width: 124px; height: 124px; border-radius: 30px; font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">ORBIT<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="product-finder.html" class="active">產品推薦</a></li>
+      <li><a href="pricing.html">方案定價</a></li>
+      <li><a href="legal.html">法務資訊</a></li>
+      <li><a href="pricing.html" class="nav-cta">開始選購</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="wrap hero">
+      <div>
+        <p class="eyebrow">ORBIT Product Finder</p>
+        <h1>用更少問題，找到企業真正需要的 ORBIT 模組。</h1>
+        <p class="hero-copy">選擇行業與目前會使用到的營運流程，系統會即時推薦方案、核心模組、AI 加購與知識庫建置方向。頁面獨立運作，不會改動既有定價與結帳流程。</p>
+        <div class="hero-actions">
+          <a href="#finder" class="btn primary">開始診斷</a>
+          <a href="pricing.html" class="btn">查看定價</a>
+        </div>
+      </div>
+      <div class="orbital-view" aria-hidden="true">
+        <div class="core-mark">ORBIT</div>
+        <div class="signal s1"><strong>CRM</strong><small>客戶與銷售追蹤</small></div>
+        <div class="signal s2"><strong>POS</strong><small>結帳與門市營運</small></div>
+        <div class="signal s3"><strong>ERP</strong><small>資源與流程整合</small></div>
+        <div class="signal s4"><strong>AI</strong><small>知識與自動化助理</small></div>
+      </div>
+    </section>
+
+    <section class="wrap finder" id="finder">
+      <div class="finder-shell">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="section-kicker">Configure</div>
+              <h2>企業需求診斷</h2>
+            </div>
+            <p class="panel-note">先選行業，再勾選目前會用到的流程。推薦結果會以現有 ORBIT 模組組合為核心。</p>
+          </div>
+
+          <div class="question">
+            <div class="question-title">行業類別 <span>Industry</span></div>
+            <div class="industry-grid">
+              <button class="industry-btn active" type="button" data-industry="retail"><strong>零售 / 門市</strong><small>服飾、選物、生活用品</small></button>
+              <button class="industry-btn" type="button" data-industry="fnb"><strong>餐飲 / 咖啡</strong><small>點餐、桌況、外帶</small></button>
+              <button class="industry-btn" type="button" data-industry="service"><strong>服務 / 預約</strong><small>美容、健身、顧問、醫美</small></button>
+              <button class="industry-btn" type="button" data-industry="studio"><strong>工作室 / 創作者</strong><small>報價、專案、內容製作</small></button>
+              <button class="industry-btn" type="button" data-industry="education"><strong>教育 / 課程</strong><small>學員、排程、收款</small></button>
+              <button class="industry-btn" type="button" data-industry="enterprise"><strong>多據點企業</strong><small>權限、報表、API 整合</small></button>
+            </div>
+          </div>
+
+          <div class="question">
+            <div class="question-title">以下有哪些是用到的 <span>Operations</span></div>
+            <div class="needs-grid">
+              <button class="need-chip active" type="button" data-need="checkout">結帳 / 收款</button>
+              <button class="need-chip active" type="button" data-need="crm">客戶管理</button>
+              <button class="need-chip" type="button" data-need="ordering">點餐 / 服務流程</button>
+              <button class="need-chip" type="button" data-need="inventory">庫存 / 採購</button>
+              <button class="need-chip" type="button" data-need="finance">請款 / 財務</button>
+              <button class="need-chip" type="button" data-need="booking">預約 / 排程</button>
+              <button class="need-chip" type="button" data-need="hr">員工 / 班表</button>
+              <button class="need-chip" type="button" data-need="workflow">任務 / 自動化</button>
+              <button class="need-chip" type="button" data-need="reporting">數據報表</button>
+              <button class="need-chip" type="button" data-need="ai">AI 助理</button>
+              <button class="need-chip" type="button" data-need="knowledge">知識庫</button>
+              <button class="need-chip" type="button" data-need="api">API / 系統整合</button>
+            </div>
+          </div>
+
+          <div class="finder-actions">
+            <button class="ghost" type="button" id="resetBtn">重設選擇</button>
+            <button class="ghost" type="button" id="copyBtn">複製推薦摘要</button>
+          </div>
+        </div>
+
+        <aside class="panel result-panel" aria-live="polite">
+          <div class="recommend-card">
+            <div class="result-top">
+              <div>
+                <div class="plan-label">ORBIT 推薦方案</div>
+                <div class="plan-name" id="planName">PRO</div>
+              </div>
+              <div class="fit-score"><span id="fitScore">92</span></div>
+            </div>
+            <p class="result-reason" id="reasonText">適合需要 POS、CRM、ERP 與報表整合的成長型營運團隊。</p>
+            <div class="result-meta">
+              <div class="meta-tile"><span>AI 加購建議</span><strong id="aiText">AI Pro</strong></div>
+              <div class="meta-tile"><span>知識庫建議</span><strong id="kbText">暫不建置</strong></div>
+            </div>
+            <div class="module-list" id="moduleList"></div>
+            <div class="result-actions">
+              <a href="pricing.html" class="btn primary">前往方案定價</a>
+              <a href="mailto:hello@obarai.com?subject=ORBIT%20產品推薦洽詢" class="btn">洽詢專人</a>
+            </div>
+          </div>
+
+          <div class="all-modules">
+            <div class="all-modules-title">目前 ORBIT 可規劃模組</div>
+            <div class="all-modules-grid">
+              <span class="mini-module">CRM 客戶管理</span>
+              <span class="mini-module">ERP 企業資源規劃</span>
+              <span class="mini-module">POS 銷售系統</span>
+              <span class="mini-module">Inventory 庫存</span>
+              <span class="mini-module">HR / Crew 人員</span>
+              <span class="mini-module">Finance 財務</span>
+              <span class="mini-module">Booking 預約</span>
+              <span class="mini-module">Flow 自動化</span>
+              <span class="mini-module">Dashboard 報表</span>
+              <span class="mini-module">Knowledge Base 知識庫</span>
+              <span class="mini-module">AI Assistant</span>
+              <span class="mini-module">API 整合</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <span class="footer-brand">ORBIT</span>
+      <span>© 2026 OBARAI｜鎧洋聲影科技</span>
+    </div>
+  </footer>
+
+  <script>
+    const modules = {
+      crm: { name: 'CRM 客戶管理', badge: 'CORE', desc: '集中管理客戶、聯絡紀錄、報價與後續追蹤。' },
+      pos: { name: 'POS 銷售系統', badge: 'SALES', desc: '支援門市結帳、銷售紀錄、裝置與據點營運。' },
+      ordering: { name: 'Order 點餐 / 服務流程', badge: 'SERVICE', desc: '整理點餐、桌邊服務、外帶與現場服務狀態。' },
+      inventory: { name: 'Inventory 庫存管理', badge: 'STOCK', desc: '追蹤商品、庫存、採購與多據點調撥需求。' },
+      erp: { name: 'ERP 企業資源規劃', badge: 'OPS', desc: '把銷售、庫存、財務與團隊流程整合成營運中樞。' },
+      finance: { name: 'Finance 財務管理', badge: 'FIN', desc: '處理請款、收款、成本、營收與財務報表。' },
+      booking: { name: 'Booking 預約排程', badge: 'SCHEDULE', desc: '管理預約、課程、服務時段與顧客通知。' },
+      hr: { name: 'HR / Crew 人員管理', badge: 'TEAM', desc: '支援員工資料、班表、角色與營運權限配置。' },
+      workflow: { name: 'Flow 任務與自動化', badge: 'AUTO', desc: '把重複流程、自動提醒、任務派發與審核串起來。' },
+      dashboard: { name: 'Dashboard 數據報表', badge: 'BI', desc: '掌握營收、客戶、庫存、服務與跨模組營運指標。' },
+      ai: { name: 'AI Assistant', badge: 'AI', desc: '提供查詢、摘要、營運建議、報表分析與流程輔助。' },
+      knowledge: { name: 'Knowledge Base 知識庫', badge: 'KB', desc: '建立品牌知識、SOP、FAQ 與 AI 可檢索資料庫。' },
+      api: { name: 'API 整合', badge: 'API', desc: '串接官網、表單、n8n、自有系統與第三方工具。' },
+    };
+    const industryDefaults = {
+      retail: ['checkout', 'crm', 'inventory', 'reporting'],
+      fnb: ['checkout', 'ordering', 'inventory', 'hr', 'reporting'],
+      service: ['crm', 'booking', 'finance', 'workflow', 'ai'],
+      studio: ['crm', 'finance', 'workflow', 'knowledge', 'ai'],
+      education: ['crm', 'booking', 'finance', 'knowledge', 'ai'],
+      enterprise: ['checkout', 'crm', 'inventory', 'finance', 'hr', 'workflow', 'reporting', 'api', 'ai'],
+    };
+    const industryLabels = {
+      retail: '零售 / 門市',
+      fnb: '餐飲 / 咖啡',
+      service: '服務 / 預約',
+      studio: '工作室 / 創作者',
+      education: '教育 / 課程',
+      enterprise: '多據點企業',
+    };
+    const needModules = {
+      checkout: ['pos', 'finance', 'dashboard'],
+      crm: ['crm'],
+      ordering: ['ordering', 'pos', 'dashboard'],
+      inventory: ['inventory', 'erp'],
+      finance: ['finance', 'erp'],
+      booking: ['booking', 'crm'],
+      hr: ['hr', 'erp'],
+      workflow: ['workflow', 'erp'],
+      reporting: ['dashboard', 'erp'],
+      ai: ['ai'],
+      knowledge: ['knowledge', 'ai'],
+      api: ['api', 'erp'],
+    };
+    let activeIndustry = 'retail';
+    let currentSummary = '';
+
+    function activeNeeds() {
+      return Array.from(document.querySelectorAll('.need-chip.active')).map(btn => btn.dataset.need);
+    }
+
+    function setNeeds(needs) {
+      document.querySelectorAll('.need-chip').forEach(btn => {
+        btn.classList.toggle('active', needs.includes(btn.dataset.need));
+      });
+      updateResult();
+    }
+
+    function inferPlan(needs) {
+      if (activeIndustry === 'enterprise' || needs.includes('api') || needs.length >= 8) return 'BUSINESS';
+      if (needs.some(n => ['inventory', 'finance', 'hr', 'reporting', 'ordering'].includes(n)) || needs.length >= 5) return 'PRO';
+      if (needs.some(n => ['booking', 'workflow', 'ai', 'knowledge'].includes(n)) || needs.length >= 3) return 'PLUS';
+      return 'START';
+    }
+
+    function inferAI(needs, plan) {
+      if (plan === 'BUSINESS') return 'AI Business Max';
+      if (needs.includes('knowledge') || needs.includes('api')) return 'AI Max';
+      if (needs.includes('ai') || needs.includes('reporting') || needs.includes('workflow')) return 'AI Pro';
+      return '暫不加購';
+    }
+
+    function inferModules(needs, plan) {
+      const selected = new Set(['crm', 'dashboard']);
+      needs.forEach(need => (needModules[need] || []).forEach(key => selected.add(key)));
+      if (plan === 'PRO' || plan === 'BUSINESS') selected.add('erp');
+      if (plan === 'BUSINESS') ['api', 'hr', 'workflow', 'ai'].forEach(key => selected.add(key));
+      return Array.from(selected).slice(0, 7);
+    }
+
+    function updateResult() {
+      const needs = activeNeeds();
+      const plan = inferPlan(needs);
+      const ai = inferAI(needs, plan);
+      const kb = needs.includes('knowledge') ? '建議建置 ORBIT AI 知識庫' : '暫不建置';
+      const moduleKeys = inferModules(needs, plan);
+      const score = Math.min(98, 78 + needs.length * 3 + (plan === 'BUSINESS' ? 2 : 0));
+      const reason = {
+        START: `適合${industryLabels[activeIndustry]}先建立 CRM、結帳與基礎數據管理。`,
+        PLUS: `適合${industryLabels[activeIndustry]}加入預約、任務、自動化或 AI 輔助流程。`,
+        PRO: `適合${industryLabels[activeIndustry]}需要 POS、ERP、庫存、財務與報表整合。`,
+        BUSINESS: `適合${industryLabels[activeIndustry]}進行多據點、多品牌、API 整合與客製權限規劃。`,
+      }[plan];
+
+      document.getElementById('planName').textContent = plan;
+      document.getElementById('fitScore').textContent = score;
+      document.getElementById('reasonText').textContent = reason;
+      document.getElementById('aiText').textContent = ai;
+      document.getElementById('kbText').textContent = kb;
+      document.getElementById('moduleList').innerHTML = moduleKeys.map(key => {
+        const mod = modules[key];
+        return `<div class="module-card">
+          <div class="module-head">
+            <div class="module-name">${mod.name}</div>
+            <div class="module-badge">${mod.badge}</div>
+          </div>
+          <div class="module-desc">${mod.desc}</div>
+        </div>`;
+      }).join('');
+
+      const moduleNames = moduleKeys.map(key => modules[key].name).join('、');
+      currentSummary = `ORBIT 推薦摘要\n行業：${industryLabels[activeIndustry]}\n推薦方案：${plan}\n推薦模組：${moduleNames}\nAI 加購：${ai}\n知識庫：${kb}`;
+    }
+
+    document.querySelectorAll('.industry-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeIndustry = btn.dataset.industry;
+        document.querySelectorAll('.industry-btn').forEach(item => item.classList.remove('active'));
+        btn.classList.add('active');
+        setNeeds(industryDefaults[activeIndustry]);
+      });
+    });
+
+    document.querySelectorAll('.need-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.classList.toggle('active');
+        updateResult();
+      });
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      activeIndustry = 'retail';
+      document.querySelectorAll('.industry-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.industry === activeIndustry);
+      });
+      setNeeds(industryDefaults[activeIndustry]);
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(currentSummary);
+        document.getElementById('copyBtn').textContent = '已複製摘要';
+        window.setTimeout(() => { document.getElementById('copyBtn').textContent = '複製推薦摘要'; }, 1600);
+      } catch (err) {
+        window.prompt('請複製推薦摘要', currentSummary);
+      }
+    });
+
+    updateResult();
+  </script>
+</body>
+</html>

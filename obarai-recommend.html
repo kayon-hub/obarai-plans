@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORBIT 模組推薦 — 幾個問題找到你需要的系統</title>
+  <meta name="description" content="從 ORBIT 角度出發，依產業與日常營運情境，快速找出必裝與建議加購模組：POS、CRM、RSVP、LINE、HR、AUTH、FLOW、ERP、Ledger。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #08090a;
+      --ink: #101113;
+      --glass: rgba(255,255,255,0.075);
+      --glass2: rgba(255,255,255,0.045);
+      --line: rgba(255,255,255,0.12);
+      --line2: rgba(255,255,255,0.06);
+      --white: #f3f0e9;
+      --muted: rgba(243,240,233,0.62);
+      --dim: rgba(243,240,233,0.42);
+      --gold: #c8a96e;
+      --platinum: #dbe5ed;
+      --blue: #75a9db;
+      --green: #8ac6a3;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --tc: 'Noto Sans TC', 'PingFang TC', sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(140deg, rgba(219,229,237,0.10), transparent 32%),
+        linear-gradient(220deg, rgba(200,169,110,0.12), transparent 36%),
+        var(--black);
+      color: var(--white);
+      font-family: var(--tc);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.72), transparent 76%);
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      background: rgba(8,9,10,0.76);
+      border-bottom: 1px solid var(--line2);
+      -webkit-backdrop-filter: blur(28px) saturate(145%);
+      backdrop-filter: blur(28px) saturate(145%);
+    }
+    .nav-logo { color: var(--white); text-decoration: none; font-family: var(--sans); font-size: 17px; font-weight: 600; letter-spacing: 0.14em; }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; align-items: center; gap: 30px; list-style: none; }
+    .nav-links a { color: var(--dim); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--white); }
+    .nav-cta { color: #111 !important; background: linear-gradient(135deg, var(--white), var(--platinum)); padding: 9px 18px; border-radius: 999px; font-weight: 600; }
+    .wrap { width: min(1180px, calc(100% - 48px)); margin: 0 auto; }
+    .hero { padding: 70px 0 28px; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(380px, 0.8fr); gap: 42px; align-items: center; }
+    .eyebrow { font-family: var(--sans); font-size: 11px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    h1 { font-size: clamp(34px, 5.2vw, 64px); font-weight: 300; letter-spacing: 0; line-height: 1.08; max-width: 760px; }
+    .hero-copy { color: var(--muted); font-size: 16px; max-width: 590px; margin-top: 20px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+    .btn, button { font-family: var(--tc); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      text-decoration: none;
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 600;
+      background: var(--glass);
+      -webkit-backdrop-filter: blur(22px);
+      backdrop-filter: blur(22px);
+      transition: transform 0.18s, border-color 0.2s, background 0.2s;
+    }
+    .btn:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.10); }
+    .btn.primary { color: #111; border-color: rgba(255,255,255,0.55); background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(219,229,237,0.82)); }
+    .orbital-view {
+      position: relative;
+      min-height: 420px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(150deg, rgba(255,255,255,0.15), rgba(255,255,255,0.045) 42%, rgba(255,255,255,0.025));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 28px 80px rgba(0,0,0,0.32);
+      -webkit-backdrop-filter: blur(32px) saturate(150%);
+      backdrop-filter: blur(32px) saturate(150%);
+      overflow: hidden;
+    }
+    .orbital-view::before {
+      content: '';
+      position: absolute;
+      inset: 18px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(115deg, rgba(255,255,255,0.16), transparent 28%, rgba(200,169,110,0.06) 68%, transparent);
+    }
+    .core-mark {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      transform: translate(-50%, -50%);
+      width: 150px;
+      height: 150px;
+      border-radius: 38px;
+      display: grid;
+      place-items: center;
+      font-family: var(--sans);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      background: rgba(8,9,10,0.42);
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
+    }
+    .signal {
+      position: absolute;
+      width: 138px;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.07);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+    }
+    .signal strong { display: block; font-family: var(--sans); font-size: 12px; letter-spacing: 0.1em; margin-bottom: 3px; }
+    .signal small { display: block; color: var(--dim); font-size: 11px; line-height: 1.35; }
+    .s1 { top: 44px; left: 42px; }
+    .s2 { top: 66px; right: 48px; }
+    .s3 { bottom: 62px; left: 62px; }
+    .s4 { bottom: 46px; right: 42px; }
+    .intro { padding: 6px 0 14px; }
+    .intro-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+      padding: 32px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: rgba(255,255,255,0.04);
+      -webkit-backdrop-filter: blur(28px);
+      backdrop-filter: blur(28px);
+    }
+    .intro-block h2 { margin-top: 6px; font-size: clamp(20px, 2.2vw, 26px); font-weight: 400; line-height: 1.3; }
+    .intro-copy { color: var(--muted); font-size: 14px; line-height: 1.85; margin-top: 12px; max-width: 480px; }
+    .finder { padding: 36px 0 70px; }
+    .finder-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.8fr);
+      gap: 1px;
+      overflow: hidden;
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.07);
+      box-shadow: 0 32px 100px rgba(0,0,0,0.34), inset 0 1px 0 rgba(255,255,255,0.16);
+      -webkit-backdrop-filter: blur(34px) saturate(145%);
+      backdrop-filter: blur(34px) saturate(145%);
+    }
+    .panel { padding: 30px; background: rgba(8,9,10,0.33); }
+    .panel-head { display: flex; justify-content: space-between; gap: 18px; align-items: flex-end; margin-bottom: 26px; }
+    .section-kicker { font-family: var(--sans); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); margin-bottom: 8px; }
+    h2 { font-size: clamp(22px, 2.4vw, 32px); font-weight: 400; line-height: 1.2; }
+    .panel-note { color: var(--dim); font-size: 13px; max-width: 360px; }
+    .question { margin-top: 24px; }
+    .question-title { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 12px; color: rgba(243,240,233,0.84); font-size: 13px; font-weight: 600; }
+    .question-title span { font-family: var(--sans); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(243,240,233,0.34); }
+    .industry-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    .industry-btn, .need-chip {
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.055);
+      color: rgba(243,240,233,0.68);
+      cursor: pointer;
+      transition: transform 0.18s, border-color 0.2s, background 0.2s, color 0.2s;
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+    }
+    .industry-btn { min-height: 78px; border-radius: 16px; padding: 13px; text-align: left; }
+    .industry-btn strong { display: block; color: inherit; font-size: 13px; font-weight: 600; line-height: 1.35; }
+    .industry-btn small { display: block; color: rgba(243,240,233,0.42); font-size: 10.5px; margin-top: 4px; letter-spacing: 0.06em; }
+    .industry-btn:hover, .need-chip:hover { transform: translateY(-1px); border-color: rgba(255,255,255,0.23); background: rgba(255,255,255,0.085); color: var(--white); }
+    .industry-btn.active, .need-chip.active { color: #fff; border-color: rgba(219,229,237,0.56); background: linear-gradient(145deg, rgba(219,229,237,0.20), rgba(255,255,255,0.07)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.14); }
+    .needs-grid { display: flex; flex-wrap: wrap; gap: 9px; }
+    .need-chip { min-height: 38px; border-radius: 999px; padding: 8px 13px; font-size: 12.5px; display: inline-flex; align-items: center; gap: 8px; }
+    .need-chip::before { content: ''; width: 7px; height: 7px; border-radius: 50%; border: 1px solid rgba(243,240,233,0.33); }
+    .need-chip.active::before { background: var(--platinum); border-color: var(--platinum); }
+    .need-chip[disabled] { opacity: 0.4; cursor: not-allowed; }
+    .need-chip[disabled]:hover { transform: none; border-color: rgba(255,255,255,0.12); background: rgba(255,255,255,0.055); color: rgba(243,240,233,0.68); }
+    .finder-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+    .ghost {
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font-size: 12.5px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .ghost:hover { color: var(--white); border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.08); }
+    .result-panel { display: flex; flex-direction: column; }
+    .recommend-card { padding: 26px; border: 1px solid rgba(255,255,255,0.13); border-radius: 22px; background: linear-gradient(145deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04)); }
+    .result-top { margin-bottom: 16px; }
+    .result-label { font-family: var(--sans); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); }
+    .result-industry { font-size: 24px; font-weight: 400; margin-top: 8px; line-height: 1.3; }
+    .result-reason { color: var(--muted); font-size: 13px; line-height: 1.75; margin-top: 6px; }
+    .group-title { font-family: var(--sans); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); margin: 20px 0 10px; display: flex; align-items: center; gap: 8px; }
+    .group-title::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--platinum); }
+    .group-title.addon::before { background: var(--gold); }
+    .module-list { display: grid; gap: 10px; }
+    .module-card { border: 1px solid rgba(255,255,255,0.11); border-radius: 16px; background: rgba(255,255,255,0.045); padding: 14px 15px; }
+    .module-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; margin-bottom: 6px; }
+    .module-name { font-size: 13px; font-weight: 600; color: rgba(243,240,233,0.92); }
+    .module-badge { font-family: var(--sans); font-size: 10px; letter-spacing: 0.08em; color: var(--platinum); border: 1px solid rgba(219,229,237,0.22); background: rgba(219,229,237,0.07); padding: 3px 7px; border-radius: 999px; white-space: nowrap; }
+    .module-badge.addon { color: var(--gold); border-color: rgba(200,169,110,0.3); background: rgba(200,169,110,0.08); }
+    .module-desc { font-size: 12px; color: rgba(243,240,233,0.48); line-height: 1.55; }
+    .standalone-note { margin-top: 18px; padding: 16px; border: 1px solid rgba(200,169,110,0.28); border-radius: 16px; background: rgba(200,169,110,0.07); color: rgba(243,240,233,0.74); font-size: 12.5px; line-height: 1.7; }
+    .standalone-note strong { color: var(--gold); }
+    .result-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+    footer { border-top: 1px solid var(--line2); padding: 28px 0; }
+    .footer-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; color: rgba(243,240,233,0.28); font-size: 12px; }
+    .footer-brand { font-family: var(--sans); font-weight: 600; letter-spacing: 0.14em; }
+    @media (max-width: 1040px) {
+      .industry-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+    @media (max-width: 900px) {
+      nav { padding: 0 24px; }
+      .nav-links { gap: 18px; }
+      .hero, .finder-shell, .intro-grid { grid-template-columns: 1fr; }
+      .intro-grid { padding: 26px; gap: 22px; }
+      .hero { padding-top: 46px; }
+      .orbital-view { min-height: 340px; }
+      .industry-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 640px) {
+      .wrap { width: min(100% - 36px, 1180px); }
+      nav { padding: 0 18px; }
+      .nav-links { display: none; }
+      .hero { gap: 28px; }
+      .panel { padding: 22px 18px; }
+      .panel-head { flex-direction: column; align-items: flex-start; }
+      .industry-grid { grid-template-columns: 1fr; }
+      .signal { width: 118px; padding: 10px; }
+      .core-mark { width: 124px; height: 124px; border-radius: 30px; font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="index.html" class="nav-logo">ORBIT<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="obarai-recommend.html" class="active">模組推薦</a></li>
+      <li><a href="product-finder.html">產品推薦</a></li>
+      <li><a href="pricing.html">方案定價</a></li>
+      <li><a href="legal.html">法務資訊</a></li>
+      <li><a href="pricing.html" class="nav-cta">開始選購</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="wrap hero">
+      <div>
+        <p class="eyebrow">ORBIT Module Match</p>
+        <h1>從 ORBIT 模組角度出發，幾個問題找到你真正需要的系統。</h1>
+        <p class="hero-copy">不用先搞懂術語，直接從你的產業與日常營運情境出發。選擇行業並勾選符合的情境，立即看到「必裝模組」與「建議加購」方向，並可一鍵前往方案定價或洽詢專人。</p>
+        <div class="hero-actions">
+          <a href="#match" class="btn primary">開始診斷</a>
+          <a href="pricing.html" class="btn">查看方案定價</a>
+        </div>
+      </div>
+      <div class="orbital-view" aria-hidden="true">
+        <div class="core-mark">ORBIT</div>
+        <div class="signal s1"><strong>POS</strong><small>銷售與現場收款</small></div>
+        <div class="signal s2"><strong>CRM</strong><small>顧客資料與經營關係</small></div>
+        <div class="signal s3"><strong>RSVP</strong><small>預約與排程提醒</small></div>
+        <div class="signal s4"><strong>FLOW</strong><small>流程與自動化提醒</small></div>
+      </div>
+    </section>
+
+    <section class="wrap intro">
+      <div class="intro-grid">
+        <div class="intro-block">
+          <p class="section-kicker">Hi, I'm ORBIT</p>
+          <h2>先讓我自我介紹</h2>
+          <p class="intro-copy">我是 ORBIT，你可以把我當成隨時待命的營運助理。會被打造出來，是因為很多人每天得在好幾個系統間來回切換、同一筆資料抄了又抄，光想就累。所以我把銷售、客戶、預約、人員、流程到 AI 助理，都放進同一個地方——你不用再記一堆系統、一堆密碼，把力氣留給真正重要的事就好。</p>
+        </div>
+        <div class="intro-block">
+          <p class="section-kicker">Now let me get to know you</p>
+          <h2>接下來，換我來認識你</h2>
+          <p class="intro-copy">每個產業、每個人的日常都不一樣，需要的組合自然也不會一樣。往下告訴我你的行業、平常會遇到的情境，我就直接跟你說：現在適合先用什麼、之後可以怎麼慢慢加上去。模組的名字你先不用記，這部分交給我來想就好。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap finder" id="match">
+      <div class="finder-shell">
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="section-kicker">Step 1 — 2</div>
+              <h2>你的產業與營運情境</h2>
+            </div>
+            <p class="panel-note">先選最接近的行業，會自動帶出常見的必裝與建議加購組合；再依實際情況勾選情境，讓建議更貼近你的需求。</p>
+          </div>
+
+          <div class="question">
+            <div class="question-title">你的行業類別 <span>Industry</span></div>
+            <div class="industry-grid">
+              <button class="industry-btn active" type="button" data-industry="fnb"><strong>餐廳、咖啡廳、手搖飲</strong><small>POS + CRM 必裝</small></button>
+              <button class="industry-btn" type="button" data-industry="beauty"><strong>美髮、美容、美甲</strong><small>POS + CRM 必裝</small></button>
+              <button class="industry-btn" type="button" data-industry="clinic"><strong>診所、醫美、牙醫</strong><small>POS + CRM 必裝</small></button>
+              <button class="industry-btn" type="button" data-industry="education"><strong>補習班、健身、瑜珈</strong><small>POS + CRM 必裝</small></button>
+              <button class="industry-btn" type="button" data-industry="retail"><strong>零售、精品、服飾</strong><small>POS + CRM 必裝</small></button>
+              <button class="industry-btn" type="button" data-industry="wholesale"><strong>批發、進出口</strong><small>POS + ERP 必裝</small></button>
+              <button class="industry-btn" type="button" data-industry="bakery"><strong>甜點、烘焙工作室</strong><small>POS + CRM 必裝</small></button>
+              <button class="industry-btn" type="button" data-industry="accounting"><strong>會計師、記帳士</strong><small>Ledger 獨立系統</small></button>
+            </div>
+          </div>
+
+          <div class="question" id="situationBlock">
+            <div class="question-title">你的營運情境（可複選，會調整建議加購） <span>Situations</span></div>
+            <div class="needs-grid" id="situationGrid"></div>
+          </div>
+
+          <div class="finder-actions">
+            <button class="ghost" type="button" id="resetBtn">重設選擇</button>
+            <button class="ghost" type="button" id="copyBtn">複製推薦摘要</button>
+          </div>
+        </div>
+
+        <aside class="panel result-panel" aria-live="polite">
+          <div class="recommend-card">
+            <div class="result-top">
+              <div class="result-label">Step 2 — ORBIT 推薦結果</div>
+              <div class="result-industry" id="resultIndustry">餐廳、咖啡廳、手搖飲</div>
+              <p class="result-reason" id="reasonText"></p>
+            </div>
+
+            <div class="group-title">必裝模組</div>
+            <div class="module-list" id="coreList"></div>
+
+            <div class="group-title addon" id="addonTitle">建議加購</div>
+            <div class="module-list" id="addonList"></div>
+
+            <div class="standalone-note" id="standaloneNote" hidden>
+              <strong>獨立系統提醒：</strong>會計師、記帳士類型建議直接採用 <strong>ORBIT Ledger</strong> 獨立記帳系統，不綁定主系統其餘模組，可單獨報價與導入。
+            </div>
+
+            <div class="result-actions">
+              <a href="pricing.html" class="btn primary">前往方案定價</a>
+              <a href="mailto:hello@obarai.com?subject=ORBIT%20模組推薦洽詢" class="btn">洽詢專人</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-row">
+      <span class="footer-brand">ORBIT</span>
+      <span>© 2026 OBARAI｜鎧洋聲影科技</span>
+    </div>
+  </footer>
+
+  <script>
+    const modules = {
+      pos: { name: 'POS 銷售結帳', badge: 'CORE', desc: '門市與服務現場的收款、訂單與營業數據紀錄。' },
+      crm: { name: 'CRM 客戶管理', badge: 'CORE', desc: '顧客資料、消費紀錄與互動追蹤，掌握回購與經營關係。' },
+      erp: { name: 'ERP 資源規劃', badge: 'CORE', desc: '採購、庫存與供應鏈整合，支援批發與跨據點調度。' },
+      ledger: { name: 'Ledger 記帳帳務', badge: 'CORE', desc: '獨立記帳／做帳系統，符合會計事務所作業模式，不依附主系統。' },
+      rsvp: { name: 'RSVP 預約排程', badge: 'ADD-ON', desc: '線上預約、檔期管理與顧客提醒通知。' },
+      line: { name: 'LINE 官方整合', badge: 'ADD-ON', desc: 'LINE 官方帳號串接、自動回覆、行銷與顧客通知。' },
+      hr: { name: 'HR 人員管理', badge: 'ADD-ON', desc: '員工資料、班表與基礎權限設定，適合多人輪班團隊。' },
+      auth: { name: 'AUTH 權限驗證', badge: 'ADD-ON', desc: '多角色、多分店／多據點的存取與權限控管。' },
+      flow: { name: 'FLOW 流程自動化', badge: 'ADD-ON', desc: '任務指派、審核流程與自動提醒，串起跨部門作業。' },
+    };
+
+    const industries = {
+      fnb:        { label: '餐廳、咖啡廳、手搖飲', core: ['pos', 'crm'], addon: ['rsvp', 'line', 'hr'] },
+      beauty:     { label: '美髮、美容、美甲',     core: ['pos', 'crm'], addon: ['rsvp', 'line'] },
+      clinic:     { label: '診所、醫美、牙醫',     core: ['pos', 'crm'], addon: ['rsvp', 'hr', 'auth'] },
+      education:  { label: '補習班、健身、瑜珈',   core: ['pos', 'crm'], addon: ['rsvp', 'line', 'hr', 'flow'] },
+      retail:     { label: '零售、精品、服飾',     core: ['pos', 'crm'], addon: ['erp', 'line'] },
+      wholesale:  { label: '批發、進出口',         core: ['pos', 'erp'], addon: ['hr', 'auth', 'flow'] },
+      bakery:     { label: '甜點、烘焙工作室',     core: ['pos', 'crm'], addon: ['line', 'rsvp'] },
+      accounting: { label: '會計師、記帳士',       core: ['ledger'],     addon: [], standalone: true },
+    };
+
+    const situations = [
+      { key: 'rsvp',  label: '顧客需要線上預約或排程' },
+      { key: 'line',  label: '常用 LINE 跟顧客互動、發通知或行銷' },
+      { key: 'hr',    label: '有多位員工需要排班、人事管理' },
+      { key: 'auth',  label: '需要替不同分店或角色設定權限' },
+      { key: 'flow',  label: '想把審核、提醒、派工等流程自動化' },
+      { key: 'erp',   label: '有進貨、庫存或供應鏈整合需求' },
+    ];
+
+    let activeIndustry = 'fnb';
+    let currentSummary = '';
+
+    const situationGrid = document.getElementById('situationGrid');
+    situations.forEach(s => {
+      const chip = document.createElement('button');
+      chip.className = 'need-chip';
+      chip.type = 'button';
+      chip.dataset.situation = s.key;
+      chip.textContent = s.label;
+      chip.addEventListener('click', () => {
+        if (industries[activeIndustry].standalone) return;
+        chip.classList.toggle('active');
+        updateResult();
+      });
+      situationGrid.appendChild(chip);
+    });
+
+    function setSituations(keys) {
+      document.querySelectorAll('.need-chip').forEach(chip => {
+        chip.classList.toggle('active', keys.includes(chip.dataset.situation));
+      });
+    }
+
+    function activeSituations() {
+      return Array.from(document.querySelectorAll('.need-chip.active')).map(chip => chip.dataset.situation);
+    }
+
+    function moduleCard(key, isCore) {
+      const mod = modules[key];
+      return `<div class="module-card">
+        <div class="module-head">
+          <div class="module-name">${mod.name}</div>
+          <div class="module-badge${isCore ? '' : ' addon'}">${isCore ? '必裝' : '加購'}</div>
+        </div>
+        <div class="module-desc">${mod.desc}</div>
+      </div>`;
+    }
+
+    function updateResult() {
+      const ind = industries[activeIndustry];
+      const standalone = !!ind.standalone;
+
+      document.querySelectorAll('.industry-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.industry === activeIndustry);
+      });
+      document.querySelectorAll('.need-chip').forEach(chip => {
+        chip.disabled = standalone;
+      });
+      document.getElementById('situationBlock').style.opacity = standalone ? 0.4 : 1;
+      document.getElementById('standaloneNote').hidden = !standalone;
+      document.getElementById('addonTitle').hidden = standalone;
+      document.getElementById('addonList').hidden = standalone;
+
+      document.getElementById('resultIndustry').textContent = `${ind.label}`;
+      document.getElementById('coreList').innerHTML = ind.core.map(key => moduleCard(key, true)).join('');
+
+      let addonKeys = [];
+      let reason;
+
+      if (standalone) {
+        reason = `會計師、記帳士的作業模式與一般營運不同，建議直接採用獨立的 Ledger 記帳系統，不需綁定 POS、CRM 等主系統模組。`;
+        currentSummary = `ORBIT 模組推薦摘要\n類型：${ind.label}\n必裝：${modules.ledger.name}\n備註：建議採用獨立系統，不走主系統`;
+      } else {
+        const checked = activeSituations();
+        const seen = new Set(ind.core);
+        ind.addon.forEach(key => { if (checked.includes(key)) { addonKeys.push(key); seen.add(key); } });
+        checked.forEach(key => { if (!seen.has(key)) { addonKeys.push(key); seen.add(key); } });
+
+        const coreNames = ind.core.map(key => modules[key].name.split(' ')[0]).join(' + ');
+        reason = addonKeys.length
+          ? `${ind.label}通常以 ${coreNames} 為核心起步；依照你勾選的營運情境，建議再加購：${addonKeys.map(k => modules[k].name.split(' ')[0]).join('、')}。`
+          : `${ind.label}通常以 ${coreNames} 為核心起步。可以依照實際營運情境，從下方勾選需要的加購方向。`;
+
+        const addonNames = addonKeys.map(key => modules[key].name).join('、') || '（依情境勾選後顯示）';
+        currentSummary = `ORBIT 模組推薦摘要\n行業：${ind.label}\n必裝模組：${ind.core.map(k => modules[k].name).join('、')}\n建議加購：${addonNames}`;
+      }
+
+      document.getElementById('reasonText').textContent = reason;
+      document.getElementById('addonList').innerHTML = addonKeys.map(key => moduleCard(key, false)).join('');
+    }
+
+    document.querySelectorAll('.industry-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        activeIndustry = btn.dataset.industry;
+        const ind = industries[activeIndustry];
+        setSituations(ind.standalone ? [] : ind.addon);
+        updateResult();
+      });
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      activeIndustry = 'fnb';
+      setSituations(industries[activeIndustry].addon);
+      updateResult();
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(currentSummary);
+        document.getElementById('copyBtn').textContent = '已複製摘要';
+        window.setTimeout(() => { document.getElementById('copyBtn').textContent = '複製推薦摘要'; }, 1600);
+      } catch (err) {
+        window.prompt('請複製推薦摘要', currentSummary);
+      }
+    });
+
+    setSituations(industries[activeIndustry].addon);
+    updateResult();
+  </script>
+</body>
+</html>
