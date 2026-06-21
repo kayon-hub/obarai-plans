@@ -280,7 +280,7 @@
     <div class="hero">
       <p class="eyebrow">Pricing</p>
       <h1>選一個方案，自己挑模組</h1>
-      <p>每個方案都內建 POS + CRM + AI 基礎，再從 6 個模組中選出最適合你生意的幾個</p>
+      <p>每個方案都內建 POS + CRM + AI 基礎，再從 7 個模組中選出最適合你生意的幾個</p>
 
       <!-- Stepper -->
       <div class="stepper">
@@ -340,7 +340,7 @@
               <div class="pcard-feature-group">
                 <div class="pcard-feature-label">模組</div>
                 <div class="pcard-feature">POS + CRM + AI 基礎 <em>內建</em></div>
-                <div class="pcard-feature">從 6 個模組中 <em>選 3 個</em></div>
+                <div class="pcard-feature">從 7 個模組中 <em>選 3 個</em></div>
               </div>
             </div>
           </div>
@@ -362,7 +362,7 @@
               <div class="pcard-feature-group">
                 <div class="pcard-feature-label">模組</div>
                 <div class="pcard-feature">POS + CRM + AI 基礎 <em>內建</em></div>
-                <div class="pcard-feature">從 6 個模組中 <em>選 5 個</em></div>
+                <div class="pcard-feature">從 7 個模組中 <em>選 5 個</em></div>
               </div>
             </div>
           </div>
@@ -402,8 +402,9 @@
               <span class="mcard-name">ORBIT RSVP</span>
               <div class="mcard-tick" id="mtick-rsvp"></div>
             </div>
-            <div class="mcard-desc">訂位 & 預約管理</div>
-            <div class="mcard-fit">適合：餐廳・美容・診所・健身</div>
+            <div class="mcard-desc">訂位 + 候位商務 + Waiting Commerce</div>
+            <div class="mcard-fit">適合：餐廳・美容・診所</div>
+            <div class="mcard-note">加購 NT$299/月</div>
           </div>
 
           <div class="mcard" id="mcard-line" onclick="toggleModule('line')">
@@ -411,9 +412,9 @@
               <span class="mcard-name">ORBIT LINE</span>
               <div class="mcard-tick" id="mtick-line"></div>
             </div>
-            <div class="mcard-desc">LINE 官方帳號整合</div>
+            <div class="mcard-desc">LINE OA 串接 + 訂單/預約推播通知</div>
             <div class="mcard-fit">適合：所有行業</div>
-            <div class="mcard-note">需另行申請 LINE 官方帳號方案（依訊息量計費，由業主自行負擔），ORBIT 提供串接服務</div>
+            <div class="mcard-note">加購 NT$299/月 · LINE OA 訊息費由業主負擔</div>
           </div>
 
           <div class="mcard" id="mcard-erp" onclick="toggleModule('erp')">
@@ -421,8 +422,9 @@
               <span class="mcard-name">ORBIT ERP</span>
               <div class="mcard-tick" id="mtick-erp"></div>
             </div>
-            <div class="mcard-desc">進銷存 & 資源規劃</div>
-            <div class="mcard-fit">適合：零售・批發・製造</div>
+            <div class="mcard-desc">庫存 + 採購 + 財務 + 商品規格引擎</div>
+            <div class="mcard-fit">適合：零售・批發・餐飲</div>
+            <div class="mcard-note">加購 NT$399/月</div>
           </div>
 
           <div class="mcard" id="mcard-hr" onclick="toggleModule('hr')">
@@ -430,8 +432,9 @@
               <span class="mcard-name">ORBIT HR</span>
               <div class="mcard-tick" id="mtick-hr"></div>
             </div>
-            <div class="mcard-desc">人事 & 出勤管理</div>
+            <div class="mcard-desc">考勤打卡 + 請假管理 + 薪資自動計算</div>
             <div class="mcard-fit">適合：有員工的店家</div>
+            <div class="mcard-note">加購 NT$299/月</div>
           </div>
 
           <div class="mcard" id="mcard-flow" onclick="toggleModule('flow')">
@@ -439,8 +442,9 @@
               <span class="mcard-name">ORBIT FLOW</span>
               <div class="mcard-tick" id="mtick-flow"></div>
             </div>
-            <div class="mcard-desc">任務 & 團隊協作</div>
-            <div class="mcard-fit">適合：多人團隊</div>
+            <div class="mcard-desc">多門市總覽 + 分店調貨 + 人員跨店調度</div>
+            <div class="mcard-fit">適合：連鎖・多店・多據點</div>
+            <div class="mcard-note">加購 NT$399/月</div>
           </div>
 
           <div class="mcard" id="mcard-auth" onclick="toggleModule('auth')">
@@ -448,8 +452,19 @@
               <span class="mcard-name">ORBIT AUTH</span>
               <div class="mcard-tick" id="mtick-auth"></div>
             </div>
-            <div class="mcard-desc">細粒度權限管控</div>
+            <div class="mcard-desc">四級權限管控 + 操作日誌 + 安全設定</div>
             <div class="mcard-fit">適合：多角色・多店管理</div>
+            <div class="mcard-note">加購 NT$199/月</div>
+          </div>
+
+          <div class="mcard" id="mcard-wms" onclick="toggleModule('wms')">
+            <div class="mcard-header">
+              <span class="mcard-name">ORBIT WMS</span>
+              <div class="mcard-tick" id="mtick-wms"></div>
+            </div>
+            <div class="mcard-desc">倉儲管理 + 多倉同步 + 盤點 + 調撥</div>
+            <div class="mcard-fit">適合：傳產・倉儲・物流・批發</div>
+            <div class="mcard-note">加購 NT$399/月</div>
           </div>
 
         </div>
@@ -695,16 +710,18 @@
   const PLANS = {
     start: { label: 'ORBIT START', monthly: 1488, slots: 3, accounts: 1, ai: 'AI 基礎額度' },
     plus:  { label: 'ORBIT PLUS',  monthly: 1988, slots: 5, accounts: 3, ai: 'AI 進階額度' },
-    pro:   { label: 'ORBIT PRO',   monthly: 3988, slots: 6, accounts: 5, ai: 'AI 專業額度' },
+    pro:   { label: 'ORBIT PRO',   monthly: 3988, slots: 7, accounts: 5, ai: 'AI 專業額度' },
   };
   const ALL_MODULES = [
-    { id: 'rsvp',   name: 'RSVP'   },
-    { id: 'line',   name: 'LINE'   },
-    { id: 'erp',    name: 'ERP'    },
-    { id: 'hr',     name: 'HR'     },
-    { id: 'flow',   name: 'FLOW'   },
-    { id: 'auth',   name: 'AUTH'   },
+    { id: 'rsvp',   name: 'RSVP',   addon: 299, desc: '訂位 + 候位商務 + Waiting Commerce' },
+    { id: 'line',   name: 'LINE',   addon: 299, desc: 'LINE OA 串接 + 推播通知' },
+    { id: 'erp',    name: 'ERP',    addon: 399, desc: '庫存 + 採購 + 財務 + 商品規格' },
+    { id: 'hr',     name: 'HR',     addon: 299, desc: '考勤打卡 + 請假 + 薪資計算' },
+    { id: 'flow',   name: 'FLOW',   addon: 399, desc: '多門市 + 分店調貨 + 人員調度' },
+    { id: 'auth',   name: 'AUTH',   addon: 199, desc: '四級權限 + 操作日誌 + 安全設定' },
+    { id: 'wms',    name: 'WMS',    addon: 399, desc: '倉儲管理 + 多倉同步 + 盤點' },
   ];
+  const MODULE_ADDON_NOTE = '超出方案模組數，每個額外模組以加購單價計費';
   const AI_ADDON_PRESETS = {
     none: 0,
     150:  150,
@@ -743,7 +760,7 @@
       // PRO: auto-select all
       ALL_MODULES.forEach(m => selectedMods.add(m.id));
       sec.classList.remove('hidden');
-      secTitle.textContent = '已包含全部 6 個模組';
+      secTitle.textContent = '已包含全部 7 個模組';
     } else {
       sec.classList.remove('hidden');
       secTitle.textContent = '挑選模組';
@@ -785,7 +802,7 @@
     const infoEl = document.getElementById('slot-info');
 
     if (isPro) {
-      infoEl.innerHTML = 'PRO 方案包含全部 6 個模組，<strong>無需手動選擇</strong>。';
+      infoEl.innerHTML = 'PRO 方案包含全部 7 個模組，<strong>無需手動選擇</strong>。';
     } else if (plan) {
       const rem = plan.slots - selectedMods.size;
       infoEl.innerHTML = `已選 <strong>${selectedMods.size}</strong> / ${plan.slots} 個 · 還可選 <strong>${rem}</strong> 個`;
