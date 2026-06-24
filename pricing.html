@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ORBIT 方案定價 — 選方案・挑模組・開始試用</title>
-  <meta name="description" content="ORBIT 三種方案 START／PLUS／PRO，每個方案自選模組，14 天免費試用。NT$1,488 起。">
+  <meta name="description" content="ORBIT 兩種方案 PLUS／PRO，每個方案自選模組，14 天免費試用。NT$1,988 起。">
   <meta name="robots" content="index, follow">
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="apple-touch-icon" href="/favicon.png">
@@ -13,11 +13,11 @@
   <meta property="og:url" content="https://plans.obarai.com/pricing.html">
   <meta property="og:locale" content="zh_TW">
   <meta property="og:title" content="ORBIT 訂閱方案 — 選方案・挑模組">
-  <meta property="og:description" content="ORBIT 模組化企業訂閱方案。START 月費 NT$1,488 起，自選 CRM、ERP、POS、RSVP、LINE、HR、AI 等模組，規模改變系統不換。">
+  <meta property="og:description" content="ORBIT 模組化企業訂閱方案。PLUS 月費 NT$1,988 起，自選 CRM、ERP、POS、RSVP、LINE、HR、AI 等模組，規模改變系統不換。">
   <meta property="og:site_name" content="ORBIT by OBARAI">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="ORBIT 訂閱方案 — 選方案・挑模組">
-  <meta name="twitter:description" content="ORBIT 模組化企業訂閱方案。START 月費 NT$1,488 起，自選 CRM、ERP、POS、RSVP、LINE、HR、AI 等模組。">
+  <meta name="twitter:description" content="ORBIT 模組化企業訂閱方案。PLUS 月費 NT$1,988 起，自選 CRM、ERP、POS、RSVP、LINE、HR、AI 等模組。">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -29,8 +29,8 @@
     "offers": {
       "@type": "AggregateOffer",
       "priceCurrency": "TWD",
-      "lowPrice": "1488",
-      "offerCount": "3"
+      "lowPrice": "1988",
+      "offerCount": "2"
     },
     "provider": {
       "@type": "Organization",
@@ -112,7 +112,7 @@
 
     /* ── Plan Cards Grid ── */
     .plans-section { padding: 40px 0 24px; }
-    .plan-cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 40px; }
+    .plan-cards-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-bottom: 40px; max-width: 720px; margin-left: auto; margin-right: auto; }
     @media (max-width: 760px) { .plan-cards-grid { grid-template-columns: 1fr; } }
 
     .pcard { position: relative; background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 24px 20px 20px; cursor: pointer; transition: border-color 0.22s, background 0.22s, transform 0.18s; display: flex; flex-direction: column; }
@@ -280,7 +280,7 @@
     <div class="hero">
       <p class="eyebrow">Pricing</p>
       <h1>選一個方案，自己挑模組</h1>
-      <p>每個方案都內建 POS + CRM + AI 基礎，再從 7 個模組中選出最適合你生意的幾個</p>
+      <p>每個方案都內建 POS + CRM + AI 基礎，再從 10 個模組中選出最適合你生意的幾個</p>
 
       <!-- Stepper -->
       <div class="stepper">
@@ -324,27 +324,6 @@
         </details>
         <div class="plan-cards-grid" id="main-plans">
 
-          <!-- START -->
-          <div class="pcard" id="pcard-start" onclick="selectPlan('start')">
-            <div class="pcard-name">START</div>
-            <div class="pcard-price" id="price-start">NT$1,488 <span>/月起</span></div>
-            <button class="pcard-btn" onclick="event.stopPropagation();selectPlan('start')">選擇此方案</button>
-            <hr class="pcard-divider">
-            <div class="pcard-features">
-              <div class="pcard-feature-group">
-                <div class="pcard-feature-label">使用規模</div>
-                <div class="pcard-feature"><strong>1</strong> 個帳號</div>
-                <div class="pcard-feature"><strong>1</strong> 店</div>
-                <div class="pcard-feature">AI 基礎額度</div>
-              </div>
-              <div class="pcard-feature-group">
-                <div class="pcard-feature-label">模組</div>
-                <div class="pcard-feature">POS + CRM + AI 基礎 <em>內建</em></div>
-                <div class="pcard-feature">從 7 個模組中 <em>選 3 個</em></div>
-              </div>
-            </div>
-          </div>
-
           <!-- PLUS (Featured) -->
           <div class="pcard featured" id="pcard-plus" onclick="selectPlan('plus')">
             <div class="pcard-badge">⭐ 最多人選</div>
@@ -362,7 +341,7 @@
               <div class="pcard-feature-group">
                 <div class="pcard-feature-label">模組</div>
                 <div class="pcard-feature">POS + CRM + AI 基礎 <em>內建</em></div>
-                <div class="pcard-feature">從 7 個模組中 <em>選 5 個</em></div>
+                <div class="pcard-feature">從 10 個模組中 <em>選 5 個</em></div>
               </div>
             </div>
           </div>
@@ -383,7 +362,7 @@
               <div class="pcard-feature-group">
                 <div class="pcard-feature-label">模組</div>
                 <div class="pcard-feature">POS + CRM + AI 基礎 <em>內建</em></div>
-                <div class="pcard-feature"><em>全選 6 個</em>模組，無需挑選</div>
+                <div class="pcard-feature"><em>全選 10 個</em>模組，無需挑選</div>
               </div>
             </div>
           </div>
@@ -467,6 +446,36 @@
             <div class="mcard-note">加購 NT$399/月</div>
           </div>
 
+          <div class="mcard" id="mcard-qrshop" onclick="toggleModule('qrshop')">
+            <div class="mcard-header">
+              <span class="mcard-name">ORBIT QR Shop</span>
+              <div class="mcard-tick" id="mtick-qrshop"></div>
+            </div>
+            <div class="mcard-desc">掃碼點餐 + 線上菜單 + 自助下單</div>
+            <div class="mcard-fit">適合：餐廳・咖啡廳・小吃店</div>
+            <div class="mcard-note">加購 NT$388/月</div>
+          </div>
+
+          <div class="mcard" id="mcard-ai-agent" onclick="toggleModule('ai-agent')">
+            <div class="mcard-header">
+              <span class="mcard-name">ORBIT AI Agent</span>
+              <div class="mcard-tick" id="mtick-ai-agent"></div>
+            </div>
+            <div class="mcard-desc">MCP 擴充套件 + API Skill 自動化</div>
+            <div class="mcard-fit">適合：需要 AI 自動化流程的企業</div>
+            <div class="mcard-note">加購 NT$499/月</div>
+          </div>
+
+          <div class="mcard" id="mcard-ai-content" onclick="toggleModule('ai-content')">
+            <div class="mcard-header">
+              <span class="mcard-name">ORBIT AI 內容生成</span>
+              <div class="mcard-tick" id="mtick-ai-content"></div>
+            </div>
+            <div class="mcard-desc">行銷 EDM + 社群貼文 + 智能文案生成</div>
+            <div class="mcard-fit">適合：需要行銷內容產出的品牌</div>
+            <div class="mcard-note">加購 NT$399/月</div>
+          </div>
+
         </div>
       </div>
 
@@ -534,29 +543,6 @@
         </div>
       </div>
 
-      <!-- QR code 線上點餐 -->
-      <div class="addon-section">
-        <div class="section-title">QR code 線上點餐 <span class="section-subtitle">選填・每月計費</span></div>
-        <div class="kb-cards">
-
-          <div class="kbcard selected" id="qrcard-none" onclick="selectQR('none')">
-            <div class="kbcard-left">
-              <div class="kbcard-name">不加購</div>
-              <div class="kbcard-desc">暫不啟用線上點餐</div>
-            </div>
-            <div class="kbcard-price" style="color:var(--w40)">—</div>
-          </div>
-
-          <div class="kbcard" id="qrcard-qr" onclick="selectQR('qr')">
-            <div class="kbcard-left">
-              <div class="kbcard-name">QR code 線上點餐</div>
-              <div class="kbcard-desc">客人掃碼即可線上瀏覽菜單、下單，可選擇現場結帳。如需線上付款需另行串接金流服務。</div>
-            </div>
-            <div class="kbcard-price">NT$388<small>/月</small></div>
-          </div>
-
-        </div>
-      </div>
 
     </div>
     <div style="height:80px"></div>
@@ -708,18 +694,20 @@
 <script>
   /* ── State ── */
   const PLANS = {
-    start: { label: 'ORBIT START', monthly: 1488, slots: 3, accounts: 1, ai: 'AI 基礎額度' },
     plus:  { label: 'ORBIT PLUS',  monthly: 1988, slots: 5, accounts: 3, ai: 'AI 進階額度' },
-    pro:   { label: 'ORBIT PRO',   monthly: 3988, slots: 7, accounts: 5, ai: 'AI 專業額度' },
+    pro:   { label: 'ORBIT PRO',   monthly: 3988, slots: 10, accounts: 5, ai: 'AI 專業額度' },
   };
   const ALL_MODULES = [
-    { id: 'rsvp',   name: 'RSVP',   addon: 299, desc: '訂位 + 候位商務 + Waiting Commerce' },
-    { id: 'line',   name: 'LINE',   addon: 299, desc: 'LINE OA 串接 + 推播通知' },
-    { id: 'erp',    name: 'ERP',    addon: 399, desc: '庫存 + 採購 + 財務 + 商品規格' },
-    { id: 'hr',     name: 'HR',     addon: 299, desc: '考勤打卡 + 請假 + 薪資計算' },
-    { id: 'flow',   name: 'FLOW',   addon: 399, desc: '多門市 + 分店調貨 + 人員調度' },
-    { id: 'auth',   name: 'AUTH',   addon: 199, desc: '四級權限 + 操作日誌 + 安全設定' },
-    { id: 'wms',    name: 'WMS',    addon: 399, desc: '倉儲管理 + 多倉同步 + 盤點' },
+    { id: 'rsvp',       name: 'RSVP',       addon: 299, desc: '訂位 + 候位商務 + Waiting Commerce' },
+    { id: 'line',       name: 'LINE',       addon: 299, desc: 'LINE OA 串接 + 推播通知' },
+    { id: 'erp',        name: 'ERP',        addon: 399, desc: '庫存 + 採購 + 財務 + 商品規格' },
+    { id: 'hr',         name: 'HR',         addon: 299, desc: '考勤打卡 + 請假 + 薪資計算' },
+    { id: 'flow',       name: 'FLOW',       addon: 399, desc: '多門市 + 分店調貨 + 人員調度' },
+    { id: 'auth',       name: 'AUTH',       addon: 199, desc: '四級權限 + 操作日誌 + 安全設定' },
+    { id: 'wms',        name: 'WMS',        addon: 399, desc: '倉儲管理 + 多倉同步 + 盤點' },
+    { id: 'qrshop',     name: 'QR Shop',    addon: 388, desc: '掃碼點餐 + 線上菜單 + 自助下單' },
+    { id: 'ai-agent',   name: 'AI Agent',   addon: 499, desc: 'MCP 擴充 + API Skill 自動化' },
+    { id: 'ai-content', name: 'AI 內容生成', addon: 399, desc: '行銷 EDM + 社群貼文 + 智能文案' },
   ];
   const MODULE_ADDON_NOTE = '超出方案模組數，每個額外模組以加購單價計費';
   const AI_ADDON_PRESETS = {
@@ -760,7 +748,7 @@
       // PRO: auto-select all
       ALL_MODULES.forEach(m => selectedMods.add(m.id));
       sec.classList.remove('hidden');
-      secTitle.textContent = '已包含全部 7 個模組';
+      secTitle.textContent = '已包含全部 10 個模組';
     } else {
       sec.classList.remove('hidden');
       secTitle.textContent = '挑選模組';
@@ -802,7 +790,7 @@
     const infoEl = document.getElementById('slot-info');
 
     if (isPro) {
-      infoEl.innerHTML = 'PRO 方案包含全部 7 個模組，<strong>無需手動選擇</strong>。';
+      infoEl.innerHTML = 'PRO 方案包含全部 10 個模組，<strong>無需手動選擇</strong>。';
     } else if (plan) {
       const rem = plan.slots - selectedMods.size;
       infoEl.innerHTML = `已選 <strong>${selectedMods.size}</strong> / ${plan.slots} 個 · 還可選 <strong>${rem}</strong> 個`;
@@ -873,13 +861,6 @@
     updateBar();
   }
 
-  let selectedQR = 'none';
-  function selectQR(key) {
-    selectedQR = key;
-    document.querySelectorAll('#qrcard-none, #qrcard-qr').forEach(el => el.classList.remove('selected'));
-    document.getElementById('qrcard-' + key).classList.add('selected');
-    updateBar();
-  }
 
   /* ── Stepper ── */
   function updateStepper() {
