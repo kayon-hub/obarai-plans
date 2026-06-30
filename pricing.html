@@ -280,7 +280,7 @@
     <div class="hero">
       <p class="eyebrow">Pricing</p>
       <h1>選一個方案，自己挑模組</h1>
-      <p>每個方案都內建 POS + CRM + AI 基礎，再從 10 個模組中選出最適合你生意的幾個</p>
+      <p>每個方案都內建 POS + CRM + AI 基礎，再從 7 個模組中選出最適合你生意的幾個</p>
 
       <!-- Stepper -->
       <div class="stepper">
@@ -312,7 +312,7 @@
       <!-- Step 1: Plan -->
       <div style="margin-bottom:40px">
         <div class="section-title">月費方案</div>
-        <p class="section-hint">所有方案均含 <strong>POS + CRM + AI 基礎</strong>。開通費 NT$888（一次性）。14 天免費試用，到期後才開始計費。</p>
+        <p class="section-hint">所有方案均含 <strong>POS + CRM + AI 基礎</strong>（不含開通費）。另收開通費 NT$888（一次性）。14 天免費試用，到期後才開始計費。</p>
         <details class="section-hint">
           <summary>▸ POS + CRM + AI 基礎包含哪些功能？</summary>
           <div class="baseline-detail">
@@ -341,7 +341,7 @@
               <div class="pcard-feature-group">
                 <div class="pcard-feature-label">模組</div>
                 <div class="pcard-feature">POS + CRM + AI 基礎 <em>內建</em></div>
-                <div class="pcard-feature">從 10 個模組中 <em>選 5 個</em></div>
+                <div class="pcard-feature">從 7 個模組中 <em>選 5 個</em></div>
               </div>
             </div>
           </div>
@@ -362,7 +362,7 @@
               <div class="pcard-feature-group">
                 <div class="pcard-feature-label">模組</div>
                 <div class="pcard-feature">POS + CRM + AI 基礎 <em>內建</em></div>
-                <div class="pcard-feature"><em>全選 10 個</em>模組，無需挑選</div>
+                <div class="pcard-feature"><em>全選 7 個</em>模組，無需挑選</div>
               </div>
             </div>
           </div>
@@ -443,36 +443,6 @@
             </div>
             <div class="mcard-desc">倉儲管理 + 多倉同步 + 盤點 + 調撥</div>
             <div class="mcard-fit">適合：傳產・倉儲・物流・批發</div>
-            <div class="mcard-note">加購 NT$399/月</div>
-          </div>
-
-          <div class="mcard" id="mcard-qrshop" onclick="toggleModule('qrshop')">
-            <div class="mcard-header">
-              <span class="mcard-name">ORBIT QR Shop</span>
-              <div class="mcard-tick" id="mtick-qrshop"></div>
-            </div>
-            <div class="mcard-desc">掃碼點餐 + 線上菜單 + 自助下單</div>
-            <div class="mcard-fit">適合：餐廳・咖啡廳・小吃店</div>
-            <div class="mcard-note">加購 NT$388/月</div>
-          </div>
-
-          <div class="mcard" id="mcard-ai-agent" onclick="toggleModule('ai-agent')">
-            <div class="mcard-header">
-              <span class="mcard-name">ORBIT AI Agent</span>
-              <div class="mcard-tick" id="mtick-ai-agent"></div>
-            </div>
-            <div class="mcard-desc">MCP 擴充套件 + API Skill 自動化</div>
-            <div class="mcard-fit">適合：需要 AI 自動化流程的企業</div>
-            <div class="mcard-note">加購 NT$499/月</div>
-          </div>
-
-          <div class="mcard" id="mcard-ai-content" onclick="toggleModule('ai-content')">
-            <div class="mcard-header">
-              <span class="mcard-name">ORBIT AI 內容生成</span>
-              <div class="mcard-tick" id="mtick-ai-content"></div>
-            </div>
-            <div class="mcard-desc">行銷 EDM + 社群貼文 + 智能文案生成</div>
-            <div class="mcard-fit">適合：需要行銷內容產出的品牌</div>
             <div class="mcard-note">加購 NT$399/月</div>
           </div>
 
@@ -695,7 +665,7 @@
   /* ── State ── */
   const PLANS = {
     plus:  { label: 'ORBIT PLUS',  monthly: 1988, slots: 5, accounts: 3, ai: 'AI 進階額度' },
-    pro:   { label: 'ORBIT PRO',   monthly: 3988, slots: 10, accounts: 5, ai: 'AI 專業額度' },
+    pro:   { label: 'ORBIT PRO',   monthly: 3988, slots: 7, accounts: 5, ai: 'AI 專業額度' },
   };
   const ALL_MODULES = [
     { id: 'rsvp',       name: 'RSVP',       addon: 299, desc: '訂位 + 候位商務 + Waiting Commerce' },
@@ -705,9 +675,6 @@
     { id: 'flow',       name: 'FLOW',       addon: 399, desc: '多門市 + 分店調貨 + 人員調度' },
     { id: 'auth',       name: 'AUTH',       addon: 199, desc: '四級權限 + 操作日誌 + 安全設定' },
     { id: 'wms',        name: 'WMS',        addon: 399, desc: '倉儲管理 + 多倉同步 + 盤點' },
-    { id: 'qrshop',     name: 'QR Shop',    addon: 388, desc: '掃碼點餐 + 線上菜單 + 自助下單' },
-    { id: 'ai-agent',   name: 'AI Agent',   addon: 499, desc: 'MCP 擴充 + API Skill 自動化' },
-    { id: 'ai-content', name: 'AI 內容生成', addon: 399, desc: '行銷 EDM + 社群貼文 + 智能文案' },
   ];
   const MODULE_ADDON_NOTE = '超出方案模組數，每個額外模組以加購單價計費';
   const AI_ADDON_PRESETS = {
@@ -748,7 +715,7 @@
       // PRO: auto-select all
       ALL_MODULES.forEach(m => selectedMods.add(m.id));
       sec.classList.remove('hidden');
-      secTitle.textContent = '已包含全部 10 個模組';
+      secTitle.textContent = '已包含全部 7 個模組';
     } else {
       sec.classList.remove('hidden');
       secTitle.textContent = '挑選模組';
@@ -790,7 +757,7 @@
     const infoEl = document.getElementById('slot-info');
 
     if (isPro) {
-      infoEl.innerHTML = 'PRO 方案包含全部 10 個模組，<strong>無需手動選擇</strong>。';
+      infoEl.innerHTML = 'PRO 方案包含全部 7 個模組，<strong>無需手動選擇</strong>。';
     } else if (plan) {
       const rem = plan.slots - selectedMods.size;
       infoEl.innerHTML = `已選 <strong>${selectedMods.size}</strong> / ${plan.slots} 個 · 還可選 <strong>${rem}</strong> 個`;
